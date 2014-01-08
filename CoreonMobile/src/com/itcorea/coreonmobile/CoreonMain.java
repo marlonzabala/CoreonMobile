@@ -18,7 +18,7 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	private TabsPagerAdapter	mAdapter;
 	private ActionBar			actionBar;
 	// Tab titles
-	private String[]			tabs	= { "Top Rated", "Games", "Movies" };
+	private String[]			tabs	= { "My Account", "Billing & Payments", "Rewards & Offers" };
 
 	@SuppressLint("NewApi")
 	@Override

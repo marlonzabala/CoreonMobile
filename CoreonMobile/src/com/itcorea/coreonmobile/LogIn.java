@@ -22,13 +22,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.ParseException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -90,11 +93,11 @@ public class LogIn extends Activity
 	public void CheckLogIn(View view)
 	{
 		// get text values
-		EditText editUsername = (EditText) findViewById(R.id.editUsername);
-		EditText editPassword = (EditText) findViewById(R.id.editPassword);
+		EditText editEmail = (EditText) findViewById(R.id.editEmail);
+		EditText editMobile = (EditText) findViewById(R.id.editMobile);
 
 		// check if incomplete
-		if (editUsername.getText().toString().equals("") || editPassword.getText().toString().equals(""))
+		if (editEmail.getText().toString().equals("") || editMobile.getText().toString().equals(""))
 		{
 			Toast.makeText(getBaseContext(), "Please complete the fields", Toast.LENGTH_SHORT).show();
 		}
@@ -102,24 +105,27 @@ public class LogIn extends Activity
 		{
 			// Check login credentials then proceed
 			// execute in asynchronous task
-			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editUsername.getText().toString(), editPassword.getText().toString(),
+			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString(), editMobile.getText().toString(),
 					"login");
-
-			
-			
-			// to be removed code
-			// used for early testing
-			if (editUsername.getText().toString().equals("admin") && editPassword.getText().toString().equals("admin"))
-			{
-				// Intent intent = new Intent(this, MainSliderActivity.class);
-				// startActivity(intent);
-			}
 		}
 	}
 	
 	public void openSignUp(View view)
-	{
-		Toast.makeText(getApplicationContext(), "SignUp", Toast.LENGTH_SHORT).show();
+	{		
+		new AlertDialog.Builder(LogIn.this).setTitle("Call us? 0912345689").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton)
+			{
+				Intent callIntent = new Intent(Intent.ACTION_CALL);
+				callIntent.setData(Uri.parse("tel:0912345689"));
+				startActivity(callIntent);
+				
+			}
+		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton)
+			{
+				// Do nothing.
+			}
+		}).show();
 	}
 }
 
@@ -219,7 +225,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 		}
 
 		
-		String httpAddress = "http://" + ipAdd + "/androidsql.php?email='" + params[0] + "'&pw='" + params[1] + "'&request=" + params[2] + "";
+		String httpAddress = "http://" + ipAdd + "/androidsqlmobile.php?email='" + params[0] + "'&mobile='" + params[1] + "'&request=" + params[2] + "";
 
 		Log.i("urlPost", httpAddress.toString());
 		String result = sendPost(httpAddress);
@@ -245,10 +251,8 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			for (int i = 0; i < jArray.length(); i++)
 			{
 				json_data = jArray.getJSONObject(i);
-				name = json_data.getString("mpin");// column name in the database
 				fname = json_data.getString("fname");
 				lname = json_data.getString("lname");
-				points = json_data.getString("points");
 				id = json_data.getString("id");
 			}
 		}
