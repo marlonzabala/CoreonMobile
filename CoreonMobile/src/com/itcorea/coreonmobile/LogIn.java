@@ -51,36 +51,35 @@ public class LogIn extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_log_in);
 
-//		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-//
-//		// check if user is logged in
-//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
-//
-//		// for dev
-//		// test for errors
-//		//LoggedIn = true;
-//
-//		// for dev
-//		EditText ep = (EditText) findViewById(R.id.editPassword);
-//		EditText eu = (EditText) findViewById(R.id.editUsername);
-//		ep.setText("admin");
-//		eu.setText("admin");
-//
+		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+		//TODO remove preferences in android filesystem beacause of duplicate names
+		// check if user is logged in
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
+
+		// for dev
+		// test for errors
+		//LoggedIn = true;
+
+		// for dev
+		EditText ep = (EditText) findViewById(R.id.editMobile);
+		EditText eu = (EditText) findViewById(R.id.editEmail);
+		ep.setText("12312");
+		
+		eu.setText("kit.datuin@gmail.com");
+
 //		if (LoggedIn == true)
 //		{
 //			Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
 //			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //			getApplicationContext().startActivity(intent);
-//
 //			finish();
 //		}
 //		else
 //		{
 //			//Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
 //		}
-
-		// getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 	}
 
 	@Override
