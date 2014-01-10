@@ -101,6 +101,7 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
 						
 						setTitle("Rewards and Offers");
+						//test
 						
 						
 						break;
