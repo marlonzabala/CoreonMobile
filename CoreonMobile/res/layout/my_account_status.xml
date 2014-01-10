@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/account_status_bg" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTabsContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/imageViewTabBg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/imageViewTabMyAccountRel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/imageViewTabMyAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="ACCOUNT STATUS"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/imageViewTabMyAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:textColor="#7bdb3a"
+                android:text="ACTIVE"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/lineLeft"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.01"
+            android:background="#e4e4e4" />
+
+        <RelativeLayout
+            android:id="@+id/imageViewTabBillingPaymentRel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:onClick="openBillingPayment"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_billing_payments" >
+
+            <TextView
+                android:id="@+id/imageViewTabBillingPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="CREDIT STATUS"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/imageViewTabBillingPaymentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="BAD"
+                android:textColor="#f95b24"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/lineLeft"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.01"
+            android:background="#e4e4e4" />
+
+        <RelativeLayout
+            android:id="@+id/imageViewTabRewardsOffersRel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:onClick="openRewardsOffers"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <TextView
+                android:id="@+id/imageViewTabRewardsOffers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="CONTRACT STATUS"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/imageViewTabRewardsOffersContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="DAYS"
+                android:textColor="#7bdb3a"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

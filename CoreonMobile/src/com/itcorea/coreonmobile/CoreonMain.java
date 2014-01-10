@@ -1,35 +1,33 @@
 package com.itcorea.coreonmobile;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.FrameLayout.LayoutParams;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class CoreonMain extends FragmentActivity implements ActionBar.TabListener
+@SuppressLint("NewApi")
+public class CoreonMain extends SherlockFragmentActivity implements ActionBar.TabListener
 {
-
-	// private ViewPager viewPager;
-	// private TabsPagerAdapter mAdapter;
-	// private ActionBar actionBar;
-	// // Tab titles
-	// private String[] tabs = { "My Account", "Billing & Payments", "Rewards & Offers" };
-	//
-	//
-	private ViewPager				pager;
-	private MyPagerAdapter			adapter;
+	private ViewPager		pager;
+	private MyPagerAdapter	adapter;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -37,8 +35,6 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
-
 		pager = (ViewPager) findViewById(R.id.pager);
 		adapter = new MyPagerAdapter(getSupportFragmentManager());
 		pager.setAdapter(adapter);
@@ -50,10 +46,25 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 		indicator.setBackgroundColor(0x00000000);
 		indicator.setFadeDelay(1000);
 		indicator.setFadeLength(1000);
-		
-//		View title = getWindow().findViewById(android.R.id.title);
-//		//View titleBar = (View) title.getParent();
-//		title.setBackgroundColor(Color.RED);
+
+		// // set defaults for logo & home up
+		// // ab.setDisplayHomeAsUpEnabled(true);
+		// actionBar.setDisplayUseLogoEnabled(false);
+		// actionBar.setIcon(R.drawable.login_logo);
+		// actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
+		//
+		// View customNav = LayoutInflater.from(this).inflate(R.layout.mytitle, null);
+		// getSupportActionBar().setCustomView(customNav);
+		// getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+		com.actionbarsherlock.app.ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setCustomView(R.layout.mytitle);
+		mainTitle = (TextView) findViewById(R.id.textViewTitle);
 
 		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -64,39 +75,41 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 				// on changing the page
 				// make respected tab selected
 				// actionBar.setSelectedNavigationItem(position);
-				
-				ImageView im1 = (ImageView)findViewById(R.id.imageViewTabMyAccount);
-				ImageView im2 = (ImageView)findViewById(R.id.imageViewTabBillingPayment);
-				ImageView im3 = (ImageView)findViewById(R.id.imageViewTabRewardsOffers);
-				
+
+				ImageView im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
+				ImageView im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
+				ImageView im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
+
 				switch (position)
 				{
+
 					case 0:
 						im1.setImageResource(R.drawable.icon_account_selected);
 						im2.setImageResource(R.drawable.icon_billing_payments);
 						im3.setImageResource(R.drawable.icon_rewards_offers);
-						
-						setTitle("My Account");
-						
+
+						// setTitle("My Account");
+						// actionBar.setTitle("My Account");
+						mainTitle.setText("My Account");
+
 						break;
 					case 1:
 						im1.setImageResource(R.drawable.icon_account);
 						im2.setImageResource(R.drawable.icon_billing_payments_selected);
 						im3.setImageResource(R.drawable.icon_rewards_offers);
-						
-						
-						setTitle("Billing and Payments");
+
+						// actionBar.setTitle("Billing and Payments");
+						mainTitle.setText("Billing and Payments");
 
 						break;
 					case 2:
 						im1.setImageResource(R.drawable.icon_account);
 						im2.setImageResource(R.drawable.icon_billing_payments);
 						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
-						
-						setTitle("Rewards and Offers");
-						//test
-						
-						
+
+						// actionBar.setTitle("Rewards and Offers");
+						mainTitle.setText("Rewards and Offers");
+
 						break;
 					default:
 						break;
@@ -116,15 +129,26 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 			}
 		});
 	}
-	
+
+	TextView	mainTitle;
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getSupportMenuInflater().inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	public void openMyAccount(View v)
 	{
 		pager.setCurrentItem(0);
 	}
+
 	public void openBillingPayment(View v)
 	{
 		pager.setCurrentItem(1);
 	}
+
 	public void openRewardsOffers(View v)
 	{
 		pager.setCurrentItem(2);
@@ -140,7 +164,7 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
 	{
-		tab.setIcon(R.drawable.icon_account_selected);
+		// tab.setIcon(R.drawable.icon_account_selected);
 		// TODO Auto-generated method stub
 		// pager.setCurrentItem(tab.getPosition());
 	}
@@ -156,7 +180,9 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	{
 
 		private final String[]	TITLES	= { "My Account", "Billing & Payments", "Rewards & Offers" };
-		private final int[]		ICONS	= { R.drawable.icon_account, R.drawable.icon_billing_payments, R.drawable.icon_rewards_offers };
+
+		// private final int[] ICONS = { R.drawable.icon_account, R.drawable.icon_billing_payments,
+		// R.drawable.icon_rewards_offers };
 
 		public MyPagerAdapter(FragmentManager fm)
 		{
@@ -180,13 +206,5 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 		{
 			return SuperAwesomeCardFragment.newInstance(position);
 		}
-
-		// @Override
-		// public int getPageIconResId(int position)
-		// {
-		// return ICONS[position];
-		// }
-
 	}
-
 }

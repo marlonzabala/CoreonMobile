@@ -1,9 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/myTitle"
-  android:text="custom title bar"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:textColor="@color/titletextcolor"
-  android:gravity ="center"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:background="@drawable/title_bg" >
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imageViewLogo"
+        android:layout_toRightOf="@+id/imageView1"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center|left"
+        android:shadowColor="#000000"
+        android:shadowDx="-1"
+        android:shadowDy="-1"
+        android:shadowRadius="0.01"
+        android:text="My Account"
+        android:layout_marginLeft="6dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="22sp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/login_logo" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_width="15dp"
+        android:scaleType="fitXY"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/textViewTitle"
+        android:src="@drawable/icon_menu" />
+
+</RelativeLayout>
