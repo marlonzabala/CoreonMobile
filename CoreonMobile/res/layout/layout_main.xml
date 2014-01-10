@@ -17,7 +17,7 @@
     <!-- android:background="#FFCCCCCC" /> -->
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imageViewTabBg"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
@@ -29,7 +29,7 @@
         android:id="@+id/linearLayoutTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignBottom="@+id/imageViewTabBg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
@@ -43,6 +43,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:scaleType="fitCenter"
+            android:onClick="openMyAccount"
             android:src="@drawable/icon_account_selected" />
 
         <ImageView
@@ -53,6 +54,7 @@
             android:layout_alignParentTop="true"
             android:layout_weight="1"
             android:padding="10dp"
+            android:onClick="openBillingPayment"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_billing_payments" />
 
@@ -64,6 +66,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
+            android:onClick="openRewardsOffers"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" />

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -30,8 +28,6 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	// private String[] tabs = { "My Account", "Billing & Payments", "Rewards & Offers" };
 	//
 	//
-
-	private PagerSlidingTabStrip	tabs;
 	private ViewPager				pager;
 	private MyPagerAdapter			adapter;
 
@@ -41,14 +37,11 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.test);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
 
 		pager = (ViewPager) findViewById(R.id.pager);
 		adapter = new MyPagerAdapter(getSupportFragmentManager());
 		pager.setAdapter(adapter);
-		// tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-		// tabs.setViewPager(pager);
-		// tabs.setTabBackground(R.drawable.icon_billing_payments_selected);
 
 		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
@@ -122,6 +115,19 @@ public class CoreonMain extends FragmentActivity implements ActionBar.TabListene
 
 			}
 		});
+	}
+	
+	public void openMyAccount(View v)
+	{
+		pager.setCurrentItem(0);
+	}
+	public void openBillingPayment(View v)
+	{
+		pager.setCurrentItem(1);
+	}
+	public void openRewardsOffers(View v)
+	{
+		pager.setCurrentItem(2);
 	}
 
 	@Override
