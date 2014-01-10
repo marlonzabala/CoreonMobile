@@ -14,7 +14,7 @@
         android:layout_alignLeft="@+id/buttonLogIn"
         android:layout_alignRight="@+id/buttonLogIn"
         android:layout_below="@+id/editEmail"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/edittext_login"
         android:ems="10"
         android:fontFamily="sans-serif"
@@ -32,7 +32,7 @@
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/logo_login" />
 
     <ImageView
@@ -86,7 +86,7 @@
         android:layout_below="@+id/editMobile"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_login_clickable"
         android:fontFamily="sans-serif"
         android:gravity="center"
@@ -173,7 +173,7 @@
         android:layout_alignLeft="@+id/editMobile"
         android:layout_alignRight="@+id/editMobile"
         android:layout_below="@+id/imageViewLogoMain"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/edittext_login"
         android:ems="10"
         android:fontFamily="sans-serif"
