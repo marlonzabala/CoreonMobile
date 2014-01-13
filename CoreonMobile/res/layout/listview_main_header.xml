@@ -10,10 +10,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:scaleType="fitXY"
-        android:src="@drawable/listview_main_header_wshadow" />
+        android:src="@drawable/listview_main_header" />
 
     <TextView
-        android:id="@+id/imageViewTitle"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

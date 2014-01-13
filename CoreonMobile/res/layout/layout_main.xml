@@ -22,7 +22,7 @@
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:scaleType="matrix"
+        android:scaleType="fitXY"
         android:src="@drawable/page_indicator_bg" />
 
     <LinearLayout

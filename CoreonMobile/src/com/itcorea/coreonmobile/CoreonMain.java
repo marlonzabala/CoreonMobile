@@ -203,19 +203,98 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					((ViewPager) collection).addView(view0, 0);
 					
 					
+					
+					
+					
+					String accStatus = "ACTIVE";
+					String creditStatus = "BAD";
+					String contractStatus = "123 DAYS";
+					
+					String fullname = "Sheryl Lagman";
+					String phoneNumber = "09123456789";
+					String network = "Globe";
+					
+					String plan = "Plan 350 Unli Call to Smart or TNT";
+					String supplementary = "Roaming Service";
+					String subscriptionType = "Sim Card Only";
+					String mobileUnit = "N/A";
+					String enrollmentFee = "Installment";
+					String contractStart = "November 29, 2013";
+					String contractEnd = "November 28, 2015";
+					String creditLimit = "P 1000";
+					String activationDate = "November 29, 2013";
+					String discount = "P 0.00";
+					
+					String fName = "Sheryl";
+					String lName = "Lagman";
+					String email = "email@yahoo.com";
+					String otherEmail = "";
+					String homeAddress = "11 Manalite Sta Cruz A.C";
+					String zipCode = "1820";
+					String landlinePh = "027856925";
+					String landlineKr = "814665979";
+					String otherMobile = "091848545656";
+					String billingAddress = "Same as Home Address";
+					
+					
+					
+					
 					ListView profileListView = (ListView)view0.findViewById(R.id.listViewProfileListView);
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(),new ArrayList<String>());
 					
 					profileListViewAdaptor.initiatizeStringsValues();
-					profileListViewAdaptor.addStrings("my_account_status", "", "", "", "", "", "", "", "", "");
-					profileListViewAdaptor.addStrings("my_account_info", "", "", "", "", "", "", "", "", "");
-					profileListViewAdaptor.addStrings("listview_main_header_wshadow", "", "", "", "", "", "", "", "", "");
-					profileListViewAdaptor.addStrings("listview_line_gray", "", "", "", "", "", "", "", "", "");
+					//type title content image date
+					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus, creditStatus, contractStatus, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_main_header_wshadow", "Subscription Details", "", "","");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Plan", plan, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Supplementary", supplementary, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Subscription Type", subscriptionType, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Mobile Unit", mobileUnit, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Enrollment Fee", enrollmentFee, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Contract Start", contractStart, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Contract End", contractEnd, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Credit Limit", creditLimit, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Activation Date", activationDate, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Discount", discount, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_main_header", "Personal Details", activationDate, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "First Name", fName, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Last Name", lName, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Email Address", email, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Other Email Address", otherEmail, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Home Address", homeAddress, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Zip Code", zipCode, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Landline (Ph)", landlinePh, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", landlineKr, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Other Mobile", otherMobile, "", "");
+					profileListViewAdaptor.addType("listview_line_gray");
+					profileListViewAdaptor.addValue("listview_sub_info", "Billing Address", billingAddress, "", "");
 					
 					
 					profileListView.setAdapter(profileListViewAdaptor);
-					
-					
+					profileListView.setDividerHeight(-1);
 					
 					
 					return view0;
