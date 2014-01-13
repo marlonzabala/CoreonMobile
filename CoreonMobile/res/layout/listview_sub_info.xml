@@ -16,7 +16,7 @@
         android:scaleType="fitCenter"
         android:text="Plan"
         android:textColor="#999999"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:scaleType="fitCenter"
         android:text=":"
         android:textColor="#999999"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:scaleType="fitCenter"
         android:text="Plan Content"
         android:textColor="#7f7f7f"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <!-- android:padding="10dp" -->

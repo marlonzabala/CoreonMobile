@@ -6,14 +6,17 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -25,19 +28,20 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 {
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
-
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 		pager = (ViewPager) findViewById(R.id.pager);
-		// adapter = new MyPagerAdapter(getSupportFragmentManager());
-		// pager.setAdapter(adapter);
 
 		viewPagerAdapter = new MyViewPagerAdapter();
 		pager.setAdapter(viewPagerAdapter);
+		pager.setOffscreenPageLimit(3);
+		pager.setPageMargin(10);
 
 		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
@@ -46,16 +50,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		indicator.setBackgroundColor(0x00000000);
 		indicator.setFadeDelay(1000);
 		indicator.setFadeLength(1000);
-
-		// // set defaults for logo & home up
-		// // ab.setDisplayHomeAsUpEnabled(true);
-		// actionBar.setDisplayUseLogoEnabled(false);
-		// actionBar.setIcon(R.drawable.login_logo);
-		// actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
-		//
-		// View customNav = LayoutInflater.from(this).inflate(R.layout.mytitle, null);
-		// getSupportActionBar().setCustomView(customNav);
-		// getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 		com.actionbarsherlock.app.ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -139,6 +133,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	//maintabs
 	public void openMyAccount(View v)
 	{
 		pager.setCurrentItem(0);
@@ -153,6 +148,134 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	{
 		pager.setCurrentItem(2);
 	}
+	
+//	accountsummary
+//	billingrecord
+//	billingstatements
+//	paymentrecord
+//	reportpayment
+//	paymentoptions
+	
+	public void setDafaultAllSubTabs()
+	{
+		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
+		rl1.setBackgroundColor(Color.parseColor("#ffffff"));
+		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
+		rl2.setBackgroundColor(Color.parseColor("#ffffff"));
+		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
+		rl3.setBackgroundColor(Color.parseColor("#ffffff"));
+		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
+		rl4.setBackgroundColor(Color.parseColor("#ffffff"));
+		RelativeLayout rl5 = (RelativeLayout) findViewById(R.id.layoutViewSubTabReportPaymentRel);
+		rl5.setBackgroundColor(Color.parseColor("#ffffff"));
+		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
+		rl6.setBackgroundColor(Color.parseColor("#ffffff"));
+		
+		
+		TextView tv1 = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
+		tv1.setTextColor(Color.parseColor("#666666"));
+		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
+		tv2.setTextColor(Color.parseColor("#666666"));
+		TextView tv3 = (TextView) findViewById(R.id.textViewSubTabBillingStatements);
+		tv3.setTextColor(Color.parseColor("#666666"));
+		TextView tv4 = (TextView) findViewById(R.id.textViewSubTabPaymentRecord);
+		tv4.setTextColor(Color.parseColor("#666666"));
+		TextView tv5 = (TextView) findViewById(R.id.textViewSubTabReportPayment);
+		tv5.setTextColor(Color.parseColor("#666666"));
+		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
+		tv6.setTextColor(Color.parseColor("#666666"));
+		
+		
+		ImageView iv1 = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
+		iv1.setImageResource(R.drawable.icon_subtab_accountsummary);
+		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
+		iv2.setImageResource(R.drawable.icon_subtab_billingrecord);
+		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
+		iv3.setImageResource(R.drawable.icon_subtab_billingstatements);
+		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
+		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord);
+		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
+		iv5.setImageResource(R.drawable.icon_subtab_reportpayment);
+		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
+		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
+	}
+	
+	//subtabs
+	public void openAccountSummary(View v)
+	{
+		setDafaultAllSubTabs();
+		
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
+		rl.setBackgroundColor(Color.parseColor("#ffae00")); //orange
+		
+		TextView tv = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
+		tv.setTextColor(Color.parseColor("#ffffff"));
+		
+		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
+		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
+		
+	}
+	public void openBillingRecord(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
+		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
+		tv2.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
+		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
+	}
+	public void openBillingStatements(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
+		rl3.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv3 = (TextView) findViewById(R.id.textViewSubTabBillingStatements);
+		tv3.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
+		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
+		
+	}
+	public void openPaymentRecord(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
+		rl4.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv4 = (TextView) findViewById(R.id.textViewSubTabPaymentRecord);
+		tv4.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
+		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
+	}
+	public void openReportPayment(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl5 = (RelativeLayout) findViewById(R.id.layoutViewSubTabReportPaymentRel);
+		rl5.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv5 = (TextView) findViewById(R.id.textViewSubTabReportPayment);
+		tv5.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
+		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
+	}
+	public void openPaymentOptions(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
+		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
+		tv6.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
+		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
@@ -171,6 +294,25 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	{
 		// TODO Auto-generated method stub
 	}
+	
+	
+	public View setPage(int id)
+	{
+		// remove child views
+		ViewGroup layout = (ViewGroup) findViewById(R.id.dynamicLayoutSubmenu);
+		layout.removeAllViews();
+
+		// get layout to insert
+		LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = vi.inflate(id, null);
+
+		// insert into main view
+		View insertPoint = findViewById(R.id.dynamicLayoutSubmenu);
+		((ViewGroup) insertPoint).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+		return insertPoint;
+	}
+	
+	
 
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
@@ -178,7 +320,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		//
 		//
 		//
-		
+
 		Context	con;
 		View	view;
 
@@ -201,19 +343,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					resId = R.layout.tab_my_account;
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
-					
-					
-					
-					
-					
+
 					String accStatus = "ACTIVE";
 					String creditStatus = "BAD";
 					String contractStatus = "123 DAYS";
-					
+
 					String fullname = "Sheryl Lagman";
 					String phoneNumber = "09123456789";
 					String network = "Globe";
-					
+
 					String plan = "Plan 350 Unli Call to Smart or TNT";
 					String supplementary = "Roaming Service";
 					String subscriptionType = "Sim Card Only";
@@ -224,7 +362,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String creditLimit = "P 1000";
 					String activationDate = "November 29, 2013";
 					String discount = "P 0.00";
-					
+
 					String fName = "Sheryl";
 					String lName = "Lagman";
 					String email = "email@yahoo.com";
@@ -235,20 +373,17 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String landlineKr = "814665979";
 					String otherMobile = "091848545656";
 					String billingAddress = "Same as Home Address";
-					
-					
-					
-					
-					ListView profileListView = (ListView)view0.findViewById(R.id.listViewProfileListView);
-					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(),new ArrayList<String>());
-					
+
+					ListView profileListView = (ListView) view0.findViewById(R.id.listViewProfileListView);
+					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());
+
 					profileListViewAdaptor.initiatizeStringsValues();
-					//type title content image date
+					// type title content image date
 					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus, creditStatus, contractStatus, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
-					profileListViewAdaptor.addValue("listview_main_header_wshadow", "Subscription Details", "", "","");
+					profileListViewAdaptor.addValue("listview_main_header_wshadow", "Subscription Details", "", "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValue("listview_sub_info", "Plan", plan, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
@@ -291,17 +426,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					profileListViewAdaptor.addValue("listview_sub_info", "Other Mobile", otherMobile, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValue("listview_sub_info", "Billing Address", billingAddress, "", "");
-					
-					
+
 					profileListView.setAdapter(profileListViewAdaptor);
 					profileListView.setDividerHeight(-1);
-					
-					
+
 					return view0;
-					
+
 				case 1:
 					// main home container
-					resId = R.layout.my_account_info;
+					resId = R.layout.tab_billing_payment;
 					View view1 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view1, 0);
 

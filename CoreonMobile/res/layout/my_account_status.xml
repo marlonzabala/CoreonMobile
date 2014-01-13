@@ -32,7 +32,7 @@
             <!-- android:padding="10dp" > -->
 
             <TextView
-                android:id="@+id/imageViewTabMyAccount"
+                android:id="@+id/textViewTabMyAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -82,7 +82,7 @@
             <!-- android:padding="10dp" -->
 
             <TextView
-                android:id="@+id/imageViewTabBillingPayment"
+                android:id="@+id/textViewTabBillingPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -133,7 +133,7 @@
             <!-- android:padding="10dp" -->
 
             <TextView
-                android:id="@+id/imageViewTabRewardsOffers"
+                android:id="@+id/textViewTabRewardsOffers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
