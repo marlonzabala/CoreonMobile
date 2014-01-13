@@ -41,9 +41,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
+            android:onClick="openMyAccount"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:onClick="openMyAccount"
             android:src="@drawable/icon_account_selected" />
 
         <ImageView
@@ -53,8 +53,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:padding="10dp"
             android:onClick="openBillingPayment"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_billing_payments" />
 
@@ -71,8 +71,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" />
     </LinearLayout>
-    
-    
+
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
@@ -84,7 +83,7 @@
     <com.viewpagerindicator.UnderlinePageIndicator
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
-        android:layout_height="6dp"
+        android:layout_height="4dp"
         android:layout_above="@+id/pager"
         android:layout_alignParentLeft="true" />
 

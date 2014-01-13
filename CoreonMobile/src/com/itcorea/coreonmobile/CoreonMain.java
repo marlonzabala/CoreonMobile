@@ -171,8 +171,12 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
-		Context							con;
-		View							view;
+		// TODO ViewPagerAdaptor
+		//
+		//
+		//
+		Context	con;
+		View	view;
 
 		public int getCount()
 		{
@@ -190,14 +194,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			{
 				case 0:
 					// menu drawer
-					resId = R.layout.activity_log_in;
+					resId = R.layout.my_account_status;
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
 					return view0;
 
 				case 1:
 					// main home container
-					resId = R.layout.mytitle;
+					resId = R.layout.my_account_info;
 					View view1 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view1, 0);
 
@@ -216,7 +220,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			}
 
 			return resId;
-
 		}
 
 		@Override

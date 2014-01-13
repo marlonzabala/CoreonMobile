@@ -23,7 +23,7 @@
 
         <RelativeLayout
             android:id="@+id/imageViewTabMyAccountRel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -67,12 +67,11 @@
 
         <RelativeLayout
             android:id="@+id/imageViewTabBillingPaymentRel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:onClick="openBillingPayment"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_billing_payments" >
@@ -114,13 +113,12 @@
 
         <RelativeLayout
             android:id="@+id/imageViewTabRewardsOffersRel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_above="@+id/pager"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
-            android:onClick="openRewardsOffers"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" >

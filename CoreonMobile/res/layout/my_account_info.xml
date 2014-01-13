@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/account_status_bg" />
+
+    <ImageView
+        android:id="@+id/imageViewProfilePicture"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:src="@drawable/my_account_picture" />
+
+    <TextView
+        android:id="@+id/textViewProfileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imageViewProfilePicture"
+        android:fontFamily="sans-serif-thin"
+        android:text="Full Name"
+        android:textColor="#fb6800"
+        android:textSize="32sp" />
+
+    <ImageView
+        android:id="@+id/imageViewNumberIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/textViewProfileName"
+        android:layout_below="@+id/textViewProfileName"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/my_account_icon_phone" />
+
+    <TextView
+        android:id="@+id/textViewProfileMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageViewNumberIcon"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/imageViewNumberIcon"
+        android:fontFamily="sans-serif"
+        android:text="9088161536"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imageViewNetworkIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/imageViewNumberIcon"
+        android:layout_below="@+id/imageViewNumberIcon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/my_account_icon_network" />
+
+    <TextView
+        android:id="@+id/textViewProfileNetwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewProfileMobileNumber"
+        android:layout_alignTop="@+id/imageViewNetworkIcon"
+        android:fontFamily="sans-serif"
+        android:text="Smart"
+        android:textSize="20sp" />
+
+</RelativeLayout>
