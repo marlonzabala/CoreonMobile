@@ -27,8 +27,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_weight="1">
-<!--             android:padding="10dp" > -->
+            android:layout_weight="1" >
+
+            <!-- android:padding="10dp" > -->
 
             <TextView
                 android:id="@+id/imageViewTabMyAccount"
@@ -38,11 +39,11 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
+                android:paddingTop="5dp"
                 android:scaleType="fitCenter"
                 android:text="ACCOUNT STATUS"
                 android:textColor="#666666"
                 android:textSize="12sp"
-                android:paddingTop="5dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -53,9 +54,10 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
+                android:paddingTop="10dp"
                 android:scaleType="fitCenter"
-                android:textColor="#7bdb3a"
                 android:text="ACTIVE"
+                android:textColor="#7bdb3a"
                 android:textSize="28sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -76,7 +78,8 @@
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_billing_payments" >
-<!--             android:padding="10dp" -->
+
+            <!-- android:padding="10dp" -->
 
             <TextView
                 android:id="@+id/imageViewTabBillingPayment"
@@ -86,11 +89,11 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
+                android:paddingTop="5dp"
                 android:scaleType="fitCenter"
                 android:text="CREDIT STATUS"
                 android:textColor="#666666"
                 android:textSize="12sp"
-                android:paddingTop="5dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -101,6 +104,7 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
+                android:paddingTop="10dp"
                 android:scaleType="fitCenter"
                 android:text="BAD"
                 android:textColor="#f95b24"
@@ -125,7 +129,8 @@
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" >
-<!--             android:padding="10dp" -->
+
+            <!-- android:padding="10dp" -->
 
             <TextView
                 android:id="@+id/imageViewTabRewardsOffers"
@@ -135,11 +140,11 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
+                android:paddingTop="5dp"
                 android:scaleType="fitCenter"
                 android:text="CONTRACT STATUS"
                 android:textColor="#666666"
                 android:textSize="12sp"
-                android:paddingTop="5dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -150,6 +155,7 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
+                android:paddingTop="10dp"
                 android:scaleType="fitCenter"
                 android:text="DAYS"
                 android:textColor="#7bdb3a"
