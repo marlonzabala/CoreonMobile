@@ -5,19 +5,13 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.FrameLayout.LayoutParams;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -26,8 +20,8 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 @SuppressLint("NewApi")
 public class CoreonMain extends SherlockFragmentActivity implements ActionBar.TabListener
 {
-	private ViewPager		pager;
-	private MyPagerAdapter	adapter;
+	private ViewPager			pager;
+	public MyViewPagerAdapter	viewPagerAdapter;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -36,8 +30,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 		pager = (ViewPager) findViewById(R.id.pager);
-		adapter = new MyPagerAdapter(getSupportFragmentManager());
-		pager.setAdapter(adapter);
+		// adapter = new MyPagerAdapter(getSupportFragmentManager());
+		// pager.setAdapter(adapter);
+
+		viewPagerAdapter = new MyViewPagerAdapter();
+		pager.setAdapter(viewPagerAdapter);
 
 		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
@@ -158,53 +155,86 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
 	{
-		// tab.setIcon(R.drawable.icon_account_selected);
 		// TODO Auto-generated method stub
-		// pager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
 	{
 		// TODO Auto-generated method stub
-
 	}
 
-	public class MyPagerAdapter extends FragmentPagerAdapter// implements IconTabProvider
+	public class MyViewPagerAdapter extends PagerAdapter
 	{
+		Context							con;
+		View							view;
 
-		private final String[]	TITLES	= { "My Account", "Billing & Payments", "Rewards & Offers" };
-
-		// private final int[] ICONS = { R.drawable.icon_account, R.drawable.icon_billing_payments,
-		// R.drawable.icon_rewards_offers };
-
-		public MyPagerAdapter(FragmentManager fm)
-		{
-			super(fm);
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position)
-		{
-			return TITLES[position];
-		}
-
-		@Override
 		public int getCount()
 		{
-			return TITLES.length;
+			return 3;
+		}
+
+		public Object instantiateItem(View collection, int position)
+		{
+			LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			con = collection.getContext();
+			view = collection;
+
+			int resId = 0;
+			switch (position)
+			{
+				case 0:
+					// menu drawer
+					resId = R.layout.activity_log_in;
+					View view0 = inflater.inflate(resId, null);
+					((ViewPager) collection).addView(view0, 0);
+					return view0;
+
+				case 1:
+					// main home container
+					resId = R.layout.mytitle;
+					View view1 = inflater.inflate(resId, null);
+					((ViewPager) collection).addView(view1, 0);
+
+					// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(con);
+					// String fname = prefs.getString("fname", null);
+					// String lname = prefs.getString("lname", null);
+					// String points = prefs.getString("points", null);
+					return view1;
+
+				case 2:
+					resId = R.layout.my_account_status;
+					View view2 = inflater.inflate(resId, null);
+					((ViewPager) collection).addView(view2, 0);
+					return view2;
+
+			}
+
+			return resId;
+
 		}
 
 		@Override
-		public Fragment getItem(int position)
+		public void destroyItem(View arg0, int arg1, Object arg2)
 		{
-			return SuperAwesomeCardFragment.newInstance(position);
+			((ViewPager) arg0).removeView((View) arg2);
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1)
+		{
+			return arg0 == ((View) arg1);
+		}
+
+		@Override
+		public Parcelable saveState()
+		{
+			return null;
 		}
 	}
 }
