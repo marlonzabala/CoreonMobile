@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="140dp" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/account_status_bg" />
+    <!-- <ImageView -->
+    <!-- android:id="@+id/imageView1" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_alignParentTop="true" -->
+    <!-- android:scaleType="fitXY" -->
+    <!-- android:src="@drawable/account_status_bg" /> -->
 
     <ImageView
         android:id="@+id/imageViewProfilePicture"
@@ -30,7 +31,7 @@
         android:layout_toRightOf="@+id/imageViewProfilePicture"
         android:fontFamily="sans-serif-thin"
         android:text="Full Name"
-        android:textColor="#fb6800"
+        android:textColor="#f95b24"
         android:textSize="32sp" />
 
     <ImageView
@@ -51,6 +52,7 @@
         android:layout_toRightOf="@+id/imageViewNumberIcon"
         android:fontFamily="sans-serif"
         android:text="9088161536"
+        android:textColor="#666666"
         android:textSize="20sp" />
 
     <ImageView
@@ -70,6 +72,7 @@
         android:layout_alignTop="@+id/imageViewNetworkIcon"
         android:fontFamily="sans-serif"
         android:text="Smart"
+        android:textColor="#666666"
         android:textSize="20sp" />
 
 </RelativeLayout>

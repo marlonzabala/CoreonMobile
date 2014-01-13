@@ -1,5 +1,7 @@
 package com.itcorea.coreonmobile;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -11,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -175,6 +178,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		//
 		//
 		//
+		
 		Context	con;
 		View	view;
 
@@ -194,11 +198,28 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			{
 				case 0:
 					// menu drawer
-					resId = R.layout.my_account_status;
+					resId = R.layout.tab_my_account;
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
+					
+					
+					ListView profileListView = (ListView)view0.findViewById(R.id.listViewProfileListView);
+					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(),new ArrayList<String>());
+					
+					profileListViewAdaptor.initiatizeStringsValues();
+					profileListViewAdaptor.addStrings("my_account_status", "", "", "", "", "", "", "", "", "");
+					profileListViewAdaptor.addStrings("my_account_info", "", "", "", "", "", "", "", "", "");
+					profileListViewAdaptor.addStrings("listview_main_header_wshadow", "", "", "", "", "", "", "", "", "");
+					profileListViewAdaptor.addStrings("listview_line_gray", "", "", "", "", "", "", "", "", "");
+					
+					
+					profileListView.setAdapter(profileListViewAdaptor);
+					
+					
+					
+					
 					return view0;
-
+					
 				case 1:
 					// main home container
 					resId = R.layout.my_account_info;
