@@ -19,8 +19,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:onClick="openAccountSummary"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:onClick="openAccountSummary" >
 
             <TextView
                 android:id="@+id/textViewSubTabAccountSummary"
@@ -45,7 +45,6 @@
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:src="@drawable/icon_subtab_accountsummary" />
-
         </RelativeLayout>
 
         <View
@@ -80,7 +79,7 @@
                 android:textColor="#666666"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            
+
             <ImageView
                 android:id="@+id/imageViewSubTabBillingRecord"
                 android:layout_width="wrap_content"
@@ -89,7 +88,6 @@
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:src="@drawable/icon_subtab_billingrecord" />
-            
         </RelativeLayout>
 
         <View
@@ -106,8 +104,8 @@
             android:layout_above="@+id/pager"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:onClick="openBillingStatements"
             android:layout_weight="1"
+            android:onClick="openBillingStatements"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" >
 
@@ -125,7 +123,7 @@
                 android:textColor="#666666"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            
+
             <ImageView
                 android:id="@+id/imageViewSubTabBillingStatements"
                 android:layout_width="wrap_content"
@@ -134,7 +132,6 @@
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:src="@drawable/icon_subtab_billingstatements" />
-            
         </RelativeLayout>
     </LinearLayout>
 
@@ -145,7 +142,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayoutSubTabsContent1"
         android:background="#e4e4e4" />
-    
+
     <LinearLayout
         android:id="@+id/linearLayoutSubTabsContent2"
         android:layout_width="match_parent"
@@ -159,8 +156,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:onClick="openPaymentRecord"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:onClick="openPaymentRecord" >
 
             <TextView
                 android:id="@+id/textViewSubTabPaymentRecord"
@@ -176,7 +173,7 @@
                 android:textColor="#666666"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            
+
             <ImageView
                 android:id="@+id/imageViewSubTabPaymentRecord"
                 android:layout_width="wrap_content"
@@ -185,7 +182,6 @@
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:src="@drawable/icon_subtab_paymentrecord" />
-            
         </RelativeLayout>
 
         <View
@@ -202,8 +198,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
             android:onClick="openReportPayment"
+            android:scaleType="fitCenter"
             android:src="@drawable/icon_billing_payments" >
 
             <TextView
@@ -220,7 +216,7 @@
                 android:textColor="#666666"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            
+
             <ImageView
                 android:id="@+id/imageViewSubTabReportPayment"
                 android:layout_width="wrap_content"
@@ -229,7 +225,6 @@
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:src="@drawable/icon_subtab_reportpayment" />
-            
         </RelativeLayout>
 
         <View
@@ -247,7 +242,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
-             android:onClick="openPaymentOptions"
+            android:onClick="openPaymentOptions"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_rewards_offers" >
 
@@ -265,7 +260,7 @@
                 android:textColor="#666666"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            
+
             <ImageView
                 android:id="@+id/imageViewSubTabPaymentOptions"
                 android:layout_width="wrap_content"
@@ -276,7 +271,7 @@
                 android:src="@drawable/icon_subtab_paymentoptions" />
         </RelativeLayout>
     </LinearLayout>
-    
+
     <View
         android:id="@+id/lineMiddle2"
         android:layout_width="match_parent"
@@ -284,9 +279,9 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayoutSubTabsContent2"
         android:background="#e4e4e4" />
-    
-<!--     linearLayoutSubTabsContent2 -->
-    
+
+    <!-- linearLayoutSubTabsContent2 -->
+
     <RelativeLayout
         android:id="@+id/dynamicLayoutSubmenu"
         android:layout_width="match_parent"
@@ -298,8 +293,10 @@
             android:id="@+id/shadowTops"
             android:layout_width="match_parent"
             android:layout_height="10dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/menu_bottom_shadow" />
-        
+
     </RelativeLayout>
+
 </RelativeLayout>
