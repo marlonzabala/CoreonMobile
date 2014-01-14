@@ -4,18 +4,6 @@
     android:layout_height="match_parent"
     tools:context=".CoreonMain" >
 
-    <!-- <com.viewpagerindicator.TitlePageIndicator -->
-    <!-- android:id="@+id/titles" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" /> -->
-
-
-    <!-- <com.viewpagerindicator.UnderlinePageIndicator -->
-    <!-- android:id="@+id/indicator" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="10dp" -->
-    <!-- android:background="#FFCCCCCC" /> -->
-
     <ImageView
         android:id="@+id/imageViewTabBg"
         android:layout_width="wrap_content"

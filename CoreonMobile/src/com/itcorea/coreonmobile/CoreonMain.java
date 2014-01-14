@@ -70,27 +70,20 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		//billingListViewAdaptor.addValueExtra("billing_payment_tab_menu", "", "", "", "", "", "", "", "", "");
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", "P 1,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_light_gray");
+		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		
 		
 		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
