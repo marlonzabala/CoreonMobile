@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 public class ListViewArrayAdapter extends ArrayAdapter<String>
 {
-	private transient static Context	context;
+	private Context						context;
 
-	private transient final String		ipAdd		= "125.5.16.155/coreonwallet";	// "192.168.123.111";
+	private String						ipAdd		= "125.5.16.155/coreonwallet";	// "192.168.123.111";
+	public boolean billingInitialized = false;
 
 	public transient ArrayList<String>	_type		= new ArrayList<String>();
 	public transient ArrayList<String>	_title		= new ArrayList<String>();
@@ -28,12 +29,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 	public transient ArrayList<String>	_extra4		= new ArrayList<String>();
 	public transient ArrayList<String>	_extra5		= new ArrayList<String>();
 
-	public ListViewArrayAdapter()
-	{
-		super(context, 0);
-	}
-
-	@SuppressWarnings("static-access")
 	public ListViewArrayAdapter(Context context, ArrayList<String> values)
 	{
 		super(context, 0, values);
@@ -168,7 +163,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			// textName.setTypeface(typeFace);
 			// textHi.setTypeface(typeFace);
 			// textName.setText(_content.get(position).toString());
-			
+
 			TextView textName = (TextView) rowView.findViewById(R.id.textViewProfileName);
 			TextView textNumber = (TextView) rowView.findViewById(R.id.textViewProfileMobileNumber);
 			TextView textNetwork = (TextView) rowView.findViewById(R.id.textViewProfileNetwork);
@@ -189,7 +184,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.my_account_status, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textAccount = (TextView) rowView.findViewById(R.id.textViewTabMyAccountContent);
 			TextView textPayment = (TextView) rowView.findViewById(R.id.textViewTabBillingPaymentContent);
 			TextView textOffers = (TextView) rowView.findViewById(R.id.textViewTabRewardsOffersContent);
@@ -250,10 +245,23 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			else
 			{
 				rowView = inflater.inflate(R.layout.listview_line_gray, parent, false);
+				
 			}
 			rowView.setTag(tag);
 		}
-
+		else if (type.equals(tag = "billing_payment_tab_menu"))
+		{
+			//TODO billings
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_header_billing_payment, parent, false);
+			}
+			rowView.setTag(tag);
+		}
 		else
 		{
 			// TODO end of layouts

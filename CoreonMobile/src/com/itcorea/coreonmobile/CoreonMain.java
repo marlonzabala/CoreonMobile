@@ -28,19 +28,22 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 {
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
-	
+
+	public ListView				listviewBillingPayments;	// = new
+															// ListView(getApplicationContext());
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 		pager = (ViewPager) findViewById(R.id.pager);
 
-		viewPagerAdapter = new MyViewPagerAdapter();
+		//TODO get context
+		viewPagerAdapter = new MyViewPagerAdapter(this);
 		pager.setAdapter(viewPagerAdapter);
-		pager.setOffscreenPageLimit(3);
+		pager.setOffscreenPageLimit(2);
 		pager.setPageMargin(10);
 
 		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
@@ -59,6 +62,43 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setCustomView(R.layout.mytitle);
 		mainTitle = (TextView) findViewById(R.id.textViewTitle);
+
+		viewPagerAdapter.initializeBillingPayments();
+		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
+
+		ListViewArrayAdapter billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+		billingListViewAdaptor.initiatizeStringsValues();
+		//billingListViewAdaptor.addValueExtra("billing_payment_tab_menu", "", "", "", "", "", "", "", "", "");
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Landline (Kr)", "rfvr", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Other Mobile", "efverfv", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Billing Address", "refverfgb", "", "");
+		
+		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
+		listviewBillingPayments.addHeaderView(BillingPaymentsView);
+		listviewBillingPayments.setAdapter(billingListViewAdaptor);
+		listviewBillingPayments.setDividerHeight(-1);
+		
+		
+		//openAccountSummary(null);
 
 		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -133,7 +173,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	//maintabs
+	// maintabs
 	public void openMyAccount(View v)
 	{
 		pager.setCurrentItem(0);
@@ -148,14 +188,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	{
 		pager.setCurrentItem(2);
 	}
-	
-//	accountsummary
-//	billingrecord
-//	billingstatements
-//	paymentrecord
-//	reportpayment
-//	paymentoptions
-	
+
+	// billing payments sub tab
+	// accountsummary
+	// billingrecord
+	// billingstatements
+	// paymentrecord
+	// reportpayment
+	// paymentoptions
+
 	public void setDafaultAllSubTabs()
 	{
 		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
@@ -170,8 +211,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		rl5.setBackgroundColor(Color.parseColor("#ffffff"));
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffffff"));
-		
-		
+
 		TextView tv1 = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
 		tv1.setTextColor(Color.parseColor("#666666"));
 		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
@@ -184,8 +224,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv5.setTextColor(Color.parseColor("#666666"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
 		tv6.setTextColor(Color.parseColor("#666666"));
-		
-		
+
 		ImageView iv1 = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv1.setImageResource(R.drawable.icon_subtab_accountsummary);
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
@@ -199,24 +238,23 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
 	}
-	
-	//subtabs
+
+	// subtabs
 	public void openAccountSummary(View v)
 	{
 		setDafaultAllSubTabs();
-		
+
 		RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
-		rl.setBackgroundColor(Color.parseColor("#ffae00")); //orange
-		
+		rl.setBackgroundColor(Color.parseColor("#ffae00")); // orange
+
 		TextView tv = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
 		tv.setTextColor(Color.parseColor("#ffffff"));
-		
+
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
-		
-		
-		//setPage(R.layout.test);
+
 	}
+
 	public void openBillingRecord(View v)
 	{
 		setDafaultAllSubTabs();
@@ -227,6 +265,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
 		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
 	}
+
 	public void openBillingStatements(View v)
 	{
 		setDafaultAllSubTabs();
@@ -236,8 +275,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv3.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
-		
+
 	}
+
 	public void openPaymentRecord(View v)
 	{
 		setDafaultAllSubTabs();
@@ -248,6 +288,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
 		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
 	}
+
 	public void openReportPayment(View v)
 	{
 		setDafaultAllSubTabs();
@@ -258,6 +299,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
 	}
+
 	public void openPaymentOptions(View v)
 	{
 		setDafaultAllSubTabs();
@@ -268,10 +310,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
 	}
-	
-	
-	
-	
 
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
@@ -290,33 +328,50 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	{
 		// TODO Auto-generated method stub
 	}
-	
-	
-	public View setPage(int id)
-	{
-		// remove child views
-		ViewGroup layout = (ViewGroup) findViewById(R.id.dynamicLayoutSubmenu);
-		layout.removeAllViews();
-
-		// get layout to insert
-		LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = vi.inflate(id, null);
-
-		// insert into main view
-		View insertPoint = layout;
-		((ViewGroup) insertPoint).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-		return insertPoint;
-	}
-	
-	
 
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
 		// TODO ViewPagerAdaptor
 		//
 
-		Context	con;
-		View	view;
+		Context		context;
+		View		view;
+
+		View		viewBillingPayments;
+		ListView	listViewMyAccount;
+		ListView	listViewBillinPayments;
+		ListView	listViewRewardsOffers;
+
+		public MyViewPagerAdapter(Context contextConstructor)
+		{
+			context = contextConstructor;
+		}
+
+		public ListView getMyAccountListView()
+		{
+			return listViewMyAccount;
+		}
+
+		public ListView getBillingPaymentsListView()
+		{
+			return listViewBillinPayments;
+		}
+
+		public ListView getRewardsOffersView()
+		{
+			return listViewRewardsOffers;
+		}
+
+		public void initializeBillingPayments()
+		{
+			int resId1 = R.layout.tab_billing_payment;
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view1 = inflater.inflate(resId1, null);
+
+			ListView billingListView = (ListView) view1.findViewById(R.id.listViewBillingPayment);
+			listViewBillinPayments = billingListView;
+			viewBillingPayments = view1;
+		}
 
 		public int getCount()
 		{
@@ -326,7 +381,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		public Object instantiateItem(View collection, int position)
 		{
 			LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			con = collection.getContext();
+			context = collection.getContext();
 			view = collection;
 
 			int resId = 0;
@@ -425,23 +480,21 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					profileListView.setDividerHeight(-1);
 
 					return view0;
-
 				case 1:
-					// main home container
-					resId = R.layout.tab_billing_payment;
-					View view1 = inflater.inflate(resId, null);
-					((ViewPager) collection).addView(view1, 0);
-
-					// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(con);
-					// String fname = prefs.getString("fname", null);
-					// String lname = prefs.getString("lname", null);
-					// String points = prefs.getString("points", null);
-					return view1;
+					
+					((ViewPager) collection).addView(viewBillingPayments, 0);
+					return viewBillingPayments;
 
 				case 2:
 					resId = R.layout.test;
 					View view2 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view2, 0);
+
+					// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(con);
+					// String fname = prefs.getString("fname", null);
+					// String lname = prefs.getString("lname", null);
+					// String points = prefs.getString("points", null);
+
 					return view2;
 
 			}
@@ -459,12 +512,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		public boolean isViewFromObject(View arg0, Object arg1)
 		{
 			return arg0 == ((View) arg1);
-		}
-
-		@Override
-		public Parcelable saveState()
-		{
-			return null;
 		}
 	}
 }
