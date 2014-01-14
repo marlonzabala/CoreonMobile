@@ -214,6 +214,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
 		
+		
+		//setPage(R.layout.test);
 	}
 	public void openBillingRecord(View v)
 	{
@@ -270,12 +272,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	
 	
 	
-	
-	
-	
-	
-	
-	
 
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
@@ -307,7 +303,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		View v = vi.inflate(id, null);
 
 		// insert into main view
-		View insertPoint = findViewById(R.id.dynamicLayoutSubmenu);
+		View insertPoint = layout;
 		((ViewGroup) insertPoint).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		return insertPoint;
 	}
@@ -317,8 +313,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
 		// TODO ViewPagerAdaptor
-		//
-		//
 		//
 
 		Context	con;
@@ -445,7 +439,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					return view1;
 
 				case 2:
-					resId = R.layout.my_account_status;
+					resId = R.layout.test;
 					View view2 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view2, 0);
 					return view2;
