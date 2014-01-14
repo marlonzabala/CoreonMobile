@@ -31,6 +31,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public ListView				listviewBillingPayments;	// = new
 															// ListView(getApplicationContext());
+	ListViewArrayAdapter billingListViewAdaptor;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -66,7 +67,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		viewPagerAdapter.initializeBillingPayments();
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
 
-		ListViewArrayAdapter billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		billingListViewAdaptor.initiatizeStringsValues();
 		//billingListViewAdaptor.addValueExtra("billing_payment_tab_menu", "", "", "", "", "", "", "", "", "");
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
@@ -89,7 +90,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
 		listviewBillingPayments.setAdapter(billingListViewAdaptor);
 		listviewBillingPayments.setDividerHeight(-1);
-		
 		
 		//openAccountSummary(null);
 
@@ -190,6 +190,176 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	// reportpayment
 	// paymentoptions
 
+
+	// subtabs
+	public void openAccountSummary(View v)
+	{
+		setDafaultAllSubTabs();
+
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
+		rl.setBackgroundColor(Color.parseColor("#ffae00")); // orange
+		TextView tv = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
+		tv.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
+		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
+		
+		
+		
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", "P 1,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_light_gray");
+		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+
+	}
+
+	public void openBillingRecord(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
+		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
+		tv2.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
+		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_billing_record", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_billing_record", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_billing_record", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+		
+	}
+
+	public void openBillingStatements(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
+		rl3.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv3 = (TextView) findViewById(R.id.textViewSubTabBillingStatements);
+		tv3.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
+		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
+
+		
+		
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+	}
+
+	public void openPaymentRecord(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
+		rl4.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv4 = (TextView) findViewById(R.id.textViewSubTabPaymentRecord);
+		tv4.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
+		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
+		
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+	}
+
+	public void openReportPayment(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl5 = (RelativeLayout) findViewById(R.id.layoutViewSubTabReportPaymentRel);
+		rl5.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv5 = (TextView) findViewById(R.id.textViewSubTabReportPayment);
+		tv5.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
+		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+	}
+
+	public void openPaymentOptions(View v)
+	{
+		setDafaultAllSubTabs();
+		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
+		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
+		tv6.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
+		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
+		
+		
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
+	}
+	
 	public void setDafaultAllSubTabs()
 	{
 		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
@@ -204,7 +374,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		rl5.setBackgroundColor(Color.parseColor("#ffffff"));
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffffff"));
-
+		
 		TextView tv1 = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
 		tv1.setTextColor(Color.parseColor("#666666"));
 		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
@@ -217,7 +387,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv5.setTextColor(Color.parseColor("#666666"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
 		tv6.setTextColor(Color.parseColor("#666666"));
-
+		
 		ImageView iv1 = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv1.setImageResource(R.drawable.icon_subtab_accountsummary);
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
@@ -232,77 +402,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
 	}
 
-	// subtabs
-	public void openAccountSummary(View v)
-	{
-		setDafaultAllSubTabs();
-
-		RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
-		rl.setBackgroundColor(Color.parseColor("#ffae00")); // orange
-
-		TextView tv = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
-		tv.setTextColor(Color.parseColor("#ffffff"));
-
-		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
-		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
-
-	}
-
-	public void openBillingRecord(View v)
-	{
-		setDafaultAllSubTabs();
-		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
-		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
-		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
-		tv2.setTextColor(Color.parseColor("#ffffff"));
-		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
-		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
-	}
-
-	public void openBillingStatements(View v)
-	{
-		setDafaultAllSubTabs();
-		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
-		rl3.setBackgroundColor(Color.parseColor("#ffae00"));
-		TextView tv3 = (TextView) findViewById(R.id.textViewSubTabBillingStatements);
-		tv3.setTextColor(Color.parseColor("#ffffff"));
-		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
-		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
-
-	}
-
-	public void openPaymentRecord(View v)
-	{
-		setDafaultAllSubTabs();
-		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
-		rl4.setBackgroundColor(Color.parseColor("#ffae00"));
-		TextView tv4 = (TextView) findViewById(R.id.textViewSubTabPaymentRecord);
-		tv4.setTextColor(Color.parseColor("#ffffff"));
-		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
-		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
-	}
-
-	public void openReportPayment(View v)
-	{
-		setDafaultAllSubTabs();
-		RelativeLayout rl5 = (RelativeLayout) findViewById(R.id.layoutViewSubTabReportPaymentRel);
-		rl5.setBackgroundColor(Color.parseColor("#ffae00"));
-		TextView tv5 = (TextView) findViewById(R.id.textViewSubTabReportPayment);
-		tv5.setTextColor(Color.parseColor("#ffffff"));
-		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
-		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
-	}
-
-	public void openPaymentOptions(View v)
-	{
-		setDafaultAllSubTabs();
-		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
-		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
-		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
-		tv6.setTextColor(Color.parseColor("#ffffff"));
-		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
-		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
-	}
 
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
