@@ -357,6 +357,26 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textBillingDueDate.setText(_image.get(position).toString());
 			textBillingAmount.setText(_date.get(position).toString());
 		}
+		else if (type.equals(tag = "listview_billing_statements"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_billing_statements, parent, false);
+			}
+			rowView.setTag(tag);
+			
+			
+			TextView textBillingCount = (TextView) rowView.findViewById(R.id.textViewBillingRecordCount);
+			TextView textBillingMonth = (TextView) rowView.findViewById(R.id.textViewBillingMonth);
+			TextView textBillingDueDate = (TextView) rowView.findViewById(R.id.textViewBillingDueDate);
+			textBillingCount.setText("  "+_title.get(position).toString()+"  ");
+			textBillingMonth.setText(_content.get(position).toString());
+			textBillingDueDate.setText(_image.get(position).toString());
+		}
 		else if (type.equals(tag = "listview_main_header_billing_record_total"))
 		{
 			if ((convertView != null && convertView.getTag().equals(tag)))
