@@ -356,7 +356,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				int spaceHeight = Integer.parseInt(_title.get(position).toString());
 				textSpace.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, spaceHeight));
 			}
-		}
+		}//
 		else if (type.equals(tag = "listview_billing_record"))
 		{
 			if ((convertView != null && convertView.getTag().equals(tag)))
