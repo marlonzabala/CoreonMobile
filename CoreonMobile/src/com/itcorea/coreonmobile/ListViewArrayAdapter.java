@@ -8,26 +8,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ListViewArrayAdapter extends ArrayAdapter<String>
 {
 	private Context						context;
 
-	private String						ipAdd		= "125.5.16.155/coreonwallet";	// "192.168.123.111";
-	public boolean billingInitialized = false;
+	private String						ipAdd				= "125.5.16.155/coreonwallet";	// "192.168.123.111";
+	public boolean						billingInitialized	= false;
 
-	public transient ArrayList<String>	_type		= new ArrayList<String>();
-	public transient ArrayList<String>	_title		= new ArrayList<String>();
-	public transient ArrayList<String>	_content	= new ArrayList<String>();
-	public transient ArrayList<String>	_image		= new ArrayList<String>();
-	public transient ArrayList<String>	_date		= new ArrayList<String>();
-	public transient ArrayList<String>	_extra1		= new ArrayList<String>();
-	public transient ArrayList<String>	_extra2		= new ArrayList<String>();
-	public transient ArrayList<String>	_extra3		= new ArrayList<String>();
-	public transient ArrayList<String>	_extra4		= new ArrayList<String>();
-	public transient ArrayList<String>	_extra5		= new ArrayList<String>();
+	public transient ArrayList<String>	_type				= new ArrayList<String>();
+	public transient ArrayList<String>	_title				= new ArrayList<String>();
+	public transient ArrayList<String>	_content			= new ArrayList<String>();
+	public transient ArrayList<String>	_image				= new ArrayList<String>();
+	public transient ArrayList<String>	_date				= new ArrayList<String>();
+	public transient ArrayList<String>	_extra1				= new ArrayList<String>();
+	public transient ArrayList<String>	_extra2				= new ArrayList<String>();
+	public transient ArrayList<String>	_extra3				= new ArrayList<String>();
+	public transient ArrayList<String>	_extra4				= new ArrayList<String>();
+	public transient ArrayList<String>	_extra5				= new ArrayList<String>();
 
 	public ListViewArrayAdapter(Context context, ArrayList<String> values)
 	{
@@ -203,7 +206,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_main_header_wshadow, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 			textTitle.setText(_title.get(position).toString());
 		}
@@ -272,13 +275,13 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			else
 			{
 				rowView = inflater.inflate(R.layout.listview_line_light_gray, parent, false);
-				
+
 			}
 			rowView.setTag(tag);
 		}
 		else if (type.equals(tag = "billing_payment_tab_menu"))
 		{
-			//TODO billings
+			// TODO billings
 			if ((convertView != null && convertView.getTag().equals(tag)))
 			{
 				rowView = convertView;
@@ -300,7 +303,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_sub_info_large_black, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
 			textTitle.setText(_title.get(position).toString());
@@ -317,7 +320,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_sub_info_large_black_shadow, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
 			textTitle.setText(_title.get(position).toString());
@@ -335,6 +338,25 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			rowView.setTag(tag);
 		}
+		else if (type.equals(tag = "listview_space"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_space, parent, false);
+			}
+			rowView.setTag(tag);
+
+			if (!_title.get(position).toString().equals(""))
+			{
+				TextView textSpace = (TextView) rowView.findViewById(R.id.textViewblank);
+				int spaceHeight = Integer.parseInt(_title.get(position).toString());
+				textSpace.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, spaceHeight));
+			}
+		}
 		else if (type.equals(tag = "listview_billing_record"))
 		{
 			if ((convertView != null && convertView.getTag().equals(tag)))
@@ -346,16 +368,44 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_billing_record, parent, false);
 			}
 			rowView.setTag(tag);
-			
-			
+
 			TextView textBillingCount = (TextView) rowView.findViewById(R.id.textViewBillingRecordCount);
 			TextView textBillingMonth = (TextView) rowView.findViewById(R.id.textViewBillingMonth);
 			TextView textBillingDueDate = (TextView) rowView.findViewById(R.id.textViewBillingDueDate);
 			TextView textBillingAmount = (TextView) rowView.findViewById(R.id.textViewBillingAmount);
-			textBillingCount.setText("  "+_title.get(position).toString()+"  ");
+			textBillingCount.setText("  " + _title.get(position).toString() + "  ");
 			textBillingMonth.setText(_content.get(position).toString());
 			textBillingDueDate.setText(_image.get(position).toString());
 			textBillingAmount.setText(_date.get(position).toString());
+		}
+		else if (type.equals(tag = "listview_payment_record"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_payment_record, parent, false);
+			}
+			rowView.setTag(tag);
+
+			TextView textCount = (TextView) rowView.findViewById(R.id.textViewRecordCount);
+			TextView textPaymentDate = (TextView) rowView.findViewById(R.id.textViewPaymentDate);
+			TextView textPostedDate = (TextView) rowView.findViewById(R.id.textViewPostedDate);
+			TextView textPaymetnMode = (TextView) rowView.findViewById(R.id.textViewPaymentMode);
+			TextView textBankCard = (TextView) rowView.findViewById(R.id.textViewBankCard);
+			TextView textBranch = (TextView) rowView.findViewById(R.id.textViewBranch);
+			TextView textReferenceNumber = (TextView) rowView.findViewById(R.id.textViewReferenceNumber);
+			TextView textPaymentAmount = (TextView) rowView.findViewById(R.id.textViewPaymentAmount);
+			textCount.setText("  " + _title.get(position).toString() + "  ");
+			textPaymentDate.setText(_content.get(position).toString());
+			textPostedDate.setText(_image.get(position).toString());
+			textPaymetnMode.setText(_date.get(position).toString());
+			textBankCard.setText(_extra1.get(position).toString());
+			textBranch.setText(_extra2.get(position).toString());
+			textReferenceNumber.setText(_extra3.get(position).toString());
+			textPaymentAmount.setText(_extra4.get(position).toString());
 		}
 		else if (type.equals(tag = "listview_billing_statements"))
 		{
@@ -368,14 +418,45 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_billing_statements, parent, false);
 			}
 			rowView.setTag(tag);
-			
-			
+
 			TextView textBillingCount = (TextView) rowView.findViewById(R.id.textViewBillingRecordCount);
 			TextView textBillingMonth = (TextView) rowView.findViewById(R.id.textViewBillingMonth);
 			TextView textBillingDueDate = (TextView) rowView.findViewById(R.id.textViewBillingDueDate);
-			textBillingCount.setText("  "+_title.get(position).toString()+"  ");
+			textBillingCount.setText("  " + _title.get(position).toString() + "  ");
 			textBillingMonth.setText(_content.get(position).toString());
 			textBillingDueDate.setText(_image.get(position).toString());
+		}
+		else if (type.equals(tag = "listview_bank_deposit_sub_info"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_sub_info, parent, false);
+			}
+			rowView.setTag(tag);
+
+			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
+			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
+			textTitle.setText(_title.get(position).toString());
+			textInfo.setText(_content.get(position).toString());
+		}
+		else if (type.equals(tag = "listview_bank_deposit_sub_header"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_sub_header, parent, false);
+			}
+			rowView.setTag(tag);
+
+			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
+			textTitle.setText(_title.get(position).toString());
 		}
 		else if (type.equals(tag = "listview_main_header_billing_record_total"))
 		{
@@ -388,11 +469,26 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_main_header_billing_record_total, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
 			textTitle.setText(_title.get(position).toString());
 			textInfo.setText(_content.get(position).toString());
+		}
+		else if (type.equals(tag = "listview_bank_deposit_image_header"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_image_header, parent, false);
+			}
+			rowView.setTag(tag);
+
+			ImageView imageBank = (ImageView) rowView.findViewById(R.id.imageViewBankImage);
+			imageBank.setImageResource(Integer.parseInt(_image.get(position).toString()));
 		}
 		else
 		{

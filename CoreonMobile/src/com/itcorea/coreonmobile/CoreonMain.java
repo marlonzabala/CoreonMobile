@@ -205,7 +205,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		
 		
 		
-		
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -221,7 +220,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_light_gray");
 		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		billingListViewAdaptor.notifyDataSetChanged();
+		//billingListViewAdaptor.notifyDataSetChanged();
 
 	}
 
@@ -244,7 +243,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_billing_record", "333", "December 2013", "January 02, 2013", "P 1,533.33");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P 4,000.00", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
@@ -291,13 +290,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
@@ -336,18 +336,43 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
 		
+		//You can deposit your payment on the following bank accounts listed below. Fill-up the deposit slip with IT Corea's Account Number, Account Name and Payment Amount. Please put Full Name on the depositor field so we can track your payment.
+		//After payment, send us a scan copy of the validated payment slip at: <orange>cs@coreonmobile.com</orange>
+		
 		
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		//info
+		
+		
+		
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		//BDO
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo) , "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
+		//UnionBank
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank) , "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001-001-011420-8", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "DOLLAR ACCOUNT", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "130010019410", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		//Citibank
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank) , "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 	
