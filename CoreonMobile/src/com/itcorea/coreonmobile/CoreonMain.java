@@ -235,29 +235,19 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
 		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
 		
-		
-		//billing record number
-		//billing month
-		//billing due date
-		//Amount
-		
-		
-		
-
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_billing_record", "1", "October 2013", "November 02, 2013", "P 1,533.33");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_record", "2", "November 2013", "December 02, 2013", "P 2,000.00");
+		billingListViewAdaptor.addValue("listview_billing_record", "12", "November 2013", "December 02, 2013", "P 2,000.00");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_record", "3", "December 2013", "January 02, 2013", "P 1,533.33");
+		billingListViewAdaptor.addValue("listview_billing_record", "333", "December 2013", "January 02, 2013", "P 1,533.33");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
-		
 	}
 
 	public void openBillingStatements(View v)
@@ -282,7 +272,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
 	}

@@ -47,7 +47,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:scaleType="fitCenter"
-        android:text="P 5,811.77"
+        android:text="P 0.00"
         android:textColor="#666666"
         android:textSize="20sp"
         android:textStyle="bold" />

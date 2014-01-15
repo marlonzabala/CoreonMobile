@@ -348,14 +348,14 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			rowView.setTag(tag);
 			
 			
-//			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
-//			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
-//			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
-//			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInformation);
-//			textTitle.setText(_title.get(position).toString());
-//			textInfo.setText(_content.get(position).toString());
-//			textTitle.setText(_title.get(position).toString());
-//			textInfo.setText(_content.get(position).toString());
+			TextView textBillingCount = (TextView) rowView.findViewById(R.id.textViewBillingRecordCount);
+			TextView textBillingMonth = (TextView) rowView.findViewById(R.id.textViewBillingMonth);
+			TextView textBillingDueDate = (TextView) rowView.findViewById(R.id.textViewBillingDueDate);
+			TextView textBillingAmount = (TextView) rowView.findViewById(R.id.textViewBillingAmount);
+			textBillingCount.setText("  "+_title.get(position).toString()+"  ");
+			textBillingMonth.setText(_content.get(position).toString());
+			textBillingDueDate.setText(_image.get(position).toString());
+			textBillingAmount.setText(_date.get(position).toString());
 		}
 		else if (type.equals(tag = "listview_main_header_billing_record_total"))
 		{

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
+    android:minHeight="45dp"
     android:background="#ffffff"
     android:orientation="horizontal" >
 
@@ -9,7 +10,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.99"
+        android:layout_weight="1"
         android:fontFamily="sans-serif"
         android:gravity="left|center_vertical"
         android:paddingLeft="15dp"
@@ -23,7 +24,7 @@
         android:id="@+id/textViewColon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.1"
+        android:layout_weight="0.2"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:scaleType="fitCenter"
@@ -36,12 +37,14 @@
         android:id="@+id/textViewInformation"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.20"
+        android:layout_weight="1.50"
         android:fontFamily="sans-serif"
         android:gravity="left|center_vertical"
         android:scaleType="fitCenter"
         android:text="Plan Content"
         android:textColor="#7f7f7f"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textSize="17sp"
         android:textStyle="bold" />
 
