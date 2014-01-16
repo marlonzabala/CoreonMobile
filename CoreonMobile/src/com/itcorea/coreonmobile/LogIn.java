@@ -52,40 +52,40 @@ public class LogIn extends Activity
 		setContentView(R.layout.activity_log_in);
 
 		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-		//TODO remove preferences in android filesystem beacause of duplicate names
+		// TODO remove preferences in android filesystem beacause of duplicate names
 		// check if user is logged in
-		
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
 
 		// for dev
 		// test for errors
-		//LoggedIn = true;
+		// LoggedIn = true;
 
 		// for dev
 		EditText ep = (EditText) findViewById(R.id.editMobile);
 		EditText eu = (EditText) findViewById(R.id.editEmail);
 		ep.setText("12312");
-		
+
 		eu.setText("kit.datuin@gmail.com");
 
-//		if (LoggedIn == true)
-//		{
-//			Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			getApplicationContext().startActivity(intent);
-//			finish();
-//		}
-//		else
-//		{
-//			//Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
-//		}
+		// if (LoggedIn == true)
+		// {
+		// Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
+		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// getApplicationContext().startActivity(intent);
+		// finish();
+		// }
+		// else
+		// {
+		// //Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
+		// }
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		//getMenuInflater().inflate(R.menu.log_in, menu);
+		// getMenuInflater().inflate(R.menu.log_in, menu);
 		return true;
 	}
 
@@ -108,16 +108,16 @@ public class LogIn extends Activity
 					"login");
 		}
 	}
-	
+
 	public void openSignUp(View view)
-	{		
+	{
 		new AlertDialog.Builder(LogIn.this).setTitle("Call us? 0912345689").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton)
 			{
 				Intent callIntent = new Intent(Intent.ACTION_CALL);
 				callIntent.setData(Uri.parse("tel:0912345689"));
 				startActivity(callIntent);
-				
+
 			}
 		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton)
@@ -138,9 +138,9 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 	private Context		mContext;
 	private Activity	mActivity;
 	ProgressDialog		mDialog;
-	
+
 	// desktop set to static ip 192.168.123.111
-	String ipAdd = "125.5.16.155/coreonwallet";
+	String				ipAdd		= "125.5.16.155/coreonwallet";
 
 	public CheckCredentials(Context context, Activity activity)
 	{
@@ -223,8 +223,8 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			network = true;
 		}
 
-		
-		String httpAddress = "http://" + ipAdd + "/androidsqlmobile.php?email='" + params[0] + "'&mobile='" + params[1] + "'&request=" + params[2] + "";
+		String httpAddress = "http://" + ipAdd + "/androidsqlmobile.php?email='" + params[0] + "'&mobile='" + params[1] + "'&request=" + params[2]
+				+ "";
 
 		Log.i("urlPost", httpAddress.toString());
 		String result = sendPost(httpAddress);
@@ -240,13 +240,13 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 		{
 			jArray = new JSONArray(result);
 			JSONObject json_data = null;
-			
+
 			List<String[]> rowList = new ArrayList<String[]>();
 
-		    rowList.add(new String[] { "title", "content", "image", "date", "url" });
-		    rowList.add(new String[] { "title", "content", "image", "date", "url" });
-		    rowList.add(new String[] { "title", "content", "image", "date", "url" });
-		    
+			rowList.add(new String[] { "title", "content", "image", "date", "url" });
+			rowList.add(new String[] { "title", "content", "image", "date", "url" });
+			rowList.add(new String[] { "title", "content", "image", "date", "url" });
+
 			for (int i = 0; i < jArray.length(); i++)
 			{
 				json_data = jArray.getJSONObject(i);
@@ -311,7 +311,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 
 		if (logIn)
 		{
-			//Toast.makeText(mContext, useremail, Toast.LENGTH_SHORT).show();
+			// Toast.makeText(mContext, useremail, Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(mContext, CoreonMain.class);
 			// Intent intent = new Intent(mContext, LogIn.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

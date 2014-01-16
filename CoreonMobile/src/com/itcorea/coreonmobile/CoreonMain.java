@@ -29,9 +29,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
 
+	public ListView				listviewRewardsOffers;
 	public ListView				listviewBillingPayments;	// = new
 															// ListView(getApplicationContext());
-	ListViewArrayAdapter billingListViewAdaptor;
+	ListViewArrayAdapter		billingListViewAdaptor;
+	ListViewArrayAdapter		rewardsListViewAdaptor;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -41,7 +43,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		setContentView(R.layout.layout_main);
 		pager = (ViewPager) findViewById(R.id.pager);
 
-		//TODO get context
+		// TODO get context
 		viewPagerAdapter = new MyViewPagerAdapter(this);
 		pager.setAdapter(viewPagerAdapter);
 		pager.setOffscreenPageLimit(2);
@@ -69,7 +71,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		billingListViewAdaptor.initiatizeStringsValues();
-		//billingListViewAdaptor.addValueExtra("billing_payment_tab_menu", "", "", "", "", "", "", "", "", "");
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
@@ -84,14 +85,30 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_light_gray");
 		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		
-		
+
 		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
 		listviewBillingPayments.setAdapter(billingListViewAdaptor);
 		listviewBillingPayments.setDividerHeight(-1);
+
+		// pager.setPageMargin(-50);
+		// openAccountSummary(null);
 		
-		//openAccountSummary(null);
+		
+		
+		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
+		rewardsListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+		rewardsListViewAdaptor.initiatizeStringsValues();
+		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+
+		
+		View RewardsOffersView = getLayoutInflater().inflate(R.layout.listview_header_rewards_offers, null);
+		listviewRewardsOffers.addHeaderView(RewardsOffersView);
+		listviewRewardsOffers.setAdapter(rewardsListViewAdaptor);
+		listviewRewardsOffers.setDividerHeight(-1);
+		
+		
 
 		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -190,7 +207,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	// reportpayment
 	// paymentoptions
 
-
 	// subtabs
 	public void openAccountSummary(View v)
 	{
@@ -202,9 +218,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
-		
-		
-		
+
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -220,8 +234,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_light_gray");
 		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
 		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		//billingListViewAdaptor.notifyDataSetChanged();
-
+		// billingListViewAdaptor.notifyDataSetChanged();
 	}
 
 	public void openBillingRecord(View v)
@@ -233,7 +246,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv2.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
 		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
-		
+
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -259,10 +272,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
 
-		
-		
-		
-		
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -285,16 +294,18 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv4.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
 		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
-		
-		
+
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
+				"65629599666", "P 5,519.02", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
+				"65629599666", "P 5,519.02", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter","BDO", "Makati" ,"65629599666" ,"P 5,519.02" ,"");
+		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter", "BDO", "Makati",
+				"65629599666", "P 5,519.02", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -311,7 +322,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv5.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
-		
+
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -335,29 +346,30 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv6.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
-		
-		//You can deposit your payment on the following bank accounts listed below. Fill-up the deposit slip with IT Corea's Account Number, Account Name and Payment Amount. Please put Full Name on the depositor field so we can track your payment.
-		//After payment, send us a scan copy of the validated payment slip at: <orange>cs@coreonmobile.com</orange>
-		
-		
+
+		// You can deposit your payment on the following bank accounts listed below. Fill-up the
+		// deposit slip with IT Corea's Account Number, Account Name and Payment Amount. Please put
+		// Full Name on the depositor field so we can track your payment.
+		// After payment, send us a scan copy of the validated payment slip at:
+		// <orange>cs@coreonmobile.com</orange>
+
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		//info
-		
-		
-		
+		// info
+		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
 		billingListViewAdaptor.addType("listview_line_gray");
-		//BDO
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo) , "");
+		// BDO
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		//UnionBank
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank) , "");
+		// UnionBank
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
+				"");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001-001-011420-8", "", "");
@@ -367,15 +379,16 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		//Citibank
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank) , "");
+		// Citibank
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
+				"");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
-	
+
 	public void setDafaultAllSubTabs()
 	{
 		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
@@ -390,7 +403,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		rl5.setBackgroundColor(Color.parseColor("#ffffff"));
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffffff"));
-		
+
 		TextView tv1 = (TextView) findViewById(R.id.textViewSubTabAccountSummary);
 		tv1.setTextColor(Color.parseColor("#666666"));
 		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
@@ -403,7 +416,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv5.setTextColor(Color.parseColor("#666666"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
 		tv6.setTextColor(Color.parseColor("#666666"));
-		
+
 		ImageView iv1 = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv1.setImageResource(R.drawable.icon_subtab_accountsummary);
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
@@ -417,7 +430,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
 	}
-
 
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
@@ -446,6 +458,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		View		view;
 
 		View		viewBillingPayments;
+		View		viewRewardsOffers;
 		ListView	listViewMyAccount;
 		ListView	listViewBillinPayments;
 		ListView	listViewRewardsOffers;
@@ -465,20 +478,26 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			return listViewBillinPayments;
 		}
 
-		public ListView getRewardsOffersView()
+		public ListView getRewardsOffersListView()
 		{
 			return listViewRewardsOffers;
 		}
 
 		public void initializeBillingPayments()
 		{
-			int resId1 = R.layout.tab_billing_payment;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view1 = inflater.inflate(resId1, null);
 
+			int resId1 = R.layout.tab_billing_payment;
+			View view1 = inflater.inflate(resId1, null);
 			ListView billingListView = (ListView) view1.findViewById(R.id.listViewBillingPayment);
 			listViewBillinPayments = billingListView;
 			viewBillingPayments = view1;
+
+			int resId2 = R.layout.tab_rewards_offers;
+			View view2 = inflater.inflate(resId2, null);
+			ListView rewardsListView = (ListView) view2.findViewById(R.id.listViewRewardsOffers);
+			listViewRewardsOffers = rewardsListView;
+			viewRewardsOffers = view2;
 		}
 
 		public int getCount()
@@ -496,7 +515,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			switch (position)
 			{
 				case 0:
-					// menu drawer
 					resId = R.layout.tab_my_account;
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
@@ -589,24 +607,27 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 					return view0;
 				case 1:
-					
+
 					((ViewPager) collection).addView(viewBillingPayments, 0);
 					return viewBillingPayments;
 
+					// resId = R.layout.test;
+					// View view1 = inflater.inflate(resId, null);
+					// ((ViewPager) collection).addView(view1, 0);
+					// return view1;
+
 				case 2:
-					resId = R.layout.test;
-					View view2 = inflater.inflate(resId, null);
-					((ViewPager) collection).addView(view2, 0);
+					// resId = R.layout.tab_rewards_offers;
+					// View view2 = inflater.inflate(resId, null);
+					((ViewPager) collection).addView(viewRewardsOffers, 0);
 
 					// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(con);
 					// String fname = prefs.getString("fname", null);
 					// String lname = prefs.getString("lname", null);
 					// String points = prefs.getString("points", null);
 
-					return view2;
-
+					return viewRewardsOffers;
 			}
-
 			return resId;
 		}
 

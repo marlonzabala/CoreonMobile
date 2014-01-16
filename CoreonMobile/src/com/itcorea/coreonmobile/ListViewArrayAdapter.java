@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 
 	private String						ipAdd				= "125.5.16.155/coreonwallet";	// "192.168.123.111";
 	public boolean						billingInitialized	= false;
+	LayoutInflater						inflater;
+	String								tag					= "null";
 
 	public transient ArrayList<String>	_type				= new ArrayList<String>();
 	public transient ArrayList<String>	_title				= new ArrayList<String>();
@@ -32,10 +35,14 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 	public transient ArrayList<String>	_extra4				= new ArrayList<String>();
 	public transient ArrayList<String>	_extra5				= new ArrayList<String>();
 
+	View lineGray;
+	
 	public ListViewArrayAdapter(Context context, ArrayList<String> values)
 	{
 		super(context, 0, values);
 		this.context = context;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//lineGray = inflater.inflate(R.layout.listview_line_gray, null);
 	}
 
 	public void initiatizeStringsValues()
@@ -145,8 +152,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 	{
 		View rowView;
 		String type = _type.get(position).toString();
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		String tag = "null";
 
 		if (type.equals(tag = "my_account_info"))
 		{
@@ -158,14 +163,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			{
 				rowView = inflater.inflate(R.layout.my_account_info, parent, false);
 			}
-
-			// TextView textName = (TextView) rowView.findViewById(R.id.textViewName);
-			// TextView textHi = (TextView) rowView.findViewById(R.id.textViewHi);
-
-			// Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "Roboto-Thin.ttf");
-			// textName.setTypeface(typeFace);
-			// textHi.setTypeface(typeFace);
-			// textName.setText(_content.get(position).toString());
 
 			TextView textName = (TextView) rowView.findViewById(R.id.textViewProfileName);
 			TextView textNumber = (TextView) rowView.findViewById(R.id.textViewProfileMobileNumber);
@@ -262,6 +259,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			else
 			{
+				//TODO GrayLine
+				//rowView = lineGray;
 				rowView = inflater.inflate(R.layout.listview_line_gray, parent, false);
 			}
 			rowView.setTag(tag);
@@ -281,7 +280,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		}
 		else if (type.equals(tag = "billing_payment_tab_menu"))
 		{
-			// TODO billings
 			if ((convertView != null && convertView.getTag().equals(tag)))
 			{
 				rowView = convertView;
@@ -490,11 +488,27 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			ImageView imageBank = (ImageView) rowView.findViewById(R.id.imageViewBankImage);
 			imageBank.setImageResource(Integer.parseInt(_image.get(position).toString()));
 		}
+		else if (type.equals(tag = "listview_bank_deposit_how_to_info"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_how_to_info, parent, false);
+			}
+			rowView.setTag(tag);
+
+			TextView textInfo = (TextView) rowView.findViewById(R.id.TextViewInfo2);
+			textInfo.setText(Html.fromHtml("After payment, send us a scan copy of the validated payment slip at: <font color='#ff9600'>cs@coreonmobile.com</font>")); 
+		}
 		else
 		{
 			// TODO end of layouts
 			View v = new View(context);
 			v.setTag("error");
+			Log.e("Error", "no layout");
 			return v;
 		}
 
