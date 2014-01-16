@@ -1,5 +1,6 @@
 package com.itcorea.coreonmobile;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
@@ -8,15 +9,18 @@ import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v4.view.MyViewPager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -26,12 +30,15 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 @SuppressLint("NewApi")
 public class CoreonMain extends SherlockFragmentActivity implements ActionBar.TabListener
 {
+	// private MyViewPager pager;
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
 
+	public ListView				listviewmMyAccounts;
 	public ListView				listviewRewardsOffers;
-	public ListView				listviewBillingPayments;	// = new
-															// ListView(getApplicationContext());
+	public ListView				listviewBillingPayments;
+
+	ListViewArrayAdapter		myAccountListViewAdaptor;
 	ListViewArrayAdapter		billingListViewAdaptor;
 	ListViewArrayAdapter		rewardsListViewAdaptor;
 
@@ -54,7 +61,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		indicator.setFades(false);
 		indicator.setSelectedColor(0xFFFF6600); // orange color
 		indicator.setBackgroundColor(0x00000000);
-		indicator.setFadeDelay(1000);
+		indicator.setFadeDelay(1000);// dont know if still needed
 		indicator.setFadeLength(1000);
 
 		com.actionbarsherlock.app.ActionBar actionBar = getSupportActionBar();
@@ -93,22 +100,30 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		// pager.setPageMargin(-50);
 		// openAccountSummary(null);
-		
-		
-		
+
 		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
 		rewardsListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		rewardsListViewAdaptor.initiatizeStringsValues();
 		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
 		rewardsListViewAdaptor.addType("listview_line_gray");
 
-		
 		View RewardsOffersView = getLayoutInflater().inflate(R.layout.listview_header_rewards_offers, null);
 		listviewRewardsOffers.addHeaderView(RewardsOffersView);
 		listviewRewardsOffers.setAdapter(rewardsListViewAdaptor);
 		listviewRewardsOffers.setDividerHeight(-1);
-		
-		
+
+		try
+		{
+			Field mScroller;
+			mScroller = ViewPager.class.getDeclaredField("mScroller");
+			mScroller.setAccessible(true);
+			Interpolator sInterpolator = new DecelerateInterpolator();
+			FixedSpeedScroller scroller = new FixedSpeedScroller(pager.getContext(), sInterpolator);
+			mScroller.set(pager, scroller);
+		}
+		catch (Exception e)
+		{
+		}
 
 		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -131,9 +146,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						im1.setImageResource(R.drawable.icon_account_selected);
 						im2.setImageResource(R.drawable.icon_billing_payments);
 						im3.setImageResource(R.drawable.icon_rewards_offers);
-
-						// setTitle("My Account");
-						// actionBar.setTitle("My Account");
 						mainTitle.setText("My Account");
 
 						break;
@@ -141,17 +153,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						im1.setImageResource(R.drawable.icon_account);
 						im2.setImageResource(R.drawable.icon_billing_payments_selected);
 						im3.setImageResource(R.drawable.icon_rewards_offers);
-
-						// actionBar.setTitle("Billing and Payments");
 						mainTitle.setText("Billing and Payments");
+
+						openAccountSummary(null);
 
 						break;
 					case 2:
 						im1.setImageResource(R.drawable.icon_account);
 						im2.setImageResource(R.drawable.icon_billing_payments);
 						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
-
-						// actionBar.setTitle("Rewards and Offers");
 						mainTitle.setText("Rewards and Offers");
 
 						break;
@@ -342,16 +352,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		setDafaultAllSubTabs();
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
+		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabPaymentOptions);
 		tv6.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
-
-		// You can deposit your payment on the following bank accounts listed below. Fill-up the
-		// deposit slip with IT Corea's Account Number, Account Name and Payment Amount. Please put
-		// Full Name on the depositor field so we can track your payment.
-		// After payment, send us a scan copy of the validated payment slip at:
-		// <orange>cs@coreonmobile.com</orange>
 
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
@@ -391,6 +396,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void setDafaultAllSubTabs()
 	{
+		// apply plain design on all tabs in billing
 		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
 		rl1.setBackgroundColor(Color.parseColor("#ffffff"));
 		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
@@ -431,29 +437,90 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
 	}
 
+	public void openRewards(View v)
+	{
+		// TODO
+		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabRewardsRel);
+		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabRewards);
+		tv6.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabRewards);
+		iv6.setImageResource(R.drawable.icon_subtab_rewards_selected);
+
+		RelativeLayout rl7 = (RelativeLayout) findViewById(R.id.layoutViewSubTabOffersRel);
+		rl7.setBackgroundColor(Color.parseColor("#ffffff"));
+		TextView tv7 = (TextView) findViewById(R.id.textViewSubTabOffers);
+		tv7.setTextColor(Color.parseColor("#666666"));
+		ImageView iv7 = (ImageView) findViewById(R.id.imageViewSubTabOffers);
+		iv7.setImageResource(R.drawable.icon_subtab_offers);
+
+		rewardsListViewAdaptor.initiatizeStringsValues();
+		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_rewards_warning");
+		rewardsListViewAdaptor.notifyDataSetChanged();
+	}
+
+	public void openOffers(View v)
+	{
+		RelativeLayout rl7 = (RelativeLayout) findViewById(R.id.layoutViewSubTabOffersRel);
+		rl7.setBackgroundColor(Color.parseColor("#ffae00"));
+		TextView tv7 = (TextView) findViewById(R.id.textViewSubTabOffers);
+		tv7.setTextColor(Color.parseColor("#ffffff"));
+		ImageView iv7 = (ImageView) findViewById(R.id.imageViewSubTabOffers);
+		iv7.setImageResource(R.drawable.icon_subtab_offers_selected);
+
+		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabRewardsRel);
+		rl6.setBackgroundColor(Color.parseColor("#ffffff"));
+		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabRewards);
+		tv6.setTextColor(Color.parseColor("#666666"));
+		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabRewards);
+		iv6.setImageResource(R.drawable.icon_subtab_rewards);
+
+		rewardsListViewAdaptor.initiatizeStringsValues();
+		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addValue("listview_offers", "Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
+				"August 25, 2013 at 11:30 pm");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addType("listview_offers");
+		rewardsListViewAdaptor.addType("listview_line_gray");
+		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		rewardsListViewAdaptor.notifyDataSetChanged();
+	}
+
 	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
 	{
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
+
 	}
 
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
-		// TODO ViewPagerAdaptor
-		//
-
 		Context		context;
 		View		view;
 
@@ -641,6 +708,40 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		public boolean isViewFromObject(View arg0, Object arg1)
 		{
 			return arg0 == ((View) arg1);
+		}
+	}
+
+	public class FixedSpeedScroller extends Scroller
+	{
+		private int	mDuration	= 500;
+
+		public FixedSpeedScroller(Context context)
+		{
+			super(context);
+		}
+
+		public FixedSpeedScroller(Context context, Interpolator interpolator)
+		{
+			super(context, interpolator);
+		}
+
+		public FixedSpeedScroller(Context context, Interpolator interpolator, boolean flywheel)
+		{
+			super(context, interpolator, flywheel);
+		}
+
+		@Override
+		public void startScroll(int startX, int startY, int dx, int dy, int duration)
+		{
+			// Ignore received duration, use fixed one instead
+			super.startScroll(startX, startY, dx, dy, mDuration);
+		}
+
+		@Override
+		public void startScroll(int startX, int startY, int dx, int dy)
+		{
+			// Ignore received duration, use fixed one instead
+			super.startScroll(startX, startY, dx, dy, mDuration);
 		}
 	}
 }

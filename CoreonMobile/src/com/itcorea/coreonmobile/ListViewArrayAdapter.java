@@ -35,14 +35,14 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 	public transient ArrayList<String>	_extra4				= new ArrayList<String>();
 	public transient ArrayList<String>	_extra5				= new ArrayList<String>();
 
-	View lineGray;
-	
+	View								lineGray;
+
 	public ListViewArrayAdapter(Context context, ArrayList<String> values)
 	{
 		super(context, 0, values);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		//lineGray = inflater.inflate(R.layout.listview_line_gray, null);
+		// lineGray = inflater.inflate(R.layout.listview_line_gray, null);
 	}
 
 	public void initiatizeStringsValues()
@@ -259,8 +259,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			else
 			{
-				//TODO GrayLine
-				//rowView = lineGray;
+				// TODO GrayLine
+				// rowView = lineGray;
 				rowView = inflater.inflate(R.layout.listview_line_gray, parent, false);
 			}
 			rowView.setTag(tag);
@@ -501,7 +501,32 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			rowView.setTag(tag);
 
 			TextView textInfo = (TextView) rowView.findViewById(R.id.TextViewInfo2);
-			textInfo.setText(Html.fromHtml("After payment, send us a scan copy of the validated payment slip at: <font color='#ff9600'>cs@coreonmobile.com</font>")); 
+			textInfo.setText(Html
+					.fromHtml("After payment, send us a scan copy of the validated payment slip at: <font color='#ff9600'>cs@coreonmobile.com</font>"));
+		}
+		else if (type.equals(tag = "listview_rewards_warning"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_rewards_warning, parent, false);
+			}
+			rowView.setTag(tag);
+		}
+		else if (type.equals(tag = "listview_offers"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_offers, parent, false);
+			}
+			rowView.setTag(tag);
 		}
 		else
 		{
