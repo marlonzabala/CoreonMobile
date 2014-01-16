@@ -101,8 +101,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		// pager.setPageMargin(-50);
 		// openAccountSummary(null);
 
-		
-		//rewards initial view
+		// rewards initial view
 		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
 		rewardsListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		rewardsListViewAdaptor.initiatizeStringsValues();
@@ -113,8 +112,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		listviewRewardsOffers.addHeaderView(RewardsOffersView);
 		listviewRewardsOffers.setAdapter(rewardsListViewAdaptor);
 		listviewRewardsOffers.setDividerHeight(-1);
-		
-		
+
 		try
 		{
 			Field mScroller;
@@ -158,7 +156,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						im3.setImageResource(R.drawable.icon_rewards_offers);
 						mainTitle.setText("Billing and Payments");
 
-						//openAccountSummary(null);
+						// openAccountSummary(null);
 
 						break;
 					case 2:
@@ -339,14 +337,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
@@ -459,7 +449,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv7.setImageResource(R.drawable.icon_subtab_offers);
 
 		rewardsListViewAdaptor.initiatizeStringsValues();
-		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
+		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewads", "", "", "");
 		rewardsListViewAdaptor.addType("listview_line_gray");
 		rewardsListViewAdaptor.addType("listview_rewards_warning");
 		rewardsListViewAdaptor.notifyDataSetChanged();
@@ -483,15 +473,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		rewardsListViewAdaptor.initiatizeStringsValues();
 		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
-		
-		
+
 		for (int i = 0; i < 20; i++)
 		{
 			rewardsListViewAdaptor.addType("listview_line_gray");
 			rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
-					"August 25, 2013 at 11:30 pm");			
+					"August 25, 2013 at 11:30 pm");
 		}
-		
+
 		rewardsListViewAdaptor.addType("listview_line_gray");
 		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		rewardsListViewAdaptor.notifyDataSetChanged();
@@ -582,10 +571,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
 
-					
-					
-					
-					//get from net information
+					// get from net information
 					String accStatus = "ACTIVE";
 					String creditStatus = "BAD";
 					String contractStatus = "123 DAYS";
@@ -615,13 +601,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String landlineKr = "814665979";
 					String otherMobile = "091848545656";
 					String billingAddress = "Same as Home Address";
-					
-					
-					
-					
-					
-					
-					
+
+					// SQL to get all information
+
+					// SELECT * , CONCAT(COALESCE(smart.issued_no, ''),COALESCE(globe.issued_no,
+					// '')) as Numberssss
+					// FROM billing_accounts
+					// LEFT JOIN smart ON billing_accounts.mobile_no=smart.issued_no
+					// LEFT JOIN globe ON billing_accounts.mobile_no=globe.issued_no
 
 					ListView profileListView = (ListView) view0.findViewById(R.id.listViewProfileListView);
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());
