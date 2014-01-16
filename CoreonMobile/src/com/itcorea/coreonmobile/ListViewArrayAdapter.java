@@ -528,14 +528,15 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			rowView.setTag(tag);
 			
-//			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
-//			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInfo);
-//			ImageView image = (ImageView) rowView.findViewById(R.id.imageViewPicture);
-//			TextView textDate = (TextView) rowView.findViewById(R.id.textViewDate);
-//			textTitle.setText(_title.get(position).toString());
-//			textInfo.setText(_content.get(position).toString());
-//			textDate.setText(_image.get(position).toString());
-//			textInfo.setText(_date.get(position).toString());
+			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
+			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInfo);
+			ImageView image = (ImageView) rowView.findViewById(R.id.imageViewPicture);
+			TextView textDate = (TextView) rowView.findViewById(R.id.textViewDate);
+			textTitle.setText(_title.get(position).toString());
+			textInfo.setText(_content.get(position).toString());
+			textDate.setText(_date.get(position).toString());
+			image.setImageResource(R.drawable.offer_0);
+			//image
 		}
 		else
 		{

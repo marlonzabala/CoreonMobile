@@ -9,12 +9,12 @@ import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.MyViewPager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
@@ -101,6 +101,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		// pager.setPageMargin(-50);
 		// openAccountSummary(null);
 
+		
+		//rewards initial view
 		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
 		rewardsListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		rewardsListViewAdaptor.initiatizeStringsValues();
@@ -111,7 +113,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		listviewRewardsOffers.addHeaderView(RewardsOffersView);
 		listviewRewardsOffers.setAdapter(rewardsListViewAdaptor);
 		listviewRewardsOffers.setDividerHeight(-1);
-
+		
+		
 		try
 		{
 			Field mScroller;
@@ -155,7 +158,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						im3.setImageResource(R.drawable.icon_rewards_offers);
 						mainTitle.setText("Billing and Payments");
 
-						openAccountSummary(null);
+						//openAccountSummary(null);
 
 						break;
 					case 2:
@@ -387,6 +390,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		// Citibank
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
 				"");
+		billingListViewAdaptor.addValue("listview_space", "5", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
@@ -479,23 +483,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		rewardsListViewAdaptor.initiatizeStringsValues();
 		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addValue("listview_offers", "Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
-				"August 25, 2013 at 11:30 pm");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addType("listview_offers");
+		
+		
+		for (int i = 0; i < 20; i++)
+		{
+			rewardsListViewAdaptor.addType("listview_line_gray");
+			rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
+					"August 25, 2013 at 11:30 pm");			
+		}
+		
 		rewardsListViewAdaptor.addType("listview_line_gray");
 		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		rewardsListViewAdaptor.notifyDataSetChanged();
@@ -586,6 +582,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
 
+					
+					
+					
+					//get from net information
 					String accStatus = "ACTIVE";
 					String creditStatus = "BAD";
 					String contractStatus = "123 DAYS";
@@ -615,6 +615,13 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String landlineKr = "814665979";
 					String otherMobile = "091848545656";
 					String billingAddress = "Same as Home Address";
+					
+					
+					
+					
+					
+					
+					
 
 					ListView profileListView = (ListView) view0.findViewById(R.id.listViewProfileListView);
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());

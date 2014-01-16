@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="wrap_content" >
 <!--     android:background="@drawable/clickable_card_content_notice" -->
 
@@ -29,7 +30,7 @@
             android:paddingTop="5dp" >
 
             <ImageView
-                android:id="@+id/imageViewContentImage"
+                android:id="@+id/imageViewPicture"
                 android:layout_width="70dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
@@ -42,11 +43,11 @@
                 android:src="@drawable/icon_biiling_statement_pdf" />
 
             <TextView
-                android:id="@+id/lblSubTitleText"
+                android:id="@+id/textViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/imageViewContentImage"
+                android:layout_toRightOf="@+id/imageViewPicture"
                 android:fontFamily="sans-serif"
                 android:paddingBottom="0dp"
                 android:paddingLeft="10dp"
@@ -58,11 +59,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/lblContentText"
+                android:id="@+id/textViewInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lblSubTitleText"
-                android:layout_below="@+id/lblSubTitleText"
+                android:layout_alignLeft="@+id/textViewTitle"
+                android:layout_below="@+id/textViewTitle"
                 android:fontFamily="sans-serif"
                 android:paddingBottom="0dp"
                 android:paddingLeft="10dp"
@@ -75,11 +76,11 @@
             <!-- android:background="#000000" -->
 
             <TextView
-                android:id="@+id/lblDateText"
+                android:id="@+id/textViewDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lblSubTitleText"
-                android:layout_below="@+id/lblContentText"
+                android:layout_alignLeft="@+id/textViewTitle"
+                android:layout_below="@+id/textViewInfo"
                 android:fontFamily="sans-serif"
                 android:paddingBottom="0dp"
                 android:paddingLeft="10dp"
