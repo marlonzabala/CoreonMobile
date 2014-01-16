@@ -19,6 +19,7 @@ public class MyViewPager extends ViewPager
 	void smoothScrollTo(int x, int y, int velocity)
 	{
 		super.smoothScrollTo(x, y, 1);
+		//custom viewpager for better speed
 	}
 }
 
