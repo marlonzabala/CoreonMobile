@@ -1,20 +1,27 @@
 package com.itcorea.coreonmobile;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
@@ -351,13 +358,12 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
 
+		// hard coded, never small
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		// info
 		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
 		billingListViewAdaptor.addType("listview_line_gray");
-		// BDO
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
@@ -365,7 +371,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		// UnionBank
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
 				"");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
@@ -377,7 +382,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		// Citibank
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
 				"");
 		billingListViewAdaptor.addValue("listview_space", "5", "", "", "");
@@ -509,6 +513,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		Context		context;
 		View		view;
 
+		View		viewMyAccount;
 		View		viewBillingPayments;
 		View		viewRewardsOffers;
 		ListView	listViewMyAccount;
@@ -539,6 +544,12 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+			int resId0 = R.layout.tab_rewards_offers;
+			View view0 = inflater.inflate(resId0, null);
+			ListView accountsListView = (ListView) view0.findViewById(R.id.listViewRewardsOffers);
+			listViewMyAccount = accountsListView;
+			viewMyAccount = view0;
+
 			int resId1 = R.layout.tab_billing_payment;
 			View view1 = inflater.inflate(resId1, null);
 			ListView billingListView = (ListView) view1.findViewById(R.id.listViewBillingPayment);
@@ -557,6 +568,24 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			return 3;
 		}
 
+		public String getStringDate(String date)
+		{
+			date = date.replaceAll(" 00:00:00", "");
+			Date dateFormat = null;
+			String fullDate = "";
+			try
+			{
+				dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
+				SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
+				fullDate = df.format(dateFormat);
+			}
+			catch (ParseException e)
+			{
+				e.printStackTrace();
+			}
+			return fullDate;
+		}
+
 		public Object instantiateItem(View collection, int position)
 		{
 			LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -571,50 +600,59 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					View view0 = inflater.inflate(resId, null);
 					((ViewPager) collection).addView(view0, 0);
 
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+					// String fname = prefs.getString("fname", null);
+					// String lname = prefs.getString("lname", null);
+					// String points = prefs.getString("points", null);
+
 					// get from net information
-					String accStatus = "ACTIVE";
-					String creditStatus = "BAD";
-					String contractStatus = "123 DAYS";
+					String accStatus = prefs.getString("contract_status", "null");
+					String creditStatus = prefs.getString("credit_status", "null");
+					String contractStatus = prefs.getString("days_left", "null");
 
-					String fullname = "Sheryl Lagman";
-					String phoneNumber = "09123456789";
-					String network = "Globe";
+					String fullname = prefs.getString("first_name", "null") + " " + prefs.getString("last_name", "null");
+					String phoneNumber = prefs.getString("mobile_number", "null");
+					String network = prefs.getString("mobile_network", "null");
 
-					String plan = "Plan 350 Unli Call to Smart or TNT";
-					String supplementary = "Roaming Service";
-					String subscriptionType = "Sim Card Only";
-					String mobileUnit = "N/A";
-					String enrollmentFee = "Installment";
-					String contractStart = "November 29, 2013";
-					String contractEnd = "November 28, 2015";
-					String creditLimit = "P 1000";
-					String activationDate = "November 29, 2013";
-					String discount = "P 0.00";
+					String plan = prefs.getString("plan_title", "null");
+					String supplementary = prefs.getString("supplementary_service", "null");
+					String subscriptionType = prefs.getString("subscription_type", "null");
+					String mobileUnit = prefs.getString("mobile_unit", "null");
+					String enrollmentFee = prefs.getString("enrollment_fee", "null");
+					String contractStart = prefs.getString("date_of_contract_start", "null");
+					String contractEnd = prefs.getString("date_of_contract_end", "null");
+					String creditLimit = prefs.getString("credit_limit", "null");
+					String activationDate = prefs.getString("activation_date", "null");
+					String discount = prefs.getString("discount", "null");
 
-					String fName = "Sheryl";
-					String lName = "Lagman";
-					String email = "email@yahoo.com";
-					String otherEmail = "";
-					String homeAddress = "11 Manalite Sta Cruz A.C";
-					String zipCode = "1820";
-					String landlinePh = "027856925";
-					String landlineKr = "814665979";
-					String otherMobile = "091848545656";
-					String billingAddress = "Same as Home Address";
+					String fName = prefs.getString("first_name", "null");
+					String lName = prefs.getString("last_name", "null");
+					String email = prefs.getString("primary_email_address", "null");
+					String otherEmail = prefs.getString("secondary_email_address", "null");
+					String homeAddress = prefs.getString("home_address", "null");
+					String zipCode = prefs.getString("zip_code", "null");
+					String landlinePh = prefs.getString("ph_tel", "null");
+					String landlineKr = prefs.getString("kr_tel", "null");
+					String otherMobile = prefs.getString("other_mobile", "null");
+					String billingAddress = prefs.getString("billing_address", "null");
 
-					// SQL to get all information
+					if (mobileUnit.equals(""))
+						mobileUnit = "N/A";
+					creditLimit = "P " + creditLimit;
+					discount = "P " + discount;
 
-					// SELECT * , CONCAT(COALESCE(smart.issued_no, ''),COALESCE(globe.issued_no,
-					// '')) as Numberssss
-					// FROM billing_accounts
-					// LEFT JOIN smart ON billing_accounts.mobile_no=smart.issued_no
-					// LEFT JOIN globe ON billing_accounts.mobile_no=globe.issued_no
+					if (contractStatus.equals("1"))
+						contractStatus = contractStatus + " DAY";
+					else
+						contractStatus = contractStatus + " DAYS";
+
+					contractStart = getStringDate(contractStart);
+					contractEnd = getStringDate(contractEnd);
 
 					ListView profileListView = (ListView) view0.findViewById(R.id.listViewProfileListView);
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());
 
 					profileListViewAdaptor.initiatizeStringsValues();
-					// type title content image date
 					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus, creditStatus, contractStatus, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
@@ -662,7 +700,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					profileListViewAdaptor.addValue("listview_sub_info", "Other Mobile", otherMobile, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValue("listview_sub_info", "Billing Address", billingAddress, "", "");
-
 					profileListView.setAdapter(profileListViewAdaptor);
 					profileListView.setDividerHeight(-1);
 
@@ -707,7 +744,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public class FixedSpeedScroller extends Scroller
 	{
-		private int	mDuration	= 500;
+		private int	mDuration	= 500;	// speed of file
 
 		public FixedSpeedScroller(Context context)
 		{

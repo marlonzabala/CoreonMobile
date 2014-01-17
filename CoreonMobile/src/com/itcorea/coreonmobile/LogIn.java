@@ -65,9 +65,10 @@ public class LogIn extends Activity
 		// for dev
 		EditText ep = (EditText) findViewById(R.id.editMobile);
 		EditText eu = (EditText) findViewById(R.id.editEmail);
-		ep.setText("12312");
-
-		eu.setText("kit.datuin@gmail.com");
+		// ep.setText("12312");
+		// eu.setText("kit.datuin@gmail.com");
+		ep.setText("9998863057");
+		eu.setText("krkz1203@nate.com");
 
 		// if (LoggedIn == true)
 		// {
@@ -140,7 +141,12 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 	ProgressDialog		mDialog;
 
 	// desktop set to static ip 192.168.123.111
-	String				ipAdd		= "125.5.16.155/coreonwallet";
+
+	// live
+	// String ipAdd = "125.5.16.155/coreonwallet";
+
+	// test
+	String				ipAdd		= "192.168.123.111/android";
 
 	public CheckCredentials(Context context, Activity activity)
 	{
@@ -223,18 +229,51 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			network = true;
 		}
 
-		String httpAddress = "http://" + ipAdd + "/androidsqlmobile.php?email='" + params[0] + "'&mobile='" + params[1] + "'&request=" + params[2]
-				+ "";
+		String httpAddress = "http://" + ipAdd + "/accountinfo_coreonmobile.php?email=" + params[0] + "&mobile=" + params[1] + "";// &request="
+																																	// +
+																																	// params[2]
+		// + "";
 
+		Log.e("address", httpAddress);
 		Log.i("urlPost", httpAddress.toString());
 		String result = sendPost(httpAddress);
 
 		JSONArray jArray = null;
-		String name = null;
-		String fname = null;
-		String lname = null;
-		String points = null;
-		String id = null;
+		String first_name = null;
+		String last_name = null;
+		String contract_status = null;
+		String credit_status = null;
+		String mobile_number = null;
+		String mobile_network = null;
+		String plan_title = null;
+		String supplementary_service = null;
+		String subscription_type = null;
+		String days_left = null;
+		String mobile_unit = null;
+		String enrollment_fee = null;
+		String date_of_contract_start = null;
+		String date_of_contract_end = null;
+		String credit_limit = null;
+		String activation_month = null;
+		String activation_day = null;
+		String activation_year = null;
+		String discount = null;
+		String primary_email_address = null;
+		String secondary_email_address = null;
+		String h_address_line1 = null;
+		String h_address_line2 = null;
+		String h_address_line3 = null;
+		String h_zip_code = null;
+		String ph_tel_areaCode = null;
+		String ph_tel_3digit = null;
+		String ph_tel_4digit = null;
+		String kr_tel_areaCode = null;
+		String kr_tel_3digit = null;
+		String kr_tel_4digit = null;
+		String mobile_code = null;
+		String mobile_3digit = null;
+		String mobile_4digit = null;
+		String billing_address = null;
 
 		try
 		{
@@ -250,9 +289,41 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			for (int i = 0; i < jArray.length(); i++)
 			{
 				json_data = jArray.getJSONObject(i);
-				fname = json_data.getString("fname");
-				lname = json_data.getString("lname");
-				id = json_data.getString("id");
+				first_name = json_data.getString("first_name");
+				last_name = json_data.getString("last_name");
+				contract_status = json_data.getString("contract_status");
+				credit_status = json_data.getString("credit_status");
+				mobile_number = json_data.getString("mobile_number");
+				plan_title = json_data.getString("plan_title");
+				mobile_network = json_data.getString("mobile_network");
+				days_left = json_data.getString("days_left");
+				supplementary_service = json_data.getString("supplementary_service");
+				subscription_type = json_data.getString("subscription_type");
+				mobile_unit = json_data.getString("mobile_unit");
+				enrollment_fee = json_data.getString("enrollment_fee");
+				date_of_contract_start = json_data.getString("date_of_contract_start");
+				date_of_contract_end = json_data.getString("date_of_contract_end");
+				credit_limit = json_data.getString("credit_limit");
+				activation_month = json_data.getString("activation_month");
+				activation_day = json_data.getString("activation_day");
+				activation_year = json_data.getString("activation_year");
+				discount = json_data.getString("discount");
+				primary_email_address = json_data.getString("primary_email_address");
+				secondary_email_address = json_data.getString("secondary_email_address");
+				h_address_line1 = json_data.getString("h_address_line1");
+				h_address_line2 = json_data.getString("h_address_line2");
+				h_address_line3 = json_data.getString("h_address_line3");
+				h_zip_code = json_data.getString("h_zip_code");
+				ph_tel_areaCode = json_data.getString("ph_tel_areaCode");
+				ph_tel_3digit = json_data.getString("ph_tel_3digit");
+				ph_tel_4digit = json_data.getString("ph_tel_4digit");
+				kr_tel_areaCode = json_data.getString("kr_tel_areaCode");
+				kr_tel_3digit = json_data.getString("kr_tel_3digit");
+				kr_tel_4digit = json_data.getString("kr_tel_4digit");
+				mobile_code = json_data.getString("mobile_code");
+				mobile_3digit = json_data.getString("mobile_3digit");
+				mobile_4digit = json_data.getString("mobile_4digit");
+				billing_address = json_data.getString("billing_address");
 			}
 		}
 		catch (JSONException e1)
@@ -275,15 +346,36 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			logIn = true;
 		}
 
-		useremail = "mpin: " + name;
-
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 		SharedPreferences.Editor editor = preferences.edit();
 		// Boolean tr = true;
-		editor.putString("fname", fname); // value to store
-		editor.putString("lname", lname); // value to store
-		editor.putString("points", points); // value to store
-		editor.putString("accountid", id); // value to store
+
+		editor.putString("first_name", first_name);
+		editor.putString("last_name", last_name);
+		editor.putString("contract_status", contract_status);
+		editor.putString("credit_status", credit_status);
+		editor.putString("mobile_number", mobile_number);
+		editor.putString("mobile_network", mobile_network);
+		editor.putString("days_left", days_left);
+		editor.putString("plan_title", plan_title);
+		editor.putString("supplementary_service", supplementary_service);
+		editor.putString("subscription_type", subscription_type);
+		editor.putString("mobile_unit", mobile_unit);
+		editor.putString("enrollment_fee", enrollment_fee);
+		editor.putString("date_of_contract_start", date_of_contract_start);
+		editor.putString("date_of_contract_end", date_of_contract_end);
+		editor.putString("credit_limit", credit_limit);
+		editor.putString("activation_date", activation_month + " " + activation_day + ", " + activation_year);
+		editor.putString("discount", discount);
+		editor.putString("primary_email_address", primary_email_address);
+		editor.putString("secondary_email_address", secondary_email_address);
+		editor.putString("home_address", h_address_line1 + " " + h_address_line2 + " " + h_address_line3);
+		editor.putString("zip_code", h_zip_code);
+		editor.putString("ph_tel", ph_tel_areaCode + ph_tel_3digit + ph_tel_4digit);
+		editor.putString("kr_tel", kr_tel_areaCode + kr_tel_3digit + kr_tel_4digit);
+		editor.putString("other_mobile", mobile_code + mobile_3digit + mobile_4digit);
+		editor.putString("billing_address", billing_address);
+
 		editor.commit();
 
 		return null;
