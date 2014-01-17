@@ -1,13 +1,31 @@
 package com.itcorea.coreonmobile;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -15,11 +33,14 @@ import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -48,6 +69,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	ListViewArrayAdapter		myAccountListViewAdaptor;
 	ListViewArrayAdapter		billingListViewAdaptor;
 	ListViewArrayAdapter		rewardsListViewAdaptor;
+
+	String						phoneNumber	= "";
+
+	String						ipAdd		= "192.168.123.111";
 
 	@SuppressLint("NewApi")
 	@Override
@@ -89,7 +114,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -242,7 +267,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payments(2)", "", "");
+		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
@@ -257,6 +282,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openBillingRecord(View v)
 	{
+		// TODO billing record
 		setDafaultAllSubTabs();
 		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
 		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -268,16 +294,24 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_record", "1", "October 2013", "November 02, 2013", "P 1,533.33");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_record", "12", "November 2013", "December 02, 2013", "P 2,000.00");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_record", "333", "December 2013", "January 02, 2013", "P 1,533.33");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+
+		new getBillingRecord().execute("");
+
+		// billingListViewAdaptor.addValue("listview_billing_record", "1", "October 2013",
+		// "November 02, 2013", "P 1,533.33");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_billing_record", "12", "November 2013",
+		// "December 02, 2013", "P 2,000.00");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_billing_record", "333", "December 2013",
+		// "January 02, 2013", "P 1,533.33");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_main_header_billing_record_total",
+		// "Total Billing Amount", "P 4,000.00", "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
+
 	}
 
 	public void openBillingStatements(View v)
@@ -437,7 +471,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openRewards(View v)
 	{
-		// TODO
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabRewardsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabRewards);
@@ -611,7 +644,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String contractStatus = prefs.getString("days_left", "null");
 
 					String fullname = prefs.getString("first_name", "null") + " " + prefs.getString("last_name", "null");
-					String phoneNumber = prefs.getString("mobile_number", "null");
+					phoneNumber = prefs.getString("mobile_number", "null");
 					String network = prefs.getString("mobile_network", "null");
 
 					String plan = prefs.getString("plan_title", "null");
@@ -739,6 +772,163 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		public boolean isViewFromObject(View arg0, Object arg1)
 		{
 			return arg0 == ((View) arg1);
+		}
+	}
+
+	boolean	timeout;
+	boolean	network;
+	int		timeoutsec	= 5000;
+
+	private String sendPost(String httpAddress)
+	{
+		timeout = false;
+		String result = "";
+		StringBuilder sb = null;
+		InputStream is = null;
+
+		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+		// check for network connection
+		ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected()))
+		{
+			// Toast.makeText(getApplicationContext(), "No internet Conenction",
+			// Toast.LENGTH_LONG).show();
+			network = false;
+			return "";
+		}
+		else
+		{
+			network = true;
+			timeout = false;
+			try
+			{
+				HttpParams httpParameters = new BasicHttpParams();
+				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutsec);
+				HttpConnectionParams.setSoTimeout(httpParameters, timeoutsec);
+				HttpClient httpclient = new DefaultHttpClient(httpParameters);
+				HttpPost httppost = new HttpPost(httpAddress);
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				HttpResponse response = httpclient.execute(httppost);
+				HttpEntity entity = response.getEntity();
+				is = entity.getContent();
+			}
+			catch (ConnectTimeoutException e)
+			{
+				// timeout connection
+				timeout = true;
+				Log.e("logs1", "Timeout");
+				return "";
+			}
+			catch (Exception e)
+			{
+				Log.e("log_tag", "Error in http connection " + e.toString());
+			}
+
+			try
+			{
+				BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+				sb = new StringBuilder();
+				sb.append(reader.readLine() + "\n");
+
+				String line = "0";
+				while ((line = reader.readLine()) != null)
+				{
+					sb.append(line + "\n");
+				}
+				is.close();
+				result = sb.toString();
+			}
+			catch (Exception e)
+			{
+				Log.e("log_tag", "Error converting result " + e.toString());
+			}
+		}
+		return result;
+	}
+
+	private class getBillingRecord extends AsyncTask<String, Void, String>
+	{
+		List<String[]>	rowList;
+
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			try
+			{
+				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_billingrecord.php?mobile=" + phoneNumber;
+				Log.i("urlPost", httpAddress.toString());
+				JSONArray jArray = null;
+				JSONObject json_data = null;
+				jArray = new JSONArray(sendPost(httpAddress));
+
+				rowList = new ArrayList<String[]>();
+				for (int i = 0; i < jArray.length(); i++)
+				{
+					json_data = jArray.getJSONObject(i);
+					rowList.add(new String[] { json_data.getString("billing_month"), json_data.getString("billing_day"),
+							json_data.getString("billing_year"), json_data.getString("billing_due_month"), json_data.getString("billing_due_day"),
+							json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
+				}
+
+				// TODO records
+
+				double total = (double) 0.0;// = Float.parseFloat("25");
+				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
+				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
+				anotherDFormat.applyPattern("#.00");
+				anotherDFormat.setGroupingUsed(true);
+				anotherDFormat.setGroupingSize(3);
+
+				for (int i = 0; i < rowList.size(); i++)
+				{
+
+					double amount = Double.parseDouble(rowList.get(i)[6].toString());
+					total += amount;
+					double roundOffAmount = Math.round(amount * 100.0) / 100.0;
+					String stringAmount = anotherDFormat.format(roundOffAmount).toString();
+
+					billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1),
+							rowList.get(i)[0].toString() + " " + rowList.get(i)[2].toString(),
+							rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P "
+									+ stringAmount);
+					billingListViewAdaptor.addType("listview_line_gray");
+
+				}
+
+				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
+				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
+
+				billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount",
+						"P " + stringTotalAmount, "", "");
+				billingListViewAdaptor.addType("listview_line_gray");
+				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+
+			}
+			catch (Exception e1)
+			{
+				Log.e("Exception", "Thread  exception " + e1);
+			}
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			billingListViewAdaptor.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
 		}
 	}
 
