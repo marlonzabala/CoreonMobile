@@ -950,19 +950,17 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			{
 				json_data = jArray.getJSONObject(i);
 				
-				
-				
 				//get json column names
 				//Log.e("json length",String.valueOf(json_data.length()));
-				//json_data.names();
-				
-				rowList.add(new String[] { json_data.getString("0"), json_data.getString("1"),
-						json_data.getString("2"), json_data.getString("billing_due_month"), json_data.getString("billing_due_day"),
-						json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
 				
 				
+				String[] stringContents = new String[json_data.length()];
+				for (int j = 0; j < json_data.length(); j++)
+				{
+					stringContents[j] = json_data.getString(json_data.names().getString(0));
+				}
+				rowList.add(stringContents);
 			}
-
 		}
 		catch (JSONException e)
 		{
@@ -993,7 +991,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				String jsonString = sendPost(httpAddress);
 				rowList = getDataArrayFromJsonString(jsonString);
 				
-				Log.e("billingDownloadUrl rowlist", rowList.toString());
+				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
 				
 				for (int i = 0; i < rowList.size(); i++)
 				{
