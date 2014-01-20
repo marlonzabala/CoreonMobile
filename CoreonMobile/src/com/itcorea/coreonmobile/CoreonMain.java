@@ -25,6 +25,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -282,7 +283,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openBillingRecord(View v)
 	{
-		// TODO billing record
 		setDafaultAllSubTabs();
 		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
 		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -325,16 +325,21 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
 
 		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013", "January 02, 2013", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_statements", "2", "January 2013", "December 02, 2013", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_billing_statements", "3", "November 2013", "October 02, 2013", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		billingListViewAdaptor.notifyDataSetChanged();
+//		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013", "January 02, 2013", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_billing_statements", "2", "January 2013", "December 02, 2013", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_billing_statements", "3", "November 2013", "October 02, 2013", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+//		billingListViewAdaptor.notifyDataSetChanged();
+		
+		new getBillingStatements().execute("");
+		
+		//TODO current work
+		// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
 	}
 
 	public void openPaymentRecord(View v)
@@ -878,8 +883,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 							json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
 				}
 
-				// TODO records
-
 				double total = (double) 0.0;// = Float.parseFloat("25");
 				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
 				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
@@ -906,11 +909,107 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
 				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
 
-				billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount",
-						"P " + stringTotalAmount, "", "");
+				billingListViewAdaptor
+						.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P " + stringTotalAmount, "", "");
 				billingListViewAdaptor.addType("listview_line_gray");
 				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 
+			}
+			catch (Exception e1)
+			{
+				Log.e("Exception", "Thread  exception " + e1);
+			}
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			billingListViewAdaptor.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
+		}
+	}
+
+	private List<String[]> getDataArrayFromJsonString(String jsonString)
+	{
+		List<String[]> rowList;
+		rowList = new ArrayList<String[]>();
+
+		try
+		{
+			JSONArray jArray = null;
+			jArray = new JSONArray(jsonString);
+
+			JSONObject json_data = null;
+			for (int i = 0; i < jArray.length(); i++)
+			{
+				json_data = jArray.getJSONObject(i);
+				
+				
+				
+				//get json column names
+				//Log.e("json length",String.valueOf(json_data.length()));
+				//json_data.names();
+				
+				rowList.add(new String[] { json_data.getString("0"), json_data.getString("1"),
+						json_data.getString("2"), json_data.getString("billing_due_month"), json_data.getString("billing_due_day"),
+						json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
+				
+				
+			}
+
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+
+		return rowList;
+	}
+
+	private class getBillingStatements extends AsyncTask<String, Void, String>
+	{
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			List<String[]> rowList;
+			
+			try
+			{
+				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
+				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+				
+				String jsonString = sendPost(httpAddress);
+				rowList = getDataArrayFromJsonString(jsonString);
+				
+				Log.e("billingDownloadUrl rowlist", rowList.toString());
+				
+				for (int i = 0; i < rowList.size(); i++)
+				{
+					//TODO current work
+					//billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013", "January 02, 2013", "");
+					
+					String billingMonth = rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString();
+					String billingDueDate = rowList.get(i)[6].toString();
+					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename=" + rowList.get(i)[2].toString() + "&mobile_no="+rowList.get(i)[1].toString();
+					
+					// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
+					
+					billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate, billingDownloadUrl);
+					billingListViewAdaptor.addType("listview_line_gray");
+				}
+				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			}
 			catch (Exception e1)
 			{
