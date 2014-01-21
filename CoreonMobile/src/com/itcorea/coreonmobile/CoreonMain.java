@@ -325,20 +325,24 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
 
 		billingListViewAdaptor.initiatizeStringsValues();
-//		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013", "January 02, 2013", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_billing_statements", "2", "January 2013", "December 02, 2013", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_billing_statements", "3", "November 2013", "October 02, 2013", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-//		billingListViewAdaptor.notifyDataSetChanged();
-		
+		// billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "",
+		// "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013",
+		// "January 02, 2013", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_billing_statements", "2", "January 2013",
+		// "December 02, 2013", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_billing_statements", "3", "November 2013",
+		// "October 02, 2013", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		// billingListViewAdaptor.notifyDataSetChanged();
+
 		new getBillingStatements().execute("");
-		
-		//TODO current work
+
+		// TODO current work
 		// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
 	}
 
@@ -546,6 +550,49 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	}
 
+	public String getStringDate(String date)
+	{
+		date = date.replaceAll(" 00:00:00", "");
+		Date dateFormat = null;
+		String fullDate = "";
+		try
+		{
+			dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
+			SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
+			fullDate = df.format(dateFormat);
+		}
+		catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		return fullDate;
+	}
+	
+	public String getStringDateDatabse(String date)
+	{
+		date = date.replaceAll(" 00:00:00", "");
+		Date dateFormat = null;
+		String fullDate = "";
+		try
+		{
+			dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH).parse(date);
+			SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
+			fullDate = df.format(dateFormat);
+		}
+		catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		return fullDate;
+	}
+
+	public String capitalizeFirst(String text)
+	{
+		//TODO capitalize
+		text = text.toLowerCase();
+	    return text.substring(0, 1).toUpperCase() + text.substring(1);
+	}
+
 	public class MyViewPagerAdapter extends PagerAdapter
 	{
 		Context		context;
@@ -606,23 +653,23 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			return 3;
 		}
 
-		public String getStringDate(String date)
-		{
-			date = date.replaceAll(" 00:00:00", "");
-			Date dateFormat = null;
-			String fullDate = "";
-			try
-			{
-				dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
-				SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
-				fullDate = df.format(dateFormat);
-			}
-			catch (ParseException e)
-			{
-				e.printStackTrace();
-			}
-			return fullDate;
-		}
+		// public String getStringDate(String date)
+		// {
+		// date = date.replaceAll(" 00:00:00", "");
+		// Date dateFormat = null;
+		// String fullDate = "";
+		// try
+		// {
+		// dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
+		// SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
+		// fullDate = df.format(dateFormat);
+		// }
+		// catch (ParseException e)
+		// {
+		// e.printStackTrace();
+		// }
+		// return fullDate;
+		// }
 
 		public Object instantiateItem(View collection, int position)
 		{
@@ -935,7 +982,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		}
 	}
 
-	private List<String[]> getDataArrayFromJsonString(String jsonString)
+	private List<String[]> getDataArrayFromJsonString(String... jsonString)
 	{
 		List<String[]> rowList;
 		rowList = new ArrayList<String[]>();
@@ -943,22 +990,28 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		try
 		{
 			JSONArray jArray = null;
-			jArray = new JSONArray(jsonString);
+			jArray = new JSONArray(jsonString[0]);
 
 			JSONObject json_data = null;
 			for (int i = 0; i < jArray.length(); i++)
 			{
 				json_data = jArray.getJSONObject(i);
-				
-				//get json column names
-				//Log.e("json length",String.valueOf(json_data.length()));
-				
-				
-				String[] stringContents = new String[json_data.length()];
-				for (int j = 0; j < json_data.length(); j++)
+
+				// get json column names
+				// Log.e("json length",String.valueOf(json_data.length()));
+
+				String[] stringContents = new String[jsonString.length];
+				for (int j = 1; j < jsonString.length; j++)
 				{
-					stringContents[j] = json_data.getString(json_data.names().getString(0));
+					stringContents[j - 1] = json_data.getString(jsonString[j]);
 				}
+
+				// String[] stringContents = new String[json_data.length()];
+				// for (int j = 0; j < json_data.length(); j++)
+				// {
+				// stringContents[j] = json_data.getString(json_data.names().getString(j));
+				// }
+
 				rowList.add(stringContents);
 			}
 		}
@@ -982,29 +1035,35 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		protected String doInBackground(String... params)
 		{
 			List<String[]> rowList;
-			
+
 			try
 			{
 				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
-				
+
 				String jsonString = sendPost(httpAddress);
-				rowList = getDataArrayFromJsonString(jsonString);
-				
+				// rowList = getDataArrayFromJsonString(jsonString);
+				rowList = getDataArrayFromJsonString(jsonString, "file_id", "mobile_no", "file_name", "file_month", "file_year", "billing_date",
+						"due_date");
+
 				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
-				
+
 				for (int i = 0; i < rowList.size(); i++)
 				{
-					//TODO current work
-					//billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013", "January 02, 2013", "");
-					
-					String billingMonth = rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString();
+					// TODO current work
+					// billingListViewAdaptor.addValue("listview_billing_statements", "1",
+					// "December 2013", "January 02, 2013", "");
+
+					String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " + rowList.get(i)[4].toString();
 					String billingDueDate = rowList.get(i)[6].toString();
-					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename=" + rowList.get(i)[2].toString() + "&mobile_no="+rowList.get(i)[1].toString();
-					
+					billingDueDate = getStringDateDatabse(billingDueDate);
+					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
+							+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
+
 					// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
-					
-					billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate, billingDownloadUrl);
+
+					billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate,
+							billingDownloadUrl);
 					billingListViewAdaptor.addType("listview_line_gray");
 				}
 				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");

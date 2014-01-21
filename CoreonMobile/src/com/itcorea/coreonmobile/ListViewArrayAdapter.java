@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ListViewArrayAdapter extends ArrayAdapter<String>
@@ -423,6 +426,29 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textBillingCount.setText("  " + _title.get(position).toString() + "  ");
 			textBillingMonth.setText(_content.get(position).toString());
 			textBillingDueDate.setText(_image.get(position).toString());
+			
+			//TODO test
+			
+			RelativeLayout clickLayout = (RelativeLayout) rowView.findViewById(R.id.layoutBillingStatement);
+			clickLayout.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View arg0)
+				{
+
+					String url = _date.get(position).toString();
+
+					if (!url.startsWith("http://") && !url.startsWith("https://"))
+						url = "http://" + url;
+
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					context.startActivity(browserIntent);
+				}
+			});
+			//layoutBillingStatement
+			
+			
 		}
 		else if (type.equals(tag = "listview_bank_deposit_sub_info"))
 		{
