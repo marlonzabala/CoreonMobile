@@ -67,8 +67,8 @@ public class LogIn extends Activity
 		EditText eu = (EditText) findViewById(R.id.editEmail);
 		// ep.setText("12312");
 		// eu.setText("kit.datuin@gmail.com");
-		ep.setText("9998863057");
-		eu.setText("krkz1203@nate.com");
+		ep.setText("9178143372");
+		eu.setText("scotlee1004@gmail.com");
 
 		// if (LoggedIn == true)
 		// {

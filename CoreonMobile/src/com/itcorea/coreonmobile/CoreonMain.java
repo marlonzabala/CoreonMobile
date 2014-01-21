@@ -97,6 +97,64 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		indicator.setFadeDelay(1000);// dont know if still needed
 		indicator.setFadeLength(1000);
 
+		// TODO
+		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position)
+			{
+				// on changing the page
+				// make respected tab selected
+				// actionBar.setSelectedNavigationItem(position);
+
+				ImageView im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
+				ImageView im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
+				ImageView im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
+
+				switch (position)
+				{
+
+					case 0:
+						im1.setImageResource(R.drawable.icon_account_selected);
+						im2.setImageResource(R.drawable.icon_billing_payments);
+						im3.setImageResource(R.drawable.icon_rewards_offers);
+						mainTitle.setText("My Account");
+
+						break;
+					case 1:
+						im1.setImageResource(R.drawable.icon_account);
+						im2.setImageResource(R.drawable.icon_billing_payments_selected);
+						im3.setImageResource(R.drawable.icon_rewards_offers);
+						mainTitle.setText("Billing and Payments");
+
+						// openAccountSummary(null);
+
+						break;
+					case 2:
+						im1.setImageResource(R.drawable.icon_account);
+						im2.setImageResource(R.drawable.icon_billing_payments);
+						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
+						mainTitle.setText("Rewards and Offers");
+
+						break;
+					default:
+						break;
+				}
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2)
+			{
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0)
+			{
+
+			}
+		});
+
 		com.actionbarsherlock.app.ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -159,63 +217,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		{
 		}
 
-		// TODO
-		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position)
-			{
-				// on changing the page
-				// make respected tab selected
-				// actionBar.setSelectedNavigationItem(position);
-
-				ImageView im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
-				ImageView im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
-				ImageView im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
-
-				switch (position)
-				{
-
-					case 0:
-						im1.setImageResource(R.drawable.icon_account_selected);
-						im2.setImageResource(R.drawable.icon_billing_payments);
-						im3.setImageResource(R.drawable.icon_rewards_offers);
-						mainTitle.setText("My Account");
-
-						break;
-					case 1:
-						im1.setImageResource(R.drawable.icon_account);
-						im2.setImageResource(R.drawable.icon_billing_payments_selected);
-						im3.setImageResource(R.drawable.icon_rewards_offers);
-						mainTitle.setText("Billing and Payments");
-
-						// openAccountSummary(null);
-
-						break;
-					case 2:
-						im1.setImageResource(R.drawable.icon_account);
-						im2.setImageResource(R.drawable.icon_billing_payments);
-						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
-						mainTitle.setText("Rewards and Offers");
-
-						break;
-					default:
-						break;
-				}
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2)
-			{
-
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0)
-			{
-
-			}
-		});
 	}
 
 	TextView	mainTitle;
@@ -294,24 +295,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-
 		new getBillingRecord().execute("");
-
-		// billingListViewAdaptor.addValue("listview_billing_record", "1", "October 2013",
-		// "November 02, 2013", "P 1,533.33");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_billing_record", "12", "November 2013",
-		// "December 02, 2013", "P 2,000.00");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_billing_record", "333", "December 2013",
-		// "January 02, 2013", "P 1,533.33");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_main_header_billing_record_total",
-		// "Total Billing Amount", "P 4,000.00", "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		billingListViewAdaptor.notifyDataSetChanged();
-
 	}
 
 	public void openBillingStatements(View v)
@@ -327,18 +312,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013",
-		// "January 02, 2013", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_billing_statements", "2", "January 2013",
-		// "December 02, 2013", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_billing_statements", "3", "November 2013",
-		// "October 02, 2013", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		// billingListViewAdaptor.notifyDataSetChanged();
-
 		new getBillingStatements().execute("");
 	}
 
@@ -355,20 +328,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
-//				"65629599666", "P 5,519.02", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
-//				"65629599666", "P 5,519.02", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter", "BDO", "Makati",
-//				"65629599666", "P 5,519.02", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
-//		billingListViewAdaptor.addType("listview_line_gray");
-//		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-//		billingListViewAdaptor.notifyDataSetChanged();
-		
 		new getPaymentRecord().execute("");
 	}
 
@@ -550,7 +509,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public String getStringDate(String date)
 	{
-		if(date.equals("0000-00-00 00:00:00")) return "";
+		if (date.equals("0000-00-00 00:00:00"))
+			return "";
 		date = date.replaceAll(" 00:00:00", "");
 		Date dateFormat = null;
 		String fullDate = "";
@@ -634,24 +594,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			return 3;
 		}
 
-		// public String getStringDate(String date)
-		// {
-		// date = date.replaceAll(" 00:00:00", "");
-		// Date dateFormat = null;
-		// String fullDate = "";
-		// try
-		// {
-		// dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
-		// SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
-		// fullDate = df.format(dateFormat);
-		// }
-		// catch (ParseException e)
-		// {
-		// e.printStackTrace();
-		// }
-		// return fullDate;
-		// }
-
 		public Object instantiateItem(View collection, int position)
 		{
 			LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -701,7 +643,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String landlineKr = prefs.getString("kr_tel", "null");
 					String otherMobile = prefs.getString("other_mobile", "null");
 					String billingAddress = prefs.getString("billing_address", "null");
-					
+
 					network = capitalizeFirst(network);
 
 					if (mobileUnit.equals(""))
@@ -775,12 +717,13 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				case 1:
 
 					((ViewPager) collection).addView(viewBillingPayments, 0);
+					
+					//TODO test
+					//retain tab position
+					
+					openAccountSummary(null);
+					
 					return viewBillingPayments;
-
-					// resId = R.layout.test;
-					// View view1 = inflater.inflate(resId, null);
-					// ((ViewPager) collection).addView(view1, 0);
-					// return view1;
 
 				case 2:
 
@@ -790,6 +733,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// String points = prefs.getString("points", null);
 
 					((ViewPager) collection).addView(viewRewardsOffers, 0);
+					
+					openRewards(null);
+					
 					return viewRewardsOffers;
 			}
 			return resId;
@@ -931,7 +877,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 							rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P "
 									+ stringAmount);
 					billingListViewAdaptor.addType("listview_line_gray");
-					//TODO get
+					// TODO get
 				}
 
 				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
@@ -1081,33 +1027,33 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				// rowList = getDataArrayFromJsonString(jsonString);
 				rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
 						"bank_branch", "reference_no", "payment_amount");
-				
-				//Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
-				
+
+				// Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
+
 				double total = (double) 0.0;// = Float.parseFloat("25");
 				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
 				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
 				anotherDFormat.applyPattern("#.00");
 				anotherDFormat.setGroupingUsed(true);
 				anotherDFormat.setGroupingSize(3);
-				
+
 				for (int i = 0; i < rowList.size(); i++)
 				{
 					// TODO current work
-					
+
 					String paymentDate = getStringDate(rowList.get(i)[1].toString());
 					String postedDate = getStringDate(rowList.get(i)[2].toString());
 					String Amount = "P " + rowList.get(i)[7].toString();
-					
+
 					double amount = Double.parseDouble(rowList.get(i)[7].toString());
 					total += amount;
-					
-					billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate,
-							postedDate, rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(),
-							rowList.get(i)[6].toString(), Amount, "");
+
+					billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate, postedDate,
+							rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(), rowList.get(i)[6].toString(),
+							Amount, "");
 					billingListViewAdaptor.addType("listview_line_gray");
 				}
-				
+
 				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
 				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
 
