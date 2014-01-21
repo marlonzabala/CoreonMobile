@@ -325,9 +325,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
 
 		billingListViewAdaptor.initiatizeStringsValues();
-		// billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "",
-		// "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
 		// billingListViewAdaptor.addValue("listview_billing_statements", "1", "December 2013",
 		// "January 02, 2013", "");
 		// billingListViewAdaptor.addType("listview_line_gray");
@@ -341,9 +340,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		// billingListViewAdaptor.notifyDataSetChanged();
 
 		new getBillingStatements().execute("");
-
-		// TODO current work
-		// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
 	}
 
 	public void openPaymentRecord(View v)
@@ -359,19 +355,21 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
-				"65629599666", "P 5,519.02", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
-				"65629599666", "P 5,519.02", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter", "BDO", "Makati",
-				"65629599666", "P 5,519.02", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-		billingListViewAdaptor.notifyDataSetChanged();
+//		billingListViewAdaptor.addValueExtra("listview_payment_record", "1", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
+//				"65629599666", "P 5,519.02", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValueExtra("listview_payment_record", "2", "July 23, 2013", "11/22/2013", "Over the Counter", "BDO", "Makati",
+//				"65629599666", "P 5,519.02", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValueExtra("listview_payment_record", "4", "July 22, 2013", "01/22/2013", "Over the Counter", "BDO", "Makati",
+//				"65629599666", "P 5,519.02", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P 4,000.00", "", "");
+//		billingListViewAdaptor.addType("listview_line_gray");
+//		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+//		billingListViewAdaptor.notifyDataSetChanged();
+		
+		new getPaymentRecord().execute("");
 	}
 
 	public void openReportPayment(View v)
@@ -552,30 +550,13 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public String getStringDate(String date)
 	{
+		if(date.equals("0000-00-00 00:00:00")) return "";
 		date = date.replaceAll(" 00:00:00", "");
 		Date dateFormat = null;
 		String fullDate = "";
 		try
 		{
-			dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH).parse(date);
-			SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
-			fullDate = df.format(dateFormat);
-		}
-		catch (ParseException e)
-		{
-			e.printStackTrace();
-		}
-		return fullDate;
-	}
-	
-	public String getStringDateDatabse(String date)
-	{
-		date = date.replaceAll(" 00:00:00", "");
-		Date dateFormat = null;
-		String fullDate = "";
-		try
-		{
-			dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH).parse(date);
+			dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
 			SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
 			fullDate = df.format(dateFormat);
 		}
@@ -588,9 +569,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public String capitalizeFirst(String text)
 	{
-		//TODO capitalize
+		// TODO capitalize
 		text = text.toLowerCase();
-	    return text.substring(0, 1).toUpperCase() + text.substring(1);
+		return text.substring(0, 1).toUpperCase() + text.substring(1);
 	}
 
 	public class MyViewPagerAdapter extends PagerAdapter
@@ -720,6 +701,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String landlineKr = prefs.getString("kr_tel", "null");
 					String otherMobile = prefs.getString("other_mobile", "null");
 					String billingAddress = prefs.getString("billing_address", "null");
+					
+					network = capitalizeFirst(network);
 
 					if (mobileUnit.equals(""))
 						mobileUnit = "N/A";
@@ -800,15 +783,13 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// return view1;
 
 				case 2:
-					// resId = R.layout.tab_rewards_offers;
-					// View view2 = inflater.inflate(resId, null);
-					((ViewPager) collection).addView(viewRewardsOffers, 0);
 
 					// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(con);
 					// String fname = prefs.getString("fname", null);
 					// String lname = prefs.getString("lname", null);
 					// String points = prefs.getString("points", null);
 
+					((ViewPager) collection).addView(viewRewardsOffers, 0);
 					return viewRewardsOffers;
 			}
 			return resId;
@@ -950,7 +931,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 							rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P "
 									+ stringAmount);
 					billingListViewAdaptor.addType("listview_line_gray");
-
+					//TODO get
 				}
 
 				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
@@ -997,21 +978,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			{
 				json_data = jArray.getJSONObject(i);
 
-				// get json column names
-				// Log.e("json length",String.valueOf(json_data.length()));
-
 				String[] stringContents = new String[jsonString.length];
 				for (int j = 1; j < jsonString.length; j++)
 				{
 					stringContents[j - 1] = json_data.getString(jsonString[j]);
 				}
-
-				// String[] stringContents = new String[json_data.length()];
-				// for (int j = 0; j < json_data.length(); j++)
-				// {
-				// stringContents[j] = json_data.getString(json_data.names().getString(j));
-				// }
-
 				rowList.add(stringContents);
 			}
 		}
@@ -1056,7 +1027,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 					String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " + rowList.get(i)[4].toString();
 					String billingDueDate = rowList.get(i)[6].toString();
-					billingDueDate = getStringDateDatabse(billingDueDate);
+					billingDueDate = getStringDate(billingDueDate);
 					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
 							+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
 
@@ -1066,6 +1037,82 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 							billingDownloadUrl);
 					billingListViewAdaptor.addType("listview_line_gray");
 				}
+				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+			}
+			catch (Exception e1)
+			{
+				Log.e("Exception", "Thread  exception " + e1);
+			}
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			billingListViewAdaptor.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
+		}
+	}
+
+	private class getPaymentRecord extends AsyncTask<String, Void, String>
+	{
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			List<String[]> rowList;
+
+			try
+			{
+				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
+				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+
+				String jsonString = sendPost(httpAddress);
+				// rowList = getDataArrayFromJsonString(jsonString);
+				rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
+						"bank_branch", "reference_no", "payment_amount");
+				
+				//Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
+				
+				double total = (double) 0.0;// = Float.parseFloat("25");
+				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
+				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
+				anotherDFormat.applyPattern("#.00");
+				anotherDFormat.setGroupingUsed(true);
+				anotherDFormat.setGroupingSize(3);
+				
+				for (int i = 0; i < rowList.size(); i++)
+				{
+					// TODO current work
+					
+					String paymentDate = getStringDate(rowList.get(i)[1].toString());
+					String postedDate = getStringDate(rowList.get(i)[2].toString());
+					String Amount = "P " + rowList.get(i)[7].toString();
+					
+					double amount = Double.parseDouble(rowList.get(i)[7].toString());
+					total += amount;
+					
+					billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate,
+							postedDate, rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(),
+							rowList.get(i)[6].toString(), Amount, "");
+					billingListViewAdaptor.addType("listview_line_gray");
+				}
+				
+				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
+				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
+
+				billingListViewAdaptor
+						.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P " + stringTotalAmount, "", "");
 				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			}
 			catch (Exception e1)
