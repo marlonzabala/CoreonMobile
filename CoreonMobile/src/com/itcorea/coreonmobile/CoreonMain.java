@@ -985,7 +985,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				String jsonString = sendPost(httpAddress);
 				// rowList = getDataArrayFromJsonString(jsonString);
 				rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
-						"availableCredit");
+						"outstandingBalance","availableCredit");
 
 				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
 
@@ -999,16 +999,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// rowList.get(i)[4].toString();
 					// String billingDueDate = rowList.get(i)[6].toString();
 					// getStringAmount(rowList.get(i)[3].toString());
-					
-					Double billing = Double.valueOf(rowList.get(i)[2].toString());
-					Double payment = Double.valueOf(rowList.get(i)[3].toString());
-					Double balance = billing - payment;
-					
 
 					String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
 					String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
-					String outstandingBalance = getStringAmount(balance.toString());
-					String availableCredit = getStringAmount("0"+rowList.get(i)[4].toString());
+					String outstandingBalance = getStringAmount(rowList.get(i)[4].toString());
+					String availableCredit = getStringAmount(rowList.get(i)[5].toString());
 
 					billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", rowList.get(i)[0].toString() + " Bill(s)", "", "");
 					billingListViewAdaptor.addType("listview_line_gray");
