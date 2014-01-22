@@ -188,12 +188,17 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			rowView.setTag(tag);
 
-			TextView textAccount = (TextView) rowView.findViewById(R.id.textViewTabMyAccountContent);
-			TextView textPayment = (TextView) rowView.findViewById(R.id.textViewTabBillingPaymentContent);
-			TextView textOffers = (TextView) rowView.findViewById(R.id.textViewTabRewardsOffersContent);
-			textAccount.setText(_extra1.get(position).toString());
-			textPayment.setText(_extra2.get(position).toString());
-			textOffers.setText(_extra3.get(position).toString());
+			TextView textAccountStatus = (TextView) rowView.findViewById(R.id.textViewTabAccountStatus);
+			TextView textCreditStatus = (TextView) rowView.findViewById(R.id.textViewTabCreditStatus);
+			TextView textContractStatus = (TextView) rowView.findViewById(R.id.textViewTabContractStatus);
+			textAccountStatus.setText(_extra1.get(position).toString());
+			textCreditStatus.setText(_extra2.get(position).toString());
+			textContractStatus.setText(_extra3.get(position).toString());
+			
+			if(_extra2.get(position).toString().equals("GOOD"))
+			{
+				textCreditStatus.setTextColor(context.getResources().getColor(R.color.lightGreen));
+			}
 		}
 		else if (type.equals(tag = "listview_main_header_wshadow"))
 		{
@@ -513,6 +518,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 
 			ImageView imageBank = (ImageView) rowView.findViewById(R.id.imageViewBankImage);
 			imageBank.setImageResource(Integer.parseInt(_image.get(position).toString()));
+			
+			
 		}
 		else if (type.equals(tag = "listview_bank_deposit_how_to_info"))
 		{

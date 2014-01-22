@@ -24,8 +24,9 @@
         android:scaleType="fitCenter"
         android:text="Total Billing Amount"
         android:textColor="#666666"
-        android:textSize="20sp"
+        style="@android:style/TextAppearance.Medium"
         android:textStyle="bold" />
+        android:textSize="20sp"
 
     <ImageView
         android:id="@+id/imageViewIconTotal"
@@ -49,7 +50,8 @@
         android:scaleType="fitCenter"
         android:text="P 0.00"
         android:textColor="#666666"
-        android:textSize="20sp"
+        style="@android:style/TextAppearance.Medium"
         android:textStyle="bold" />
+        android:textSize="20sp"
 
 </RelativeLayout>

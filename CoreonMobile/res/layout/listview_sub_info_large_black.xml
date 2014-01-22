@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="70dp"
     android:background="@drawable/listview_sub_info_large_black"
     android:orientation="horizontal" >
-<!--     android:background="#ffffff" -->
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -17,8 +16,9 @@
         android:scaleType="fitCenter"
         android:text="Outstanding Balance"
         android:textColor="#c8c6c5"
-        android:textSize="22sp"
+        style="@android:style/TextAppearance.Large"
         android:textStyle="bold" />
+<!--         android:textSize="22sp" -->
 
     <TextView
         android:id="@+id/textViewColon"
@@ -43,7 +43,8 @@
         android:scaleType="fitCenter"
         android:text="Plan Content"
         android:textColor="#ffffff"
-        android:textSize="28sp"
+        style="@android:style/TextAppearance.Large"
         android:textStyle="bold" />
+<!--         android:textSize="28sp" -->
 
 </LinearLayout>

@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="20dp"
     android:background="#ffffff"
+    android:minHeight="20dp"
     android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/textViewTitle"
+        style="@android:style/TextAppearance.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -17,11 +18,12 @@
         android:scaleType="fitCenter"
         android:text="Title"
         android:textColor="#999999"
-        android:textSize="15sp"
         android:textStyle="bold" />
+    <!-- android:textSize="15sp" -->
 
     <TextView
         android:id="@+id/textViewColon"
+        style="@android:style/TextAppearance.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
@@ -30,11 +32,12 @@
         android:scaleType="fitCenter"
         android:text=":"
         android:textColor="#999999"
-        android:textSize="15sp"
         android:textStyle="bold" />
+    <!-- android:textSize="15sp" -->
 
     <TextView
         android:id="@+id/textViewInformation"
+        style="@android:style/TextAppearance.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -43,7 +46,7 @@
         android:scaleType="fitCenter"
         android:text="Content"
         android:textColor="#7f7f7f"
-        android:textSize="15sp"
         android:textStyle="bold" />
+    <!-- android:textSize="15sp" -->
 
 </LinearLayout>

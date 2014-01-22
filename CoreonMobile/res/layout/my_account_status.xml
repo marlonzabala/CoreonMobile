@@ -48,7 +48,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewTabMyAccountContent"
+                android:id="@+id/textViewTabAccountStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -98,7 +98,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewTabBillingPaymentContent"
+                android:id="@+id/textViewTabCreditStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -149,7 +149,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewTabRewardsOffersContent"
+                android:id="@+id/textViewTabContractStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

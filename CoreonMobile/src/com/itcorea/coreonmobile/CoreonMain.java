@@ -168,41 +168,21 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", "P 1,811.77", "", "");
-		billingListViewAdaptor.addType("listview_line_light_gray");
-		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-
+		
 		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
-		listviewBillingPayments.setAdapter(billingListViewAdaptor);
 		listviewBillingPayments.setDividerHeight(-1);
-
-		// pager.setPageMargin(-50);
-		// openAccountSummary(null);
 
 		// rewards initial view
 		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
 		rewardsListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		rewardsListViewAdaptor.initiatizeStringsValues();
-		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
-		rewardsListViewAdaptor.addType("listview_line_gray");
 
 		View RewardsOffersView = getLayoutInflater().inflate(R.layout.listview_header_rewards_offers, null);
 		listviewRewardsOffers.addHeaderView(RewardsOffersView);
 		listviewRewardsOffers.setAdapter(rewardsListViewAdaptor);
 		listviewRewardsOffers.setDividerHeight(-1);
+		listviewBillingPayments.setAdapter(billingListViewAdaptor);
 
 		try
 		{
@@ -264,27 +244,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
 
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)",
-		// "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount",
-		// "P 5,811.77", "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount",
-		// "P 4,000.00", "", "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow",
-		// "Outstanding Balance", "P 1,811.77", "", "");
-		// billingListViewAdaptor.addType("listview_line_light_gray");
-		// billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit",
-		// "P 0.00", "", "");
-		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-
+		
 		// getAccountSummary
 		new getAccountSummary().execute("");
 		// billingListViewAdaptor.notifyDataSetChanged();
@@ -671,7 +631,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());
 
 					profileListViewAdaptor.initiatizeStringsValues();
-					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus, creditStatus, contractStatus, "", "");
+					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus.toUpperCase(), creditStatus.toUpperCase(), contractStatus, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
@@ -969,7 +929,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected void onPreExecute()
 		{
-
+			billingListViewAdaptor.initiatizeStringsValues();
+			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
 		}
 
 		@Override
@@ -983,22 +945,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
-				// rowList = getDataArrayFromJsonString(jsonString);
 				rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
 						"outstandingBalance","availableCredit");
 
 				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
-
+				
 				for (int i = 0; i < rowList.size(); i++)
 				{
 					// TODO my account
-					// billingListViewAdaptor.addValue("listview_billing_statements", "1",
-					// "December 2013", "January 02, 2013", "");
-
-					// String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " +
-					// rowList.get(i)[4].toString();
-					// String billingDueDate = rowList.get(i)[6].toString();
-					// getStringAmount(rowList.get(i)[3].toString());
 
 					String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
 					String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
@@ -1059,7 +1013,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
-				// rowList = getDataArrayFromJsonString(jsonString);
 				rowList = getDataArrayFromJsonString(jsonString, "file_id", "mobile_no", "file_name", "file_month", "file_year", "billing_date",
 						"due_date");
 
@@ -1067,17 +1020,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 				for (int i = 0; i < rowList.size(); i++)
 				{
-					// TODO current work
-					// billingListViewAdaptor.addValue("listview_billing_statements", "1",
-					// "December 2013", "January 02, 2013", "");
-
 					String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " + rowList.get(i)[4].toString();
 					String billingDueDate = rowList.get(i)[6].toString();
 					billingDueDate = getStringDate(billingDueDate);
 					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
 							+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
-
-					// http://my.coreonmobile.com/account/layout/billing_download.php?filename=9998863057_MARCH_2013.pdf&mobile_no=9998863057
 
 					billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate,
 							billingDownloadUrl);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="70dp"
     android:background="@drawable/listview_sub_info_large_black_shadow"
     android:orientation="horizontal" >
 <!--     android:background="#ffffff" -->
@@ -16,9 +16,10 @@
         android:paddingLeft="15dp"
         android:scaleType="fitCenter"
         android:text="Outstanding Balance"
+        style="@android:style/TextAppearance.Large"
         android:textColor="#c8c6c5"
-        android:textSize="22sp"
         android:textStyle="bold" />
+<!--         android:textSize="22sp" -->
 
     <TextView
         android:id="@+id/textViewColon"
@@ -40,16 +41,11 @@
         android:layout_weight="1.20"
         android:fontFamily="sans-serif"
         android:gravity="left|center_vertical"
+        style="@android:style/TextAppearance.Large"
         android:scaleType="fitCenter"
         android:text="Plan Content"
         android:textColor="#ffffff"
-        android:textSize="28sp"
         android:textStyle="bold" />
-
-<!--     <ImageView -->
-<!--         android:id="@+id/imageView1" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="match_parent" -->
-<!--         android:background="@drawable/listview_sub_info_large_black" /> -->
+<!--         android:textSize="28sp" -->
 
 </LinearLayout>
