@@ -267,18 +267,26 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", "P 5,811.77", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", "P 4,000.00", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", "P 1,811.77", "", "");
-		billingListViewAdaptor.addType("listview_line_light_gray");
-		billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", "P 0.00", "", "");
-		billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		// billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", "3 Bill(s)", "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", "2 Payment(s)",
+		// "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount",
+		// "P 5,811.77", "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount",
+		// "P 4,000.00", "", "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow",
+		// "Outstanding Balance", "P 1,811.77", "", "");
+		// billingListViewAdaptor.addType("listview_line_light_gray");
+		// billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit",
+		// "P 0.00", "", "");
+		// billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+
+		// getAccountSummary
+		new getAccountSummary().execute("");
 		// billingListViewAdaptor.notifyDataSetChanged();
 	}
 
@@ -717,12 +725,12 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				case 1:
 
 					((ViewPager) collection).addView(viewBillingPayments, 0);
-					
-					//TODO test
-					//retain tab position
-					
+
+					// TODO test
+					// retain tab position
+
 					openAccountSummary(null);
-					
+
 					return viewBillingPayments;
 
 				case 2:
@@ -733,9 +741,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// String points = prefs.getString("points", null);
 
 					((ViewPager) collection).addView(viewRewardsOffers, 0);
-					
+
 					openRewards(null);
-					
+
 					return viewRewardsOffers;
 			}
 			return resId;
@@ -825,6 +833,22 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			}
 		}
 		return result;
+	}
+
+	private String getStringAmount(String stringValue)
+	{
+		Double value = Double.valueOf(stringValue);
+		NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
+		DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
+		anotherDFormat.applyPattern("#.00");
+		anotherDFormat.setGroupingUsed(true);
+		anotherDFormat.setGroupingSize(3);
+
+		double roundOffAmount = Math.round(value * 100.0) / 100.0;
+		if(roundOffAmount==0) return "P 0.00";
+		String stringAmount = "P " + anotherDFormat.format(roundOffAmount).toString();
+
+		return stringAmount;
 	}
 
 	private class getBillingRecord extends AsyncTask<String, Void, String>
@@ -938,6 +962,87 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		}
 
 		return rowList;
+	}
+
+	private class getAccountSummary extends AsyncTask<String, Void, String>
+	{
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			List<String[]> rowList;
+
+			try
+			{
+				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
+				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+
+				String jsonString = sendPost(httpAddress);
+				// rowList = getDataArrayFromJsonString(jsonString);
+				rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
+						"availableCredit");
+
+				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
+
+				for (int i = 0; i < rowList.size(); i++)
+				{
+					// TODO my account
+					// billingListViewAdaptor.addValue("listview_billing_statements", "1",
+					// "December 2013", "January 02, 2013", "");
+
+					// String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " +
+					// rowList.get(i)[4].toString();
+					// String billingDueDate = rowList.get(i)[6].toString();
+					// getStringAmount(rowList.get(i)[3].toString());
+					
+					Double billing = Double.valueOf(rowList.get(i)[2].toString());
+					Double payment = Double.valueOf(rowList.get(i)[3].toString());
+					Double balance = billing - payment;
+					
+
+					String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
+					String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
+					String outstandingBalance = getStringAmount(balance.toString());
+					String availableCredit = getStringAmount("0"+rowList.get(i)[4].toString());
+
+					billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", rowList.get(i)[0].toString() + " Bill(s)", "", "");
+					billingListViewAdaptor.addType("listview_line_gray");
+					billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", rowList.get(i)[1].toString() + " Payment(s)", "", "");
+					billingListViewAdaptor.addType("listview_line_gray");
+					billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", totalbillingAmount, "", "");
+					billingListViewAdaptor.addType("listview_line_gray");
+					billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", totalPaymentAmount, "",
+							"");
+					billingListViewAdaptor.addType("listview_line_gray");
+					billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", outstandingBalance, "", "");
+					billingListViewAdaptor.addType("listview_line_light_gray");
+					billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", availableCredit, "", "");
+				}
+				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+			}
+			catch (Exception e1)
+			{
+				Log.e("Exception", "Thread  exception " + e1);
+			}
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			billingListViewAdaptor.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
+		}
 	}
 
 	private class getBillingStatements extends AsyncTask<String, Void, String>

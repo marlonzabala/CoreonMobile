@@ -52,14 +52,12 @@ public class LogIn extends Activity
 		setContentView(R.layout.activity_log_in);
 
 		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-		// TODO remove preferences in android filesystem beacause of duplicate names
 		// check if user is logged in
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
 
-		// for dev
-		// test for errors
+		// for dev quick login
 		// LoggedIn = true;
 
 		// for dev
@@ -67,9 +65,10 @@ public class LogIn extends Activity
 		EditText eu = (EditText) findViewById(R.id.editEmail);
 		// ep.setText("12312");
 		// eu.setText("kit.datuin@gmail.com");
-		ep.setText("9178143372");
 		eu.setText("scotlee1004@gmail.com");
+		ep.setText("9178143372");
 
+		// detection of logged in value
 		// if (LoggedIn == true)
 		// {
 		// Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
