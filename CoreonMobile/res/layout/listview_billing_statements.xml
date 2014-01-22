@@ -45,8 +45,7 @@
                 android:scaleType="fitCenter"
                 android:text="Billing Month"
                 android:textColor="#999999"
-                style="@android:style/TextAppearance.Small"
-                android:textStyle="bold" />
+                style="@android:style/TextAppearance.Small" />
 <!--                 android:textSize="17sp" -->
 
             <TextView
@@ -75,7 +74,9 @@
                 android:text="Plan Content"
                 android:textColor="#7f7f7f"
                 style="@android:style/TextAppearance.Small"
-                android:textStyle="bold" />
+                 />
+            <!-- android:textStyle="bold" -->
+
 <!--                 android:textSize="17sp" -->
         </LinearLayout>
 
@@ -97,8 +98,7 @@
                 android:scaleType="fitCenter"
                 android:text="Billing Due Date"
                 android:textColor="#999999"
-                style="@android:style/TextAppearance.Small"
-                android:textStyle="bold" />
+                style="@android:style/TextAppearance.Small" />
 <!--                 android:textSize="17sp" -->
 
             <TextView
@@ -126,8 +126,7 @@
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
                 android:textColor="#7f7f7f"
-                style="@android:style/TextAppearance.Small"
-                android:textStyle="bold" />
+                style="@android:style/TextAppearance.Small" />
                 android:textSize="17sp"
         </LinearLayout>
 
