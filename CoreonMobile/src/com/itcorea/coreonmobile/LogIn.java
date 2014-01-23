@@ -145,7 +145,8 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 	// String ipAdd = "125.5.16.155/coreonwallet";
 
 	// test
-	String				ipAdd		= "192.168.123.111/android";
+	//"125.5.16.155/coreonwallet/coreonmobile";
+	String				ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";// "192.168.123.111/android/coreonmobile";
 
 	public CheckCredentials(Context context, Activity activity)
 	{
@@ -228,7 +229,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			network = true;
 		}
 
-		String httpAddress = "http://" + ipAdd + "/accountinfo_coreonmobile.php?email=" + params[0] + "&mobile=" + params[1] + "";// &request="
+		String httpAddress = "http://" + ipAdd + "/coreonmobile_accountinfo.php?email=" + params[0] + "&mobile=" + params[1] + "";// &request="
 																																	// +
 																																	// params[2]
 		// + "";

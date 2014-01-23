@@ -59,7 +59,6 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 @SuppressLint("NewApi")
 public class CoreonMain extends SherlockFragmentActivity implements ActionBar.TabListener
 {
-	// private MyViewPager pager;
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
 
@@ -72,8 +71,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	ListViewArrayAdapter		rewardsListViewAdaptor;
 
 	String						phoneNumber	= "";
-
-	String						ipAdd		= "192.168.123.111";
+	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";//"192.168.123.111/android/coreonmobile";
+	//"125.5.16.155/coreonwallet/coreonmobile";
+	
+	// String ipAdd = "125.5.16.155/coreonwallet";
 
 	@SuppressLint("NewApi")
 	@Override
@@ -168,7 +169,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
-		
+
 		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
 		listviewBillingPayments.setDividerHeight(-1);
@@ -244,7 +245,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
 
-		
 		// getAccountSummary
 		new getAccountSummary().execute("");
 		// billingListViewAdaptor.notifyDataSetChanged();
@@ -631,7 +631,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					ListViewArrayAdapter profileListViewAdaptor = new ListViewArrayAdapter(getApplicationContext(), new ArrayList<String>());
 
 					profileListViewAdaptor.initiatizeStringsValues();
-					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus.toUpperCase(), creditStatus.toUpperCase(), contractStatus, "", "");
+					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus.toUpperCase(), creditStatus.toUpperCase(),
+							contractStatus, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
@@ -805,7 +806,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		anotherDFormat.setGroupingSize(3);
 
 		double roundOffAmount = Math.round(value * 100.0) / 100.0;
-		if(roundOffAmount==0) return "P 0.00";
+		if (roundOffAmount == 0)
+			return "P 0.00";
 		String stringAmount = "P " + anotherDFormat.format(roundOffAmount).toString();
 
 		return stringAmount;
@@ -826,7 +828,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		{
 			try
 			{
-				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_billingrecord.php?mobile=" + phoneNumber;
+				String httpAddress = "http://" + ipAdd + "/coreonmobile_billingrecord.php?mobile=" + phoneNumber;
 				Log.i("urlPost", httpAddress.toString());
 				JSONArray jArray = null;
 				JSONObject json_data = null;
@@ -941,15 +943,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 			try
 			{
-				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
+				String httpAddress = "http://" + ipAdd + "/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
 				rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
-						"outstandingBalance","availableCredit");
+						"outstandingBalance", "availableCredit");
 
 				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
-				
+
 				for (int i = 0; i < rowList.size(); i++)
 				{
 					// TODO my account
@@ -965,8 +967,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					billingListViewAdaptor.addType("listview_line_gray");
 					billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", totalbillingAmount, "", "");
 					billingListViewAdaptor.addType("listview_line_gray");
-					billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", totalPaymentAmount, "",
-							"");
+					billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", totalPaymentAmount, "", "");
 					billingListViewAdaptor.addType("listview_line_gray");
 					billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", outstandingBalance, "", "");
 					billingListViewAdaptor.addType("listview_line_light_gray");
@@ -1009,7 +1010,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 			try
 			{
-				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
+				String httpAddress = "http://" + ipAdd + "/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
@@ -1067,7 +1068,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 			try
 			{
-				String httpAddress = "http://" + ipAdd + "/android/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
+				String httpAddress = "http://" + ipAdd + "/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
