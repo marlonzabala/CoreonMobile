@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutBillingStatement"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-<!--      android:background="#ffffff" -->
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/textViewBillingRecordCount"
+        style="@android:style/TextAppearance.Small"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentLeft="true"
@@ -15,7 +15,6 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/icon_bg_billing_record"
         android:gravity="center"
-        style="@android:style/TextAppearance.Small"
         android:text="  0  "
         android:textColor="#ffffff" />
 
@@ -36,6 +35,7 @@
 
             <TextView
                 android:id="@+id/textViewTitle"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.99"
@@ -44,12 +44,11 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Billing Month"
-                android:textColor="#999999"
-                style="@android:style/TextAppearance.Small" />
-<!--                 android:textSize="17sp" -->
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
@@ -58,12 +57,11 @@
                 android:scaleType="fitCenter"
                 android:text=":"
                 android:textColor="#999999"
-                style="@android:style/TextAppearance.Small"
                 android:textStyle="bold" />
-<!--                 android:textSize="17sp" -->
 
             <TextView
                 android:id="@+id/textViewBillingMonth"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.20"
@@ -72,12 +70,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                style="@android:style/TextAppearance.Small"
-                 />
-            <!-- android:textStyle="bold" -->
-
-<!--                 android:textSize="17sp" -->
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,6 +82,7 @@
 
             <TextView
                 android:id="@+id/textViewTitle"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.99"
@@ -97,12 +91,11 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Billing Due Date"
-                android:textColor="#999999"
-                style="@android:style/TextAppearance.Small" />
-<!--                 android:textSize="17sp" -->
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
@@ -111,12 +104,11 @@
                 android:scaleType="fitCenter"
                 android:text=":"
                 android:textColor="#999999"
-                style="@android:style/TextAppearance.Small"
                 android:textStyle="bold" />
-<!--                 android:textSize="17sp" -->
 
             <TextView
                 android:id="@+id/textViewBillingDueDate"
+                style="@android:style/TextAppearance.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.20"
@@ -125,9 +117,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                style="@android:style/TextAppearance.Small" />
-                android:textSize="17sp"
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <View

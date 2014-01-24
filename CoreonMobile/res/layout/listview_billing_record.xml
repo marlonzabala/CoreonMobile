@@ -42,8 +42,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Billing Month"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -56,8 +55,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -71,8 +69,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
             <!-- android:textSize="17sp" -->
         </LinearLayout>
 
@@ -94,8 +91,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Billing Due Date"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -108,8 +104,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -123,8 +118,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
             <!-- android:textSize="17sp" -->
         </LinearLayout>
 
@@ -146,8 +140,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Amount"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -160,8 +153,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
             <!-- android:textSize="17sp" -->
 
             <TextView
@@ -175,8 +167,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
             <!-- android:textSize="17sp" -->
         </LinearLayout>
 

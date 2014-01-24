@@ -14,8 +14,8 @@
         android:padding="15dp"
         android:scaleType="fitCenter"
         android:text="Bank Deposit"
-        android:textColor="#4c4c4c"
-        android:textStyle="bold" />
+        android:textColor="#4c4c4c" />
+    <!-- android:textStyle="bold" -->
     <!-- android:textSize="20sp" -->
 
     <TextView
@@ -32,8 +32,7 @@
         android:paddingRight="15dp"
         android:scaleType="fitCenter"
         android:text="You can deposit your payment on the following bank accounts listed below. Fill-up the deposit slip with IT Corea&apos;s Account Number, Account Name and Payment Amount. Please put your Full Name on the depositor field so we can track your payment."
-        android:textColor="#737373"
-        android:textStyle="bold" />
+        android:textColor="#737373" />
     <!-- android:textSize="15sp" -->
 
     <TextView
@@ -50,8 +49,7 @@
         android:paddingRight="15dp"
         android:scaleType="fitCenter"
         android:text="After payment, send us a scan copy of the validated payment slip at: "
-        android:textColor="#737373"
-        android:textStyle="bold" />
+        android:textColor="#737373" />
     <!-- android:textSize="15sp" -->
 
 </RelativeLayout>

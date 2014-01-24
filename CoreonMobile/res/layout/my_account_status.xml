@@ -58,7 +58,7 @@
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
                 android:text="ACTIVE"
-                android:textColor="#7bdb3a"
+                android:textColor="#6da531"
                 android:textSize="26sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -159,7 +159,7 @@
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
                 android:text="DAYS"
-                android:textColor="#7bdb3a"
+                android:textColor="#6da531"
                 android:textSize="26sp"
                 android:textStyle="bold" />
         </RelativeLayout>

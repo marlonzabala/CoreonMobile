@@ -9,8 +9,9 @@
         android:id="@+id/listViewBillingPayment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:scrollingCache="false"
+        android:smoothScrollbar="false" >
     </ListView>
 
 </RelativeLayout>

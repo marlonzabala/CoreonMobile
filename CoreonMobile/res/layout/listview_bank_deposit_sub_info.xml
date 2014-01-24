@@ -17,8 +17,7 @@
         android:paddingLeft="15dp"
         android:scaleType="fitCenter"
         android:text="Title"
-        android:textColor="#999999"
-        android:textStyle="bold" />
+        android:textColor="#999999" />
     <!-- android:textSize="15sp" -->
 
     <TextView
@@ -31,8 +30,7 @@
         android:gravity="center"
         android:scaleType="fitCenter"
         android:text=":"
-        android:textColor="#999999"
-        android:textStyle="bold" />
+        android:textColor="#999999" />
     <!-- android:textSize="15sp" -->
 
     <TextView
@@ -45,8 +43,7 @@
         android:gravity="left|center_vertical"
         android:scaleType="fitCenter"
         android:text="Content"
-        android:textColor="#7f7f7f"
-        android:textStyle="bold" />
+        android:textColor="#7f7f7f" />
     <!-- android:textSize="15sp" -->
 
 </LinearLayout>

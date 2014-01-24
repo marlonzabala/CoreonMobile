@@ -42,8 +42,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Payment Date"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -55,8 +54,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewPaymentDate"
@@ -69,8 +67,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,8 +88,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Posted Date"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -104,8 +100,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewPostedDate"
@@ -118,8 +113,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -140,8 +134,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Payment Mode"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -153,8 +146,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewPaymentMode"
@@ -167,8 +159,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -189,8 +180,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Bank / Card"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -202,8 +192,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewBankCard"
@@ -216,8 +205,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -238,8 +226,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Branch"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -251,8 +238,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewBranch"
@@ -265,8 +251,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -287,8 +272,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Reference No."
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -300,8 +284,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewReferenceNumber"
@@ -314,8 +297,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <LinearLayout
@@ -336,8 +318,7 @@
                 android:paddingLeft="15dp"
                 android:scaleType="fitCenter"
                 android:text="Amount"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewColon"
@@ -349,8 +330,7 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text=":"
-                android:textColor="#999999"
-                android:textStyle="bold" />
+                android:textColor="#999999" />
 
             <TextView
                 android:id="@+id/textViewPaymentAmount"
@@ -363,8 +343,7 @@
                 android:paddingLeft="10dp"
                 android:scaleType="fitCenter"
                 android:text="Plan Content"
-                android:textColor="#7f7f7f"
-                android:textStyle="bold" />
+                android:textColor="#7f7f7f" />
         </LinearLayout>
 
         <View

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="30dp"
     android:background="#ffffff"
+    android:minHeight="30dp"
     android:orientation="horizontal" >
 
     <ImageView
@@ -15,6 +15,7 @@
 
     <TextView
         android:id="@+id/textViewTitle"
+        style="@android:style/TextAppearance.Medium"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -22,8 +23,7 @@
         android:gravity="left|center_vertical"
         android:scaleType="fitCenter"
         android:text="Title"
-        android:textColor="#000000"
-        style="@android:style/TextAppearance.Medium"
-        android:textStyle="bold" />
-<!--         android:textSize="15sp" -->
+        android:textColor="#000000" />
+    <!-- android:textSize="15sp" -->
+
 </LinearLayout>

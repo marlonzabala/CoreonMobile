@@ -47,6 +47,11 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// lineGray = inflater.inflate(R.layout.listview_line_gray, null);
 	}
+	
+	public int getViewTypeCount()
+	{
+		return 30;
+	}
 
 	public void initiatizeStringsValues()
 	{
@@ -62,6 +67,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		_extra5 = new ArrayList<String>();
 
 		this.clear();
+		super.clear();
+
 	}
 
 	public void removeValue(int position)
@@ -123,7 +130,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		_extra4.add(extra4);
 		_extra5.add(extra5);
 
-		this.add(title);
+		this.add("");
 	}
 
 	public void addType(String type)
@@ -194,8 +201,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textAccountStatus.setText(_extra1.get(position).toString());
 			textCreditStatus.setText(_extra2.get(position).toString());
 			textContractStatus.setText(_extra3.get(position).toString());
-			
-			if(_extra2.get(position).toString().equals("GOOD"))
+
+			if (_extra2.get(position).toString().equals("GOOD"))
 			{
 				textCreditStatus.setTextColor(context.getResources().getColor(R.color.lightGreen));
 			}
@@ -267,8 +274,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			}
 			else
 			{
-				// TODO GrayLine
-				// rowView = lineGray;
 				rowView = inflater.inflate(R.layout.listview_line_gray, parent, false);
 			}
 			rowView.setTag(tag);
@@ -415,6 +420,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		}
 		else if (type.equals(tag = "listview_billing_statements"))
 		{
+			
 			if ((convertView != null && convertView.getTag().equals(tag)))
 			{
 				rowView = convertView;
@@ -431,9 +437,9 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textBillingCount.setText("  " + _title.get(position).toString() + "  ");
 			textBillingMonth.setText(_content.get(position).toString());
 			textBillingDueDate.setText(_image.get(position).toString());
-			
-			//TODO test
-			
+
+			// TODO test
+
 			RelativeLayout clickLayout = (RelativeLayout) rowView.findViewById(R.id.layoutBillingStatement);
 			clickLayout.setOnClickListener(new View.OnClickListener() {
 
@@ -451,9 +457,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 					context.startActivity(browserIntent);
 				}
 			});
-			//layoutBillingStatement
-			
-			
 		}
 		else if (type.equals(tag = "listview_bank_deposit_sub_info"))
 		{
@@ -518,8 +521,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 
 			ImageView imageBank = (ImageView) rowView.findViewById(R.id.imageViewBankImage);
 			imageBank.setImageResource(Integer.parseInt(_image.get(position).toString()));
-			
-			
+
 		}
 		else if (type.equals(tag = "listview_bank_deposit_how_to_info"))
 		{
@@ -560,7 +562,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 				rowView = inflater.inflate(R.layout.listview_offers, parent, false);
 			}
 			rowView.setTag(tag);
-			
+
 			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 			TextView textInfo = (TextView) rowView.findViewById(R.id.textViewInfo);
 			ImageView image = (ImageView) rowView.findViewById(R.id.imageViewPicture);
@@ -569,7 +571,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textInfo.setText(_content.get(position).toString());
 			textDate.setText(_date.get(position).toString());
 			image.setImageResource(R.drawable.offer_0);
-			//image
+			// image
 		}
 		else
 		{
@@ -581,5 +583,10 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		}
 
 		return rowView;
+	}
+
+	static class ViewHolder
+	{
+		TextView	title, Content;
 	}
 }

@@ -69,11 +69,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	ListViewArrayAdapter		myAccountListViewAdaptor;
 	ListViewArrayAdapter		billingListViewAdaptor;
 	ListViewArrayAdapter		rewardsListViewAdaptor;
+	ListViewArrayAdapter		tempListViewAdaptor;
 
 	String						phoneNumber	= "";
-	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";//"192.168.123.111/android/coreonmobile";
-	//"125.5.16.155/coreonwallet/coreonmobile";
-	
+	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
+
+	getBillingStatements		billingStatementTask;
+
+	// "125.5.16.155/coreonwallet/coreonmobile";
+
 	// String ipAdd = "125.5.16.155/coreonwallet";
 
 	@SuppressLint("NewApi")
@@ -121,6 +125,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						im3.setImageResource(R.drawable.icon_rewards_offers);
 						mainTitle.setText("My Account");
 
+						// android.os.Debug.stopMethodTracing();
+
 						break;
 					case 1:
 						im1.setImageResource(R.drawable.icon_account);
@@ -129,6 +135,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 						mainTitle.setText("Billing and Payments");
 
 						// openAccountSummary(null);
+
+						// android.os.Debug.startMethodTracing("coreon");
 
 						break;
 					case 2:
@@ -167,6 +175,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		viewPagerAdapter.initializeBillingPayments();
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
+		tempListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 
@@ -197,7 +206,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		catch (Exception e)
 		{
 		}
-
 	}
 
 	TextView	mainTitle;
@@ -269,6 +277,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openBillingStatements(View v)
 	{
+		// android.os.Debug.startMethodTracing("coreon");
 		setDafaultAllSubTabs();
 		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
 		rl3.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -280,11 +289,13 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		new getBillingStatements().execute("");
+
+		billingStatementTask = (getBillingStatements) new getBillingStatements().execute();
 	}
 
 	public void openPaymentRecord(View v)
 	{
+		// billingStatementTask.cancel(true);
 		setDafaultAllSubTabs();
 		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
 		rl4.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -309,14 +320,19 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
 
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.notifyDataSetChanged();
+		// billingListViewAdaptor.initiatizeStringsValues();
+		// billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "",
+		// "");
+		// billingListViewAdaptor.addType("listview_line_gray");
+		// billingListViewAdaptor.notifyDataSetChanged();
+		// listview connection to android
+
+		// new getPaymentOptions().execute();
 	}
 
 	public void openPaymentOptions(View v)
 	{
+		// TODO payment options
 		setDafaultAllSubTabs();
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -687,11 +703,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 					((ViewPager) collection).addView(viewBillingPayments, 0);
 
-					// TODO test
 					// retain tab position
-
 					openAccountSummary(null);
-
 					return viewBillingPayments;
 
 				case 2:
@@ -702,9 +715,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// String points = prefs.getString("points", null);
 
 					((ViewPager) collection).addView(viewRewardsOffers, 0);
-
 					openRewards(null);
-
 					return viewRewardsOffers;
 			}
 			return resId;
@@ -713,7 +724,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		public void destroyItem(View arg0, int arg1, Object arg2)
 		{
-			((ViewPager) arg0).removeView((View) arg2);
+			// ((ViewPager) arg0).removeView((View) arg2);
 		}
 
 		@Override
@@ -843,42 +854,40 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 							json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
 				}
 
-				double total = (double) 0.0;// = Float.parseFloat("25");
-				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
-				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
-				anotherDFormat.applyPattern("#.00");
-				anotherDFormat.setGroupingUsed(true);
-				anotherDFormat.setGroupingSize(3);
-
-				for (int i = 0; i < rowList.size(); i++)
-				{
-
-					double amount = Double.parseDouble(rowList.get(i)[6].toString());
-					total += amount;
-					double roundOffAmount = Math.round(amount * 100.0) / 100.0;
-					String stringAmount = anotherDFormat.format(roundOffAmount).toString();
-
-					billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1),
-							rowList.get(i)[0].toString() + " " + rowList.get(i)[2].toString(),
-							rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P "
-									+ stringAmount);
-					billingListViewAdaptor.addType("listview_line_gray");
-					// TODO get
-				}
-
-				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
-				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
-
-				billingListViewAdaptor
-						.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P " + stringTotalAmount, "", "");
-				billingListViewAdaptor.addType("listview_line_gray");
-				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-
 			}
 			catch (Exception e1)
 			{
 				Log.e("Exception", "Thread  exception " + e1);
 			}
+
+			double total = (double) 0.0;// = Float.parseFloat("25");
+			NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
+			DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
+			anotherDFormat.applyPattern("#.00");
+			anotherDFormat.setGroupingUsed(true);
+			anotherDFormat.setGroupingSize(3);
+
+			for (int i = 0; i < rowList.size(); i++)
+			{
+
+				double amount = Double.parseDouble(rowList.get(i)[6].toString());
+				total += amount;
+				double roundOffAmount = Math.round(amount * 100.0) / 100.0;
+				String stringAmount = anotherDFormat.format(roundOffAmount).toString();
+
+				billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1), rowList.get(i)[0].toString() + " "
+						+ rowList.get(i)[2].toString(),
+						rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P " + stringAmount);
+				billingListViewAdaptor.addType("listview_line_gray");
+			}
+
+			double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
+			String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
+
+			billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P " + stringTotalAmount, "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+
 			return "";
 		}
 
@@ -886,6 +895,68 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		protected void onPostExecute(String result)
 		{
 			billingListViewAdaptor.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
+		}
+	}
+
+	private class getPaymentOptions extends AsyncTask<String, Void, String>
+	{
+		// TODO curr work
+
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			tempListViewAdaptor.initiatizeStringsValues();
+			tempListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
+			tempListViewAdaptor.addType("listview_line_gray");
+			tempListViewAdaptor.addType("listview_bank_deposit_how_to_info");
+			tempListViewAdaptor.addType("listview_line_gray");
+			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+			tempListViewAdaptor.addType("listview_line_gray");
+			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
+					"");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001-001-011420-8", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "DOLLAR ACCOUNT", "", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "130010019410", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "", "");
+			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+			tempListViewAdaptor.addType("listview_line_gray");
+			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
+					"");
+			tempListViewAdaptor.addValue("listview_space", "5", "", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
+			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
+			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+			tempListViewAdaptor.addType("listview_line_gray");
+
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			// billingListViewAdaptor.initiatizeStringsValues();
+			// billingListViewAdaptor = tempListViewAdaptor;
+			// billingListViewAdaptor.notifyDataSetChanged();
 		}
 
 		@Override
@@ -931,6 +1002,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected void onPreExecute()
 		{
+			billingListViewAdaptor.clear();
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
@@ -954,7 +1026,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 				for (int i = 0; i < rowList.size(); i++)
 				{
-					// TODO my account
 
 					String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
 					String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
@@ -1044,6 +1115,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		protected void onPostExecute(String result)
 		{
 			billingListViewAdaptor.notifyDataSetChanged();
+			// android.os.Debug.stopMethodTracing();
 		}
 
 		@Override
@@ -1072,11 +1144,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
-				// rowList = getDataArrayFromJsonString(jsonString);
 				rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
 						"bank_branch", "reference_no", "payment_amount");
-
-				// Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
 
 				double total = (double) 0.0;// = Float.parseFloat("25");
 				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
@@ -1087,8 +1156,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 				for (int i = 0; i < rowList.size(); i++)
 				{
-					// TODO current work
-
 					String paymentDate = getStringDate(rowList.get(i)[1].toString());
 					String postedDate = getStringDate(rowList.get(i)[2].toString());
 					String Amount = "P " + rowList.get(i)[7].toString();

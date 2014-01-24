@@ -18,14 +18,16 @@
         android:scaleType="fitStart"
         android:src="@drawable/icon_payment_option_bank_bdo" />
 
-    <ImageView
-        android:id="@+id/imageViewLocation"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/icon_payment_option_bank_location" />
+        <ImageView
+            android:id="@+id/imageViewLocation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_payment_option_location_clickable"
+            />
+<!--         android:src="@drawable/icon_payment_option_bank_location"  -->
 
 </RelativeLayout>
