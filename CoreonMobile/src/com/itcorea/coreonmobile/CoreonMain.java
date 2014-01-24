@@ -51,6 +51,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -74,10 +75,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	String						phoneNumber	= "";
 	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
 
-	getBillingStatements		billingStatementTask;
+	TextView					mainTitle;
 
 	// "125.5.16.155/coreonwallet/coreonmobile";
-
 	// String ipAdd = "125.5.16.155/coreonwallet";
 
 	@SuppressLint("NewApi")
@@ -208,8 +208,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		}
 	}
 
-	TextView	mainTitle;
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -286,11 +284,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv3 = (ImageView) findViewById(R.id.imageViewSubTabBillingStatements);
 		iv3.setImageResource(R.drawable.icon_subtab_billingstatements_selected);
 
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
-
-		billingStatementTask = (getBillingStatements) new getBillingStatements().execute();
+		new getBillingStatements().execute();
 	}
 
 	public void openPaymentRecord(View v)
@@ -605,6 +599,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String fullname = prefs.getString("first_name", "null") + " " + prefs.getString("last_name", "null");
 					phoneNumber = prefs.getString("mobile_number", "null");
 					String network = prefs.getString("mobile_network", "null");
+					String userId = prefs.getString("id", "null");
+					String imageUrl = "http://my.coreonmobile.com/files/" + network.toLowerCase() + "/" + userId + "-0.jpg";
 
 					String plan = prefs.getString("plan_title", "null");
 					String supplementary = prefs.getString("supplementary_service", "null");
@@ -650,7 +646,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					profileListViewAdaptor.addValueExtra("my_account_status", "", "", "", "", accStatus.toUpperCase(), creditStatus.toUpperCase(),
 							contractStatus, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
-					profileListViewAdaptor.addValueExtra("my_account_info", "", "", "", "", fullname, phoneNumber, network, "", "");
+					profileListViewAdaptor.addValueExtra("my_account_info", "", "", imageUrl, "", fullname, phoneNumber, network, "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
 					profileListViewAdaptor.addValue("listview_main_header_wshadow", "Subscription Details", "", "", "");
 					profileListViewAdaptor.addType("listview_line_gray");
@@ -738,6 +734,19 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	boolean	network;
 	int		timeoutsec	= 5000;
 
+	private void showConenctionStatus()
+	{
+		if (!network)
+		{
+			Toast.makeText(getApplicationContext(), "No network connection", Toast.LENGTH_SHORT).show();
+		}
+		else if (timeout)
+		{
+			Toast.makeText(getApplicationContext(), "Connection timeout, server might be down", Toast.LENGTH_SHORT).show();
+		}
+		return;
+	}
+
 	private String sendPost(String httpAddress)
 	{
 		timeout = false;
@@ -752,8 +761,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected()))
 		{
-			// Toast.makeText(getApplicationContext(), "No internet Conenction",
-			// Toast.LENGTH_LONG).show();
 			network = false;
 			return "";
 		}
@@ -782,7 +789,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			}
 			catch (Exception e)
 			{
-				Log.e("log_tag", "Error in http connection " + e.toString());
+				Log.e("log_tag 1", "Error in http connection " + e.toString());
 			}
 
 			try
@@ -801,7 +808,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			}
 			catch (Exception e)
 			{
-				Log.e("log_tag", "Error converting result " + e.toString());
+				Log.e("log_tag 2", "Error converting result " + e.toString());
 			}
 		}
 		return result;
@@ -809,6 +816,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	private String getStringAmount(String stringValue)
 	{
+		if (stringValue.equals(""))
+			return "P 0.00";
 		Double value = Double.valueOf(stringValue);
 		NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
 		DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
@@ -824,8 +833,45 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		return stringAmount;
 	}
 
+	private List<String[]> getDataArrayFromJsonString(String... jsonString)
+	{
+		// Gets the json string and converts it to a list of strings
+
+		List<String[]> rowList;
+		rowList = new ArrayList<String[]>();
+
+		if (jsonString[0].equals(""))
+			return rowList;
+
+		try
+		{
+			JSONArray jArray = null;
+			jArray = new JSONArray(jsonString[0]);
+
+			JSONObject json_data = null;
+			for (int i = 0; i < jArray.length(); i++)
+			{
+				json_data = jArray.getJSONObject(i);
+
+				String[] stringContents = new String[jsonString.length];
+				for (int j = 1; j < jsonString.length; j++)
+				{
+					stringContents[j - 1] = json_data.getString(jsonString[j]);
+				}
+				rowList.add(stringContents);
+			}
+		}
+		catch (JSONException e)
+		{
+			Log.e("getDataArrayFromJsonString error", e.toString());
+		}
+
+		return rowList;
+	}
+
 	private class getBillingRecord extends AsyncTask<String, Void, String>
 	{
+		// TODO billing record
 		List<String[]>	rowList;
 
 		@Override
@@ -841,52 +887,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			{
 				String httpAddress = "http://" + ipAdd + "/coreonmobile_billingrecord.php?mobile=" + phoneNumber;
 				Log.i("urlPost", httpAddress.toString());
-				JSONArray jArray = null;
-				JSONObject json_data = null;
-				jArray = new JSONArray(sendPost(httpAddress));
 
-				rowList = new ArrayList<String[]>();
-				for (int i = 0; i < jArray.length(); i++)
-				{
-					json_data = jArray.getJSONObject(i);
-					rowList.add(new String[] { json_data.getString("billing_month"), json_data.getString("billing_day"),
-							json_data.getString("billing_year"), json_data.getString("billing_due_month"), json_data.getString("billing_due_day"),
-							json_data.getString("billing_due_year"), json_data.getString("billing_amount") });
-				}
-
+				String jsonString = sendPost(httpAddress);
+				rowList = getDataArrayFromJsonString(jsonString, "billing_month", "billing_day", "billing_year", "billing_due_month",
+						"billing_due_day", "billing_due_year", "billing_amount");
 			}
 			catch (Exception e1)
 			{
-				Log.e("Exception", "Thread  exception " + e1);
+				Log.e("Exception 1", "Thread  exception " + e1);
 			}
-
-			double total = (double) 0.0;// = Float.parseFloat("25");
-			NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
-			DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
-			anotherDFormat.applyPattern("#.00");
-			anotherDFormat.setGroupingUsed(true);
-			anotherDFormat.setGroupingSize(3);
-
-			for (int i = 0; i < rowList.size(); i++)
-			{
-
-				double amount = Double.parseDouble(rowList.get(i)[6].toString());
-				total += amount;
-				double roundOffAmount = Math.round(amount * 100.0) / 100.0;
-				String stringAmount = anotherDFormat.format(roundOffAmount).toString();
-
-				billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1), rowList.get(i)[0].toString() + " "
-						+ rowList.get(i)[2].toString(),
-						rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), "P " + stringAmount);
-				billingListViewAdaptor.addType("listview_line_gray");
-			}
-
-			double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
-			String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
-
-			billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount", "P " + stringTotalAmount, "", "");
-			billingListViewAdaptor.addType("listview_line_gray");
-			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 
 			return "";
 		}
@@ -894,6 +903,27 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected void onPostExecute(String result)
 		{
+			showConenctionStatus();
+
+			double total = (double) 0.0;
+
+			for (int i = 0; i < rowList.size(); i++)
+			{
+
+				double amount = Double.parseDouble(rowList.get(i)[6].toString());
+				total += amount;
+				String stringAmount = getStringAmount(rowList.get(i)[6].toString());
+
+				billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1), rowList.get(i)[0].toString() + " "
+						+ rowList.get(i)[2].toString(),
+						rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), stringAmount);
+				billingListViewAdaptor.addType("listview_line_gray");
+			}
+			String stringTotalAmount = getStringAmount(String.valueOf(total));
+
+			billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Billing Amount", stringTotalAmount, "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			billingListViewAdaptor.notifyDataSetChanged();
 		}
 
@@ -906,7 +936,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	private class getPaymentOptions extends AsyncTask<String, Void, String>
 	{
-		// TODO curr work
 
 		@Override
 		protected void onPreExecute()
@@ -966,39 +995,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		}
 	}
 
-	private List<String[]> getDataArrayFromJsonString(String... jsonString)
-	{
-		List<String[]> rowList;
-		rowList = new ArrayList<String[]>();
-
-		try
-		{
-			JSONArray jArray = null;
-			jArray = new JSONArray(jsonString[0]);
-
-			JSONObject json_data = null;
-			for (int i = 0; i < jArray.length(); i++)
-			{
-				json_data = jArray.getJSONObject(i);
-
-				String[] stringContents = new String[jsonString.length];
-				for (int j = 1; j < jsonString.length; j++)
-				{
-					stringContents[j - 1] = json_data.getString(jsonString[j]);
-				}
-				rowList.add(stringContents);
-			}
-		}
-		catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-
-		return rowList;
-	}
-
 	private class getAccountSummary extends AsyncTask<String, Void, String>
 	{
+		List<String[]>	rowList;
+
 		@Override
 		protected void onPreExecute()
 		{
@@ -1011,51 +1011,44 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected String doInBackground(String... params)
 		{
-			List<String[]> rowList;
 
-			try
-			{
-				String httpAddress = "http://" + ipAdd + "/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
-				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+			String httpAddress = "http://" + ipAdd + "/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
+			Log.e("urlPost billingDownloadUrl 1", httpAddress.toString());
 
-				String jsonString = sendPost(httpAddress);
-				rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
-						"outstandingBalance", "availableCredit");
+			String jsonString = sendPost(httpAddress);
+			rowList = getDataArrayFromJsonString(jsonString, "totalBills", "totalBillingPayments", "totalBillingAmount", "totalPaymentAmount",
+					"outstandingBalance", "availableCredit");
 
-				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
+			Log.e("billingDownloadUrl rowlist 2", String.valueOf(rowList.size()));
 
-				for (int i = 0; i < rowList.size(); i++)
-				{
-
-					String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
-					String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
-					String outstandingBalance = getStringAmount(rowList.get(i)[4].toString());
-					String availableCredit = getStringAmount(rowList.get(i)[5].toString());
-
-					billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", rowList.get(i)[0].toString() + " Bill(s)", "", "");
-					billingListViewAdaptor.addType("listview_line_gray");
-					billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", rowList.get(i)[1].toString() + " Payment(s)", "", "");
-					billingListViewAdaptor.addType("listview_line_gray");
-					billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", totalbillingAmount, "", "");
-					billingListViewAdaptor.addType("listview_line_gray");
-					billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", totalPaymentAmount, "", "");
-					billingListViewAdaptor.addType("listview_line_gray");
-					billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", outstandingBalance, "", "");
-					billingListViewAdaptor.addType("listview_line_light_gray");
-					billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", availableCredit, "", "");
-				}
-				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-			}
-			catch (Exception e1)
-			{
-				Log.e("Exception", "Thread  exception " + e1);
-			}
 			return "";
 		}
 
 		@Override
 		protected void onPostExecute(String result)
 		{
+			showConenctionStatus();
+			for (int i = 0; i < rowList.size(); i++)
+			{
+				String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
+				String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
+				String outstandingBalance = getStringAmount(rowList.get(i)[4].toString());
+				String availableCredit = getStringAmount(rowList.get(i)[5].toString());
+
+				billingListViewAdaptor.addValue("listview_sub_info", "Total Bills", rowList.get(i)[0].toString() + " Bill(s)", "", "");
+				billingListViewAdaptor.addType("listview_line_gray");
+				billingListViewAdaptor.addValue("listview_sub_info", "Total Payments", rowList.get(i)[1].toString() + " Payment(s)", "", "");
+				billingListViewAdaptor.addType("listview_line_gray");
+				billingListViewAdaptor.addValue("listview_sub_info", "Total Billing Amount", totalbillingAmount, "", "");
+				billingListViewAdaptor.addType("listview_line_gray");
+				billingListViewAdaptor.addValue("listview_sub_info", "Total Payment Amount", totalPaymentAmount, "", "");
+				billingListViewAdaptor.addType("listview_line_gray");
+				billingListViewAdaptor.addValue("listview_sub_info_large_black_shadow", "Outstanding Balance", outstandingBalance, "", "");
+				billingListViewAdaptor.addType("listview_line_light_gray");
+				billingListViewAdaptor.addValue("listview_sub_info_large_black", "Available Credit", availableCredit, "", "");
+			}
+			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			billingListViewAdaptor.notifyDataSetChanged();
 		}
 
@@ -1068,52 +1061,47 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	private class getBillingStatements extends AsyncTask<String, Void, String>
 	{
+		List<String[]>	rowList;
+
 		@Override
 		protected void onPreExecute()
 		{
-
+			billingListViewAdaptor.initiatizeStringsValues();
+			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
 		}
 
 		@Override
 		protected String doInBackground(String... params)
 		{
-			List<String[]> rowList;
 
-			try
-			{
-				String httpAddress = "http://" + ipAdd + "/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
-				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+			String httpAddress = "http://" + ipAdd + "/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
+			Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
-				String jsonString = sendPost(httpAddress);
-				rowList = getDataArrayFromJsonString(jsonString, "file_id", "mobile_no", "file_name", "file_month", "file_year", "billing_date",
-						"due_date");
+			String jsonString = sendPost(httpAddress);
+			rowList = getDataArrayFromJsonString(jsonString, "file_id", "mobile_no", "file_name", "file_month", "file_year", "billing_date",
+					"due_date");
 
-				Log.e("billingDownloadUrl rowlist", String.valueOf(rowList.size()));
-
-				for (int i = 0; i < rowList.size(); i++)
-				{
-					String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " + rowList.get(i)[4].toString();
-					String billingDueDate = rowList.get(i)[6].toString();
-					billingDueDate = getStringDate(billingDueDate);
-					String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
-							+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
-
-					billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate,
-							billingDownloadUrl);
-					billingListViewAdaptor.addType("listview_line_gray");
-				}
-				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-			}
-			catch (Exception e1)
-			{
-				Log.e("Exception", "Thread  exception " + e1);
-			}
 			return "";
 		}
 
 		@Override
 		protected void onPostExecute(String result)
 		{
+			showConenctionStatus();
+			for (int i = 0; i < rowList.size(); i++)
+			{
+				String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " " + rowList.get(i)[4].toString();
+				String billingDueDate = rowList.get(i)[6].toString();
+				billingDueDate = getStringDate(billingDueDate);
+				String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename=" + rowList.get(i)[2].toString()
+						+ "&mobile_no=" + rowList.get(i)[1].toString();
+
+				billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate,
+						billingDownloadUrl);
+				billingListViewAdaptor.addType("listview_line_gray");
+			}
+			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			billingListViewAdaptor.notifyDataSetChanged();
 			// android.os.Debug.stopMethodTracing();
 		}
@@ -1127,6 +1115,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	private class getPaymentRecord extends AsyncTask<String, Void, String>
 	{
+		List<String[]>	rowList;
+
 		@Override
 		protected void onPreExecute()
 		{
@@ -1136,56 +1126,42 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected String doInBackground(String... params)
 		{
-			List<String[]> rowList;
+			String httpAddress = "http://" + ipAdd + "/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
+			Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
-			try
-			{
-				String httpAddress = "http://" + ipAdd + "/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
-				Log.e("urlPost billingDownloadUrl", httpAddress.toString());
+			String jsonString = sendPost(httpAddress);
+			rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
+					"bank_branch", "reference_no", "payment_amount");
 
-				String jsonString = sendPost(httpAddress);
-				rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
-						"bank_branch", "reference_no", "payment_amount");
-
-				double total = (double) 0.0;// = Float.parseFloat("25");
-				NumberFormat anotherFormat = NumberFormat.getNumberInstance(Locale.US);
-				DecimalFormat anotherDFormat = (DecimalFormat) anotherFormat;
-				anotherDFormat.applyPattern("#.00");
-				anotherDFormat.setGroupingUsed(true);
-				anotherDFormat.setGroupingSize(3);
-
-				for (int i = 0; i < rowList.size(); i++)
-				{
-					String paymentDate = getStringDate(rowList.get(i)[1].toString());
-					String postedDate = getStringDate(rowList.get(i)[2].toString());
-					String Amount = "P " + rowList.get(i)[7].toString();
-
-					double amount = Double.parseDouble(rowList.get(i)[7].toString());
-					total += amount;
-
-					billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate, postedDate,
-							rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(), rowList.get(i)[6].toString(),
-							Amount, "");
-					billingListViewAdaptor.addType("listview_line_gray");
-				}
-
-				double roundOffTotalAmount = Math.round(total * 100.0) / 100.0;
-				String stringTotalAmount = anotherDFormat.format(roundOffTotalAmount).toString();
-
-				billingListViewAdaptor
-						.addValue("listview_main_header_billing_record_total", "Total Payment Amount", "P " + stringTotalAmount, "", "");
-				billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
-			}
-			catch (Exception e1)
-			{
-				Log.e("Exception", "Thread  exception " + e1);
-			}
 			return "";
 		}
 
 		@Override
 		protected void onPostExecute(String result)
 		{
+			showConenctionStatus();
+			double total = (double) 0.0;
+
+			for (int i = 0; i < rowList.size(); i++)
+			{
+				double amount = Double.parseDouble(rowList.get(i)[7].toString());
+				total += amount;
+
+				String paymentDate = getStringDate(rowList.get(i)[1].toString());
+				String postedDate = getStringDate(rowList.get(i)[2].toString());
+				String stringAmount = getStringAmount(rowList.get(i)[7].toString());
+
+				billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate, postedDate,
+						rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(), rowList.get(i)[6].toString(),
+						stringAmount, "");
+				billingListViewAdaptor.addType("listview_line_gray");
+			}
+
+			String stringTotalAmount = getStringAmount(String.valueOf(total));
+
+			billingListViewAdaptor.addValue("listview_main_header_billing_record_total", "Total Payment Amount", stringTotalAmount, "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 			billingListViewAdaptor.notifyDataSetChanged();
 		}
 

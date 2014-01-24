@@ -63,10 +63,10 @@ public class LogIn extends Activity
 		// for dev
 		EditText ep = (EditText) findViewById(R.id.editMobile);
 		EditText eu = (EditText) findViewById(R.id.editEmail);
-		// ep.setText("12312");
-		// eu.setText("kit.datuin@gmail.com");
-		eu.setText("scotlee1004@gmail.com");
-		ep.setText("9178143372");
+//		eu.setText("ghost@corea.ph");
+//		ep.setText("9178589031");
+		 eu.setText("scotlee1004@gmail.com");
+		 ep.setText("9178143372");
 
 		// detection of logged in value
 		// if (LoggedIn == true)
@@ -145,8 +145,8 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 	// String ipAdd = "125.5.16.155/coreonwallet";
 
 	// test
-	//"125.5.16.155/coreonwallet/coreonmobile";
-	String				ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";// "192.168.123.111/android/coreonmobile";
+	// "125.5.16.155/coreonwallet/coreonmobile";
+	String				ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";	// "192.168.123.111/android/coreonmobile";
 
 	public CheckCredentials(Context context, Activity activity)
 	{
@@ -239,6 +239,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 		String result = sendPost(httpAddress);
 
 		JSONArray jArray = null;
+		String id = null;
 		String first_name = null;
 		String last_name = null;
 		String contract_status = null;
@@ -289,6 +290,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 			for (int i = 0; i < jArray.length(); i++)
 			{
 				json_data = jArray.getJSONObject(i);
+				id = json_data.getString("main_id");
 				first_name = json_data.getString("first_name");
 				last_name = json_data.getString("last_name");
 				contract_status = json_data.getString("contract_status");
@@ -350,6 +352,7 @@ class CheckCredentials extends AsyncTask<String, Integer, Long>
 		SharedPreferences.Editor editor = preferences.edit();
 		// Boolean tr = true;
 
+		editor.putString("id", id);
 		editor.putString("first_name", first_name);
 		editor.putString("last_name", last_name);
 		editor.putString("contract_status", contract_status);

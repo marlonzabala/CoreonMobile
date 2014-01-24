@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
 public class ListViewArrayAdapter extends ArrayAdapter<String>
 {
 	private Context						context;
@@ -177,10 +179,13 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			TextView textName = (TextView) rowView.findViewById(R.id.textViewProfileName);
 			TextView textNumber = (TextView) rowView.findViewById(R.id.textViewProfileMobileNumber);
 			TextView textNetwork = (TextView) rowView.findViewById(R.id.textViewProfileNetwork);
+			ImageView imageProfile = (ImageView) rowView.findViewById(R.id.imageViewProfilePicture);
 			textName.setText(_extra1.get(position).toString());
 			textNumber.setText(_extra2.get(position).toString());
 			textNetwork.setText(_extra3.get(position).toString());
-
+			UrlImageViewHelper.setUrlDrawable(imageProfile, _image.get(position).toString(),R.drawable.my_account_picture);
+			
+			//Log.e("Image URL", _image.get(position).toString());
 			rowView.setTag(tag);
 		}
 		else if (type.equals(tag = "my_account_status"))
