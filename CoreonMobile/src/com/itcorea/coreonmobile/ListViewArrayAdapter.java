@@ -158,7 +158,6 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		return this._title.size();
 	}
 
-	@SuppressLint("InlinedApi")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent)
 	{
@@ -210,6 +209,10 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			if (_extra2.get(position).toString().equals("GOOD"))
 			{
 				textCreditStatus.setTextColor(context.getResources().getColor(R.color.lightGreen));
+			}
+			else if (_extra2.get(position).toString().equals("WARNING"))
+			{
+				textCreditStatus.setTextColor(context.getResources().getColor(R.color.lightYellow));
 			}
 		}
 		else if (type.equals(tag = "listview_main_header_wshadow"))
@@ -575,8 +578,8 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textTitle.setText(_title.get(position).toString());
 			textInfo.setText(_content.get(position).toString());
 			textDate.setText(_date.get(position).toString());
+			//change picture
 			image.setImageResource(R.drawable.offer_0);
-			// image
 		}
 		else
 		{

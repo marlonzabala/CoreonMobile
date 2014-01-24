@@ -77,6 +77,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	TextView					mainTitle;
 
+	ImageView					im1;
+	ImageView					im2;
+	ImageView					im3;
+
 	// "125.5.16.155/coreonwallet/coreonmobile";
 	// String ipAdd = "125.5.16.155/coreonwallet";
 
@@ -102,6 +106,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		indicator.setFadeDelay(1000);// dont know if still needed
 		indicator.setFadeLength(1000);
 
+		im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
+		im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
+		im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
+
 		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -112,39 +120,16 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				// make respected tab selected
 				// actionBar.setSelectedNavigationItem(position);
 
-				ImageView im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
-				ImageView im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
-				ImageView im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
-
 				switch (position)
 				{
-
 					case 0:
-						im1.setImageResource(R.drawable.icon_account_selected);
-						im2.setImageResource(R.drawable.icon_billing_payments);
-						im3.setImageResource(R.drawable.icon_rewards_offers);
-						mainTitle.setText("My Account");
-
-						// android.os.Debug.stopMethodTracing();
-
+						openMyAccount(null);
 						break;
 					case 1:
-						im1.setImageResource(R.drawable.icon_account);
-						im2.setImageResource(R.drawable.icon_billing_payments_selected);
-						im3.setImageResource(R.drawable.icon_rewards_offers);
-						mainTitle.setText("Billing and Payments");
-
-						// openAccountSummary(null);
-
-						// android.os.Debug.startMethodTracing("coreon");
-
+						openBillingPayment(null);
 						break;
 					case 2:
-						im1.setImageResource(R.drawable.icon_account);
-						im2.setImageResource(R.drawable.icon_billing_payments);
-						im3.setImageResource(R.drawable.icon_rewards_offers_selected);
-						mainTitle.setText("Rewards and Offers");
-
+						openRewardsOffers(null);
 						break;
 					default:
 						break;
@@ -206,6 +191,17 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		catch (Exception e)
 		{
 		}
+
+		if (savedInstanceState != null)
+		{
+			selectedTab = Integer.valueOf(savedInstanceState.getString("maintab"));
+			selectedBillingPaymentsTab = Integer.valueOf(savedInstanceState.getString("billingpaymentab"));
+			selectedRewardsOffersTab = Integer.valueOf(savedInstanceState.getString("rewardsoffersTab"));
+		}
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		phoneNumber = prefs.getString("mobile_number", "null");
+		setSelectedTab();
 	}
 
 	@Override
@@ -218,30 +214,112 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	// maintabs
 	public void openMyAccount(View v)
 	{
+		selectedTab	= 0;
+		im1.setImageResource(R.drawable.icon_account_selected);
+		im2.setImageResource(R.drawable.icon_billing_payments);
+		im3.setImageResource(R.drawable.icon_rewards_offers);
+		mainTitle.setText("My Account");
 		pager.setCurrentItem(0);
 	}
 
 	public void openBillingPayment(View v)
 	{
+		selectedTab	= 1;
+		im1.setImageResource(R.drawable.icon_account);
+		im2.setImageResource(R.drawable.icon_billing_payments_selected);
+		im3.setImageResource(R.drawable.icon_rewards_offers);
+		mainTitle.setText("Billing and Payments");
 		pager.setCurrentItem(1);
 	}
 
 	public void openRewardsOffers(View v)
 	{
+		selectedTab	= 2;
+		im1.setImageResource(R.drawable.icon_account);
+		im2.setImageResource(R.drawable.icon_billing_payments);
+		im3.setImageResource(R.drawable.icon_rewards_offers_selected);
+		mainTitle.setText("Rewards and Offers");
 		pager.setCurrentItem(2);
 	}
 
-	// billing payments sub tab
-	// accountsummary
-	// billingrecord
-	// billingstatements
-	// paymentrecord
-	// reportpayment
-	// paymentoptions
+	@Override
+	public void onSaveInstanceState(Bundle bundle)
+	{
+		bundle.putString("maintab", String.valueOf(selectedTab));
+		bundle.putString("billingpaymentab", String.valueOf(selectedBillingPaymentsTab));
+		bundle.putString("rewardsoffersTab", String.valueOf(selectedRewardsOffersTab));
+	}
 
-	// subtabs
+	int	selectedTab	= 0;
+	int	selectedBillingPaymentsTab	= 0;
+	int	selectedRewardsOffersTab = 0;
+	
+	public void setSelectedTab()
+	{
+		switch (selectedTab)
+		{
+			case 0:
+				openMyAccount(null);
+				break;
+			case 1:
+				openBillingPayment(null);
+				break;
+			case 2:
+				openRewardsOffers(null);
+				break;
+			default:
+				openMyAccount(null);
+				break;
+		}
+	}
+
+	public void setSelectedBillingPaymentsTab()
+	{
+		switch (selectedBillingPaymentsTab)
+		{
+			case 0:
+				openAccountSummary(null);
+				break;
+			case 1:
+				openBillingRecord(null);
+				break;
+			case 2:
+				openBillingStatements(null);
+				break;
+			case 3:
+				openPaymentRecord(null);
+				break;
+			case 4:
+				openReportPayment(null);
+				break;
+			case 5:
+				openPaymentOptions(null);
+				break;
+			default:
+				openAccountSummary(null);
+				break;
+		}
+	}
+	
+	public void setSelectedRewardsOffersTab()
+	{
+		switch (selectedRewardsOffersTab)
+		{
+			case 0:
+				openRewards(null);
+				break;
+			case 1:
+				openOffers(null);
+				break;
+			default:
+				openRewards(null);
+				break;
+		}
+	}
+
 	public void openAccountSummary(View v)
 	{
+		selectedBillingPaymentsTab = 0;
 		setDafaultAllSubTabs();
 
 		RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
@@ -251,14 +329,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv = (ImageView) findViewById(R.id.imageViewSubTabAccountSummary);
 		iv.setImageResource(R.drawable.icon_subtab_accountsummary_selected);
 
-		// getAccountSummary
 		new getAccountSummary().execute("");
-		// billingListViewAdaptor.notifyDataSetChanged();
 	}
 
 	public void openBillingRecord(View v)
 	{
+		selectedBillingPaymentsTab = 1;
 		setDafaultAllSubTabs();
+
 		RelativeLayout rl2 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingRecordRel);
 		rl2.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv2 = (TextView) findViewById(R.id.textViewSubTabBillingRecord);
@@ -266,17 +344,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv2 = (ImageView) findViewById(R.id.imageViewSubTabBillingRecord);
 		iv2.setImageResource(R.drawable.icon_subtab_billingrecord_selected);
 
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
 		new getBillingRecord().execute("");
-		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
 	public void openBillingStatements(View v)
 	{
 		// android.os.Debug.startMethodTracing("coreon");
+		selectedBillingPaymentsTab = 2;
 		setDafaultAllSubTabs();
+
 		RelativeLayout rl3 = (RelativeLayout) findViewById(R.id.layoutViewSubTabBillingStatementsRel);
 		rl3.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv3 = (TextView) findViewById(R.id.textViewSubTabBillingStatements);
@@ -289,8 +365,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openPaymentRecord(View v)
 	{
-		// billingStatementTask.cancel(true);
+		selectedBillingPaymentsTab = 3;
 		setDafaultAllSubTabs();
+
 		RelativeLayout rl4 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentRecordRel);
 		rl4.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv4 = (TextView) findViewById(R.id.textViewSubTabPaymentRecord);
@@ -298,15 +375,14 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv4 = (ImageView) findViewById(R.id.imageViewSubTabPaymentRecord);
 		iv4.setImageResource(R.drawable.icon_subtab_paymentrecord_selected);
 
-		billingListViewAdaptor.initiatizeStringsValues();
-		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
-		billingListViewAdaptor.addType("listview_line_gray");
 		new getPaymentRecord().execute("");
 	}
 
 	public void openReportPayment(View v)
 	{
+		selectedBillingPaymentsTab = 4;
 		setDafaultAllSubTabs();
+
 		RelativeLayout rl5 = (RelativeLayout) findViewById(R.id.layoutViewSubTabReportPaymentRel);
 		rl5.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv5 = (TextView) findViewById(R.id.textViewSubTabReportPayment);
@@ -314,20 +390,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		ImageView iv5 = (ImageView) findViewById(R.id.imageViewSubTabReportPayment);
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
 
-		// billingListViewAdaptor.initiatizeStringsValues();
-		// billingListViewAdaptor.addValue("listview_main_header_wshadow", "Report Payment", "", "",
-		// "");
-		// billingListViewAdaptor.addType("listview_line_gray");
-		// billingListViewAdaptor.notifyDataSetChanged();
-		// listview connection to android
-
 		// new getPaymentOptions().execute();
 	}
 
 	public void openPaymentOptions(View v)
 	{
 		// TODO payment options
+		selectedBillingPaymentsTab = 5;
 		setDafaultAllSubTabs();
+
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabPaymentOptionsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -415,6 +486,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openRewards(View v)
 	{
+		selectedRewardsOffersTab = 0;
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabRewardsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv6 = (TextView) findViewById(R.id.textViewSubTabRewards);
@@ -438,6 +510,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openOffers(View v)
 	{
+		selectedRewardsOffersTab = 1;
 		RelativeLayout rl7 = (RelativeLayout) findViewById(R.id.layoutViewSubTabOffersRel);
 		rl7.setBackgroundColor(Color.parseColor("#ffae00"));
 		TextView tv7 = (TextView) findViewById(R.id.textViewSubTabOffers);
@@ -597,7 +670,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String contractStatus = prefs.getString("days_left", "null");
 
 					String fullname = prefs.getString("first_name", "null") + " " + prefs.getString("last_name", "null");
-					phoneNumber = prefs.getString("mobile_number", "null");
+					//phoneNumber = prefs.getString("mobile_number", "null");
 					String network = prefs.getString("mobile_network", "null");
 					String userId = prefs.getString("id", "null");
 					String imageUrl = "http://my.coreonmobile.com/files/" + network.toLowerCase() + "/" + userId + "-0.jpg";
@@ -700,7 +773,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					((ViewPager) collection).addView(viewBillingPayments, 0);
 
 					// retain tab position
-					openAccountSummary(null);
+					// openAccountSummary(null);
+					setSelectedBillingPaymentsTab();
 					return viewBillingPayments;
 
 				case 2:
@@ -711,7 +785,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					// String points = prefs.getString("points", null);
 
 					((ViewPager) collection).addView(viewRewardsOffers, 0);
-					openRewards(null);
+					setSelectedRewardsOffersTab();
 					return viewRewardsOffers;
 			}
 			return resId;
@@ -720,7 +794,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		public void destroyItem(View arg0, int arg1, Object arg2)
 		{
-			// ((ViewPager) arg0).removeView((View) arg2);
+			((ViewPager) arg0).removeView((View) arg2);
 		}
 
 		@Override
@@ -851,12 +925,20 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			JSONObject json_data = null;
 			for (int i = 0; i < jArray.length(); i++)
 			{
+				//count
 				json_data = jArray.getJSONObject(i);
 
 				String[] stringContents = new String[jsonString.length];
 				for (int j = 1; j < jsonString.length; j++)
 				{
-					stringContents[j - 1] = json_data.getString(jsonString[j]);
+					if(jsonString[j].equals("count"))
+					{
+						stringContents[j - 1] = String.valueOf(jArray.length()-i);
+					}
+					else
+					{
+						stringContents[j - 1] = json_data.getString(jsonString[j]);
+					}
 				}
 				rowList.add(stringContents);
 			}
@@ -877,7 +959,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected void onPreExecute()
 		{
-
+			billingListViewAdaptor.initiatizeStringsValues();
+			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
 		}
 
 		@Override
@@ -890,7 +974,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 				String jsonString = sendPost(httpAddress);
 				rowList = getDataArrayFromJsonString(jsonString, "billing_month", "billing_day", "billing_year", "billing_due_month",
-						"billing_due_day", "billing_due_year", "billing_amount");
+						"billing_due_day", "billing_due_year", "billing_amount", "count");
 			}
 			catch (Exception e1)
 			{
@@ -914,7 +998,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				total += amount;
 				String stringAmount = getStringAmount(rowList.get(i)[6].toString());
 
-				billingListViewAdaptor.addValue("listview_billing_record", String.valueOf(i + 1), rowList.get(i)[0].toString() + " "
+				billingListViewAdaptor.addValue("listview_billing_record", rowList.get(i)[7].toString(), rowList.get(i)[0].toString() + " "
 						+ rowList.get(i)[2].toString(),
 						rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), stringAmount);
 				billingListViewAdaptor.addType("listview_line_gray");
@@ -1080,7 +1164,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 			String jsonString = sendPost(httpAddress);
 			rowList = getDataArrayFromJsonString(jsonString, "file_id", "mobile_no", "file_name", "file_month", "file_year", "billing_date",
-					"due_date");
+					"due_date", "count");
 
 			return "";
 		}
@@ -1097,7 +1181,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename=" + rowList.get(i)[2].toString()
 						+ "&mobile_no=" + rowList.get(i)[1].toString();
 
-				billingListViewAdaptor.addValue("listview_billing_statements", String.valueOf(i + 1), billingMonth, billingDueDate,
+				billingListViewAdaptor.addValue("listview_billing_statements", rowList.get(i)[7].toString(), billingMonth, billingDueDate,
 						billingDownloadUrl);
 				billingListViewAdaptor.addType("listview_line_gray");
 			}
@@ -1120,7 +1204,9 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		@Override
 		protected void onPreExecute()
 		{
-
+			billingListViewAdaptor.initiatizeStringsValues();
+			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
+			billingListViewAdaptor.addType("listview_line_gray");
 		}
 
 		@Override
@@ -1131,7 +1217,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 			String jsonString = sendPost(httpAddress);
 			rowList = getDataArrayFromJsonString(jsonString, "payment_id", "payment_date", "posted_date", "mode_of_payment", "bank_card_name",
-					"bank_branch", "reference_no", "payment_amount");
+					"bank_branch", "reference_no", "payment_amount", "count");
 
 			return "";
 		}
@@ -1151,7 +1237,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				String postedDate = getStringDate(rowList.get(i)[2].toString());
 				String stringAmount = getStringAmount(rowList.get(i)[7].toString());
 
-				billingListViewAdaptor.addValueExtra("listview_payment_record", String.valueOf(i + 1), paymentDate, postedDate,
+				billingListViewAdaptor.addValueExtra("listview_payment_record", rowList.get(i)[8].toString(), paymentDate, postedDate,
 						rowList.get(i)[3].toString(), rowList.get(i)[4].toString(), rowList.get(i)[5].toString(), rowList.get(i)[6].toString(),
 						stringAmount, "");
 				billingListViewAdaptor.addType("listview_line_gray");

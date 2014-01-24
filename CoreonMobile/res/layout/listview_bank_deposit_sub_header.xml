@@ -23,7 +23,7 @@
         android:scaleType="fitCenter"
         android:text="Title"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
     <!-- style="@android:style/TextAppearance.Medium" -->
 
 </LinearLayout>
