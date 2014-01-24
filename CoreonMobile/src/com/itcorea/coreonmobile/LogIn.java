@@ -77,28 +77,28 @@ public class LogIn extends Activity
 		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
 
 		// for dev quick login
-		// LoggedIn = true;
+		//LoggedIn = true;
 
 		// for dev
-		EditText ep = (EditText) findViewById(R.id.editMobile);
-		EditText eu = (EditText) findViewById(R.id.editEmail);
-		// eu.setText("ghost@corea.ph");
-		// ep.setText("9178589031");
-		eu.setText("scotlee1004@gmail.com");
-		ep.setText("9178143372");
+		// EditText ep = (EditText) findViewById(R.id.editMobile);
+		// EditText eu = (EditText) findViewById(R.id.editEmail);
+		// // eu.setText("ghost@corea.ph");
+		// // ep.setText("9178589031");
+		// eu.setText("scotlee1004@gmail.com");
+		// ep.setText("9178143372");
 
 		// detection of logged in value
-		// if (LoggedIn == true)
-		// {
-		// Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
-		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// getApplicationContext().startActivity(intent);
-		// finish();
-		// }
-		// else
-		// {
-		// //Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
-		// }
+		if (LoggedIn == true)
+		{
+			Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getApplicationContext().startActivity(intent);
+			finish();
+		}
+		else
+		{
+			// Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private String sendPost(String httpAddress)
@@ -246,7 +246,7 @@ public class LogIn extends Activity
 				eu.setText(rowList.get(i)[1].toString());
 				ep.setText(rowList.get(i)[0].toString());
 			}
-			
+
 		}
 
 		@Override
