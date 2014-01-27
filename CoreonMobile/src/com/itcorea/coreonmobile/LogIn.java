@@ -415,6 +415,7 @@ public class LogIn extends Activity
 			if (!isNetworkAvailable())
 			{
 				network = false;
+				logIn = true;
 				return null;
 			}
 			else
@@ -518,26 +519,18 @@ public class LogIn extends Activity
 					mobile_4digit = json_data.getString("mobile_4digit");
 					billing_address = json_data.getString("billing_address");
 				}
-				useremail = "";
+				logIn = true;
 			}
 			catch (JSONException e1)
 			{
-				useremail = "No data found";
+				logIn = false;
 				Log.e("Exception", e1.toString());
 			}
 			catch (ParseException e1)
 			{
+				logIn = false;
 				Log.e("Exception", e1.toString());
 				e1.printStackTrace();
-			}
-
-			if (useremail.equals("No data found"))
-			{
-				logIn = false;
-			}
-			else
-			{
-				logIn = true;
 			}
 
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);

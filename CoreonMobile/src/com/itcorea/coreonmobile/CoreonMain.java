@@ -1,9 +1,15 @@
 package com.itcorea.coreonmobile;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -30,15 +36,21 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -46,6 +58,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -58,7 +71,7 @@ import com.actionbarsherlock.view.Menu;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 @SuppressLint("NewApi")
-public class CoreonMain extends SherlockFragmentActivity implements ActionBar.TabListener
+public class CoreonMain extends SherlockFragmentActivity // implements ActionBar.TabListener
 {
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
@@ -198,7 +211,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			selectedBillingPaymentsTab = Integer.valueOf(savedInstanceState.getString("billingpaymentab"));
 			selectedRewardsOffersTab = Integer.valueOf(savedInstanceState.getString("rewardsoffersTab"));
 		}
-		
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		phoneNumber = prefs.getString("mobile_number", "null");
 		setSelectedTab();
@@ -214,7 +227,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 	// maintabs
 	public void openMyAccount(View v)
 	{
-		selectedTab	= 0;
+		selectedTab = 0;
 		im1.setImageResource(R.drawable.icon_account_selected);
 		im2.setImageResource(R.drawable.icon_billing_payments);
 		im3.setImageResource(R.drawable.icon_rewards_offers);
@@ -224,7 +237,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openBillingPayment(View v)
 	{
-		selectedTab	= 1;
+		selectedTab = 1;
 		im1.setImageResource(R.drawable.icon_account);
 		im2.setImageResource(R.drawable.icon_billing_payments_selected);
 		im3.setImageResource(R.drawable.icon_rewards_offers);
@@ -234,7 +247,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 	public void openRewardsOffers(View v)
 	{
-		selectedTab	= 2;
+		selectedTab = 2;
 		im1.setImageResource(R.drawable.icon_account);
 		im2.setImageResource(R.drawable.icon_billing_payments);
 		im3.setImageResource(R.drawable.icon_rewards_offers_selected);
@@ -250,10 +263,10 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		bundle.putString("rewardsoffersTab", String.valueOf(selectedRewardsOffersTab));
 	}
 
-	int	selectedTab	= 0;
+	int	selectedTab					= 0;
 	int	selectedBillingPaymentsTab	= 0;
-	int	selectedRewardsOffersTab = 0;
-	
+	int	selectedRewardsOffersTab	= 0;
+
 	public void setSelectedTab()
 	{
 		switch (selectedTab)
@@ -300,7 +313,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				break;
 		}
 	}
-	
+
 	public void setSelectedRewardsOffersTab()
 	{
 		switch (selectedRewardsOffersTab)
@@ -394,7 +407,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Report", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		//billingListViewAdaptor.addValue("listview_report_payment", "", "", "", "");
+		// billingListViewAdaptor.addValue("listview_report_payment", "", "", "", "");
+
+		//View temp = getLayoutInflater().inflate(R.layout.listview_report_payment, null);
+		//listviewBillingPayments.addFooterView(temp);
+
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
@@ -411,7 +428,6 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv6.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
-		
 
 		// hard coded, never small
 		billingListViewAdaptor.initiatizeStringsValues();
@@ -533,38 +549,39 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		rewardsListViewAdaptor.initiatizeStringsValues();
 		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
-		
+		rewardsListViewAdaptor.addType("listview_line_gray");
 		rewardsListViewAdaptor.addType("listview_rewards_warning");
 
-//		for (int i = 0; i < 20; i++)
-//		{
-//			rewardsListViewAdaptor.addType("listview_line_gray");
-//			rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
-//					"August 25, 2013 at 11:30 pm");
-//		}
-//
-//		rewardsListViewAdaptor.addType("listview_line_gray");
-//		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+		// for (int i = 0; i < 20; i++)
+		// {
+		// rewardsListViewAdaptor.addType("listview_line_gray");
+		// rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant",
+		// "Get 50% payment of Coreon Card", "image",
+		// "August 25, 2013 at 11:30 pm");
+		// }
+		//
+		// rewardsListViewAdaptor.addType("listview_line_gray");
+		// rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		rewardsListViewAdaptor.notifyDataSetChanged();
 	}
 
-	@Override
-	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
-	{
-
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
-	{
-
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
-	{
-
-	}
+	// @Override
+	// public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1)
+	// {
+	//
+	// }
+	//
+	// @Override
+	// public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
+	// {
+	//
+	// }
+	//
+	// @Override
+	// public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
+	// {
+	//
+	// }
 
 	public String getStringDate(String date)
 	{
@@ -678,7 +695,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 					String contractStatus = prefs.getString("days_left", "null");
 
 					String fullname = prefs.getString("first_name", "null") + " " + prefs.getString("last_name", "null");
-					//phoneNumber = prefs.getString("mobile_number", "null");
+					// phoneNumber = prefs.getString("mobile_number", "null");
 					String network = prefs.getString("mobile_network", "null");
 					String userId = prefs.getString("id", "null");
 					String imageUrl = "http://my.coreonmobile.com/files/" + network.toLowerCase() + "/" + userId + "-0.jpg";
@@ -933,15 +950,15 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 			JSONObject json_data = null;
 			for (int i = 0; i < jArray.length(); i++)
 			{
-				//count
+				// count
 				json_data = jArray.getJSONObject(i);
 
 				String[] stringContents = new String[jsonString.length];
 				for (int j = 1; j < jsonString.length; j++)
 				{
-					if(jsonString[j].equals("count"))
+					if (jsonString[j].equals("count"))
 					{
-						stringContents[j - 1] = String.valueOf(jArray.length()-i);
+						stringContents[j - 1] = String.valueOf(jArray.length() - i);
 					}
 					else
 					{
@@ -1006,8 +1023,8 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 				total += amount;
 				String stringAmount = getStringAmount(rowList.get(i)[6].toString());
 
-				billingListViewAdaptor.addValue("listview_billing_record", rowList.get(i)[7].toString(), rowList.get(i)[0].toString() + " "
-						+ rowList.get(i)[2].toString(),
+				billingListViewAdaptor.addValue("listview_billing_record", rowList.get(i)[7].toString(),
+						rowList.get(i)[0].toString() + " " + rowList.get(i)[2].toString(),
 						rowList.get(i)[3].toString() + " " + rowList.get(i)[4].toString() + ", " + rowList.get(i)[5].toString(), stringAmount);
 				billingListViewAdaptor.addType("listview_line_gray");
 			}
@@ -1265,6 +1282,235 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		}
 	}
+	
+	
+	
+	
+	
+
+	// TODO current work
+	
+	
+	private TextView		messageText;
+	private Button			btnselectpic;
+	private ImageView		imageview;
+	private int				serverResponseCode	= 0;
+	private ProgressDialog	dialog				= null;
+
+	private String			upLoadServerUri		= null;
+	private String			imagepath			= null;
+
+	public void sendReport(View v)
+	{
+
+		Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+
+//		Intent intent = new Intent();
+//		intent.setType("image/*");
+//		intent.setAction(Intent.ACTION_GET_CONTENT);
+//		startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+		
+		Intent intent2 = new Intent();
+        intent2.setType("image/*");
+        intent2.setAction(Intent.ACTION_GET_CONTENT);
+        intent2.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent2, 1);
+
+		return;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == 1 && resultCode == RESULT_OK)
+		{
+			// Bitmap photo = (Bitmap) data.getData().getPath();
+			Uri selectedImageUri = data.getData();
+			Log.e("uri",selectedImageUri.toString());
+			File myFile = new File(selectedImageUri.toString());
+			Log.e("uri 2",myFile.getAbsolutePath());
+			imagepath = getRealPathFromURI(getApplicationContext(), selectedImageUri);
+			Toast.makeText(getApplicationContext(), imagepath, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public String getPath(Uri uri)
+	{
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+	
+	public String getRealPathFromURI(Context context, Uri contentUri)
+	{
+		Cursor cursor = null;
+		try
+		{
+			Log.e("uri 22","test 1");
+			String[] proj = { MediaStore.Images.Media.DATA };
+			cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(column_index);
+		}
+		finally
+		{
+			if (cursor != null)
+			{
+				cursor.close();
+			}
+		}
+	}
+
+	public int uploadFile(String sourceFileUri)
+	{
+
+		String fileName = sourceFileUri;
+
+		HttpURLConnection conn = null;
+		DataOutputStream dos = null;
+		String lineEnd = "\r\n";
+		String twoHyphens = "--";
+		String boundary = "*****";
+		int bytesRead, bytesAvailable, bufferSize;
+		byte[] buffer;
+		int maxBufferSize = 1 * 1024 * 1024;
+		File sourceFile = new File(sourceFileUri);
+
+		if (!sourceFile.isFile())
+		{
+
+			// dialog.dismiss();
+
+			Log.e("uploadFile", "Source File not exist :" + imagepath);
+
+			runOnUiThread(new Runnable() {
+				public void run()
+				{
+					// messageText.setText("Source File not exist :" + imagepath);
+				}
+			});
+
+			return 0;
+
+		}
+		else
+		{
+			try
+			{
+
+				// open a URL connection to the Servlet
+				FileInputStream fileInputStream = new FileInputStream(sourceFile);
+				URL url = new URL(upLoadServerUri);
+
+				// Open a HTTP connection to the URL
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setDoInput(true); // Allow Inputs
+				conn.setDoOutput(true); // Allow Outputs
+				conn.setUseCaches(false); // Don't use a Cached Copy
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Connection", "Keep-Alive");
+				conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+				conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+				conn.setRequestProperty("uploaded_file", fileName);
+
+				dos = new DataOutputStream(conn.getOutputStream());
+
+				dos.writeBytes(twoHyphens + boundary + lineEnd);
+				dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + fileName + "\"" + lineEnd);
+
+				dos.writeBytes(lineEnd);
+
+				// create a buffer of maximum size
+				bytesAvailable = fileInputStream.available();
+
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				buffer = new byte[bufferSize];
+
+				// read file and write it into form...
+				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+				while (bytesRead > 0)
+				{
+
+					dos.write(buffer, 0, bufferSize);
+					bytesAvailable = fileInputStream.available();
+					bufferSize = Math.min(bytesAvailable, maxBufferSize);
+					bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+				}
+
+				// send multipart form data necesssary after file data...
+				dos.writeBytes(lineEnd);
+				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+				// Responses from the server (code and message)
+				serverResponseCode = conn.getResponseCode();
+				String serverResponseMessage = conn.getResponseMessage();
+
+				Log.i("uploadFile", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+
+				if (serverResponseCode == 200)
+				{
+
+					runOnUiThread(new Runnable() {
+						public void run()
+						{
+							String msg = "File Upload Completed.\n\n See uploaded file here : \n\n" + " F:/wamp/wamp/www/uploads";
+							messageText.setText(msg);
+							Toast.makeText(getApplicationContext(), "File Upload Complete.", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+
+				// close the streams //
+				fileInputStream.close();
+				dos.flush();
+				dos.close();
+
+			}
+			catch (MalformedURLException ex)
+			{
+
+				// dialog.dismiss();
+				ex.printStackTrace();
+
+				runOnUiThread(new Runnable() {
+					public void run()
+					{
+						Log.e("error", "error");
+						// messageText.setText("MalformedURLException Exception : check script url.");
+						// Toast.makeText(MainActivity.this, "MalformedURLException",
+						// Toast.LENGTH_SHORT).show();
+					}
+				});
+
+				Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
+			}
+			catch (Exception e)
+			{
+
+				// dialog.dismiss();
+				e.printStackTrace();
+
+				runOnUiThread(new Runnable() {
+					public void run()
+					{
+						messageText.setText("Got Exception : see logcat ");
+						Toast.makeText(getApplicationContext(), "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
+					}
+				});
+				Log.e("Upload file to server Exception", "Exception : " + e.getMessage(), e);
+			}
+			// dialog.dismiss();
+			return serverResponseCode;
+
+		} // End else block
+	}
+
+	
 
 	public class FixedSpeedScroller extends Scroller
 	{

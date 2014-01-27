@@ -55,7 +55,6 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/checkbox_clickable"
                 android:button="@null"
-                android:checked="true"
                 android:gravity="top"
                 android:scaleType="fitCenter" />
         </RelativeLayout>
@@ -755,5 +754,78 @@
         android:textColor="#666666"
         android:textSize="17sp"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/textViewBranchName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewBankName"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/text_payment_date_style"
+        android:fontFamily="sans-serif"
+        android:hint="Branch"
+        android:inputType="textNoSuggestions"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/textViewAttachDeposit"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/textViewBranchName"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/text_payment_date_style"
+        android:fontFamily="sans-serif"
+        android:hint="Branch"
+        android:inputType="textNoSuggestions"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="Attach Deposit Slip"
+        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/textViewRemarks"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/textViewAttachDeposit"
+        android:layout_margin="10dp"
+        android:background="@drawable/text_payment_date_style"
+        android:fontFamily="sans-serif"
+        android:gravity="top|left"
+        android:hint="Remarks"
+        android:inputType="textMultiLine"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_send_report"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textViewRemarks"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_yellow_clickable"
+        android:onClick="sendReport"
+        android:text="Send Report" />
 
 </RelativeLayout>
