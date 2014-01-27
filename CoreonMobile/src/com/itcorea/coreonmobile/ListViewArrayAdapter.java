@@ -581,6 +581,18 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			//change picture
 			image.setImageResource(R.drawable.offer_0);
 		}
+		else if (type.equals(tag = "listview_report_payment"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_report_payment, parent, false);
+			}
+			rowView.setTag(tag);
+		}
 		else
 		{
 			// TODO end of layouts

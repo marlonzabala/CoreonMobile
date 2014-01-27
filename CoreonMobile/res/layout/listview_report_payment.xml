@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/textViewPaymentMonth"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:fontFamily="sans-serif"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="15dp"
+        android:scaleType="fitCenter"
+        android:text="Payment for the month of"
+        android:textColor="#999999" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSubTabsContent1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewPaymentMonth"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubJanRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/textViewSubJan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="JAN"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/checkBoxJan"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabFebRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_billing_payments" >
+
+            <CheckBox
+                android:id="@+id/checkBoxFeb"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubFeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="FEB"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabMarRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxMar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubTabMar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="MAR"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubAprRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxApr"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubApr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="APR"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSubTabsContent2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/linearLayoutSubTabsContent1"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubJanRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:id="@+id/checkBoxMay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubMay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="MAY"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabFebRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_billing_payments" >
+
+            <CheckBox
+                android:id="@+id/checkBoxJun"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubJun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="JUN"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabMarRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxJul"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubJul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="JUL"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubAprRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxAug"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubAug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="AUG"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSubTabsContent3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/linearLayoutSubTabsContent2"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubSepRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:id="@+id/checkBoxSep"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubSep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="SEP"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabFebRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_billing_payments" >
+
+            <CheckBox
+                android:id="@+id/checkBoxOct"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubOct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="OCT"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubTabMarRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxNov"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubNov"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="NOV"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutViewSubAprRel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pager"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <CheckBox
+                android:id="@+id/checkBoxDec"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/checkbox_clickable"
+                android:button="@null"
+                android:gravity="top"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textViewSubDec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                android:text="DEC"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewPaymentSpace1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/linearLayoutSubTabsContent3" />
+
+    <View
+        android:id="@+id/lineMiddle4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewPaymentSpace1"
+        android:background="#e4e4e4" />
+
+    <View
+        android:id="@+id/lineMiddle5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/layoutViewSubAprRel"
+        android:background="#e4e4e4" />
+
+    <RelativeLayout
+        android:id="@+id/layoutViewSubAprRel"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/textViewPaymentSpace1"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_rewards_offers" >
+
+        <TextView
+            android:id="@+id/textViewPaymentDate"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:scaleType="fitCenter"
+            android:text="Date of Payment"
+            android:textColor="#999999" />
+
+        <RelativeLayout
+            android:id="@+id/layoutViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewPaymentDate"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_rewards_offers" >
+
+            <RelativeLayout
+                android:id="@+id/layoutViewMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_rewards_offers" >
+
+                <TextView
+                    android:id="@+id/textViewMonthValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/text_payment_date_style"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="01"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <!-- android:padding="5dp" -->
+
+                <TextView
+                    android:id="@+id/textViewMonthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewMonthValue"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="MONTH"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutViewDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/layoutViewMonth"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_rewards_offers" >
+
+                <TextView
+                    android:id="@+id/textViewDayValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/text_payment_date_style"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="14"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewDayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewDayValue"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="DAY"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutViewYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/layoutViewDay"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_rewards_offers" >
+
+                <TextView
+                    android:id="@+id/textViewYearValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/text_payment_date_style"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="2014"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewYearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewYearValue"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:text="YEAR"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/textViewAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutViewSubAprRel"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/text_payment_date_style"
+        android:fontFamily="sans-serif"
+        android:hint="Amount"
+        android:inputType="numberDecimal|numberSigned"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/lineMiddle6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewAmount"
+        android:background="#e4e4e4" />
+
+    <TextView
+        android:id="@+id/textViewPaymentMode"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/lineMiddle6"
+        android:fontFamily="sans-serif"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="15dp"
+        android:scaleType="fitCenter"
+        android:text="Mode of Payment"
+        android:textColor="#999999" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewPaymentMode"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/radio_pirates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Over the counter" />
+        <!-- android:onClick="onRadioButtonClicked" -->
+
+        <RadioButton
+            android:id="@+id/radio_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online Payment" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/lineMiddle7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/radio_group"
+        android:background="#e4e4e4" />
+
+    <EditText
+        android:id="@+id/textViewBankName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lineMiddle7"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/text_payment_date_style"
+        android:fontFamily="sans-serif"
+        android:hint="Bank Name"
+        android:inputType="textNoSuggestions"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

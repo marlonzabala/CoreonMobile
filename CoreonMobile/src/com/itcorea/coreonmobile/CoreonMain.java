@@ -391,6 +391,11 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment_selected);
 
 		// new getPaymentOptions().execute();
+		billingListViewAdaptor.initiatizeStringsValues();
+		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Report", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		//billingListViewAdaptor.addValue("listview_report_payment", "", "", "", "");
+		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
 	public void openPaymentOptions(View v)
@@ -406,6 +411,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		tv6.setTextColor(Color.parseColor("#ffffff"));
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions_selected);
+		
 
 		// hard coded, never small
 		billingListViewAdaptor.initiatizeStringsValues();
@@ -527,16 +533,18 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 
 		rewardsListViewAdaptor.initiatizeStringsValues();
 		rewardsListViewAdaptor.addValue("listview_main_header_wshadow", "Rewards", "", "", "");
+		
+		rewardsListViewAdaptor.addType("listview_rewards_warning");
 
-		for (int i = 0; i < 20; i++)
-		{
-			rewardsListViewAdaptor.addType("listview_line_gray");
-			rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
-					"August 25, 2013 at 11:30 pm");
-		}
-
-		rewardsListViewAdaptor.addType("listview_line_gray");
-		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
+//		for (int i = 0; i < 20; i++)
+//		{
+//			rewardsListViewAdaptor.addType("listview_line_gray");
+//			rewardsListViewAdaptor.addValue("listview_offers", " Dong Won Restaurant", "Get 50% payment of Coreon Card", "image",
+//					"August 25, 2013 at 11:30 pm");
+//		}
+//
+//		rewardsListViewAdaptor.addType("listview_line_gray");
+//		rewardsListViewAdaptor.addValue("listview_ad", "ads", "", "", "");
 		rewardsListViewAdaptor.notifyDataSetChanged();
 	}
 
@@ -900,7 +908,7 @@ public class CoreonMain extends SherlockFragmentActivity implements ActionBar.Ta
 		anotherDFormat.setGroupingSize(3);
 
 		double roundOffAmount = Math.round(value * 100.0) / 100.0;
-		if (roundOffAmount == 0)
+		if (roundOffAmount <= 0)
 			return "P 0.00";
 		String stringAmount = "P " + anotherDFormat.format(roundOffAmount).toString();
 

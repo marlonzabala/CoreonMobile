@@ -144,7 +144,8 @@
                 android:textColor="#FFFFFF"
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+                android:textStyle="bold" 
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editMobile"
@@ -163,7 +164,8 @@
                 android:textColor="#FFFFFF"
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+                android:textStyle="bold" 
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/buttonLogIn"
@@ -268,7 +270,7 @@
                         android:layout_alignBaseline="@+id/TextViewCoreonWallet"
                         android:layout_alignBottom="@+id/TextViewCoreonWallet"
                         android:layout_toRightOf="@+id/TextViewCoreonWallet"
-                        android:text="1.0"
+                        android:text="Dev 1.0"
                         android:textColor="#ff9e77"
                         android:textSize="10sp" />
 
