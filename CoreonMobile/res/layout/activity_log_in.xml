@@ -145,7 +145,7 @@
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
                 android:textStyle="bold" 
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/editMobile"
@@ -158,14 +158,14 @@
                 android:background="@drawable/edittext_login"
                 android:ems="10"
                 android:fontFamily="sans-serif"
-                android:hint="MOBILE NUBMER"
+                android:hint="MOBILE NUMBER"
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
                 android:textStyle="bold" 
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/buttonLogIn"
