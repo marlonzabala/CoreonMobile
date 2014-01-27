@@ -47,7 +47,7 @@ import android.widget.Toast;
 public class LogIn extends Activity
 {
 
-	int	dev	= 10;
+	int	dev	= 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -278,7 +278,7 @@ public class LogIn extends Activity
 		{
 			// Check login credentials then proceed
 			// execute in asynchronous task
-			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString(), editMobile.getText().toString(),
+			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(), editMobile.getText().toString().trim(),
 					"login");
 		}
 	}
@@ -518,6 +518,7 @@ public class LogIn extends Activity
 					mobile_4digit = json_data.getString("mobile_4digit");
 					billing_address = json_data.getString("billing_address");
 				}
+				useremail = "";
 			}
 			catch (JSONException e1)
 			{
