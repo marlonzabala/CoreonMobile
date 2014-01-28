@@ -20,7 +20,7 @@
         android:layout_height="150dp"
         android:layout_alignBottom="@+id/imageViewSpore1"
         android:layout_alignLeft="@+id/imageViewSpore1"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="-10dp"
         android:layout_marginLeft="90dp"
         android:src="@drawable/login_spore" />
 
@@ -107,7 +107,6 @@
     
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="100dp"
         android:layout_height="match_parent">
 
     <ImageView

@@ -52,8 +52,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -172,6 +174,26 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		actionBar.setCustomView(R.layout.layout_title);
 		mainTitle = (TextView) findViewById(R.id.textViewTitle);
 
+		//getSupportActionBar().setHomeButtonEnabled(true);
+		//actionBar.setDisplayHomeAsUpEnabled(true);
+		//mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		//mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_menu, R.string.hello_world, R.string.hello_world);
+//		{
+//			public void onDrawerClosed(View view)
+//			{
+//				// TODO Auto-generated method stub
+//				// super.onDrawerClosed(view);
+//			}
+//
+//			public void onDrawerOpened(View drawerView)
+//			{
+//				// // TODO Auto-generated method stub
+//				// // Set the title on the action when drawer open
+//				// getSupportActionBar().setTitle("test title");
+//				// super.onDrawerOpened(drawerView);
+//			}
+//		};
+
 		viewPagerAdapter.initializeBillingPayments();
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
 		tempListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
@@ -218,7 +240,11 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		phoneNumber = prefs.getString("mobile_number", "null");
 		setSelectedTab();
+
 	}
+
+	ActionBarDrawerToggle	mDrawerToggle;
+	DrawerLayout			mDrawerLayout;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -1318,7 +1344,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		{
 			Uri selectedImageUri = data.getData();
 			imagepath = getRealPathFromURI(selectedImageUri);
-			
+
 			String timestamp = "" + System.currentTimeMillis() / 1000;
 			String fileName = timestamp + "_" + phoneNumber + ".jpg";
 
@@ -1330,7 +1356,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				FileOutputStream out = new FileOutputStream(imagePath);
 				b.compress(Bitmap.CompressFormat.JPEG, 90, out);
 				out.close();
-				
+
 				imagepath = imagePath;
 			}
 			catch (IOException e)
@@ -1347,8 +1373,6 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			// "http://192.168.123.111/android/coreonmobile/coreonmobile_uploadimage.php";
 
 			new runImageUpload().execute();
-
-			
 
 			Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_SHORT).show();
 		}
