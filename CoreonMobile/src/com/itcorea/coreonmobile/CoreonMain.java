@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -36,7 +38,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,7 +59,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -73,6 +73,7 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 @SuppressLint("NewApi")
 public class CoreonMain extends SherlockFragmentActivity // implements ActionBar.TabListener
 {
+	View						footerView;
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
 
@@ -168,7 +169,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setCustomView(R.layout.mytitle);
+		actionBar.setCustomView(R.layout.layout_title);
 		mainTitle = (TextView) findViewById(R.id.textViewTitle);
 
 		viewPagerAdapter.initializeBillingPayments();
@@ -180,6 +181,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		View BillingPaymentsView = getLayoutInflater().inflate(R.layout.listview_header_billing_payment, null);
 		listviewBillingPayments.addHeaderView(BillingPaymentsView);
 		listviewBillingPayments.setDividerHeight(-1);
+
+		footerView = getLayoutInflater().inflate(R.layout.listview_report_payment, null);
 
 		// rewards initial view
 		listviewRewardsOffers = viewPagerAdapter.getRewardsOffersListView();
@@ -409,9 +412,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addType("listview_line_gray");
 		// billingListViewAdaptor.addValue("listview_report_payment", "", "", "", "");
 
-		//View temp = getLayoutInflater().inflate(R.layout.listview_report_payment, null);
-		//listviewBillingPayments.addFooterView(temp);
-
+		// TODO current work
+		listviewBillingPayments.addFooterView(footerView);
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
@@ -504,6 +506,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		iv5.setImageResource(R.drawable.icon_subtab_reportpayment);
 		ImageView iv6 = (ImageView) findViewById(R.id.imageViewSubTabPaymentOptions);
 		iv6.setImageResource(R.drawable.icon_subtab_paymentoptions);
+
+		listviewBillingPayments.removeFooterView(footerView);
 	}
 
 	public void openRewards(View v)
@@ -1282,39 +1286,27 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 		}
 	}
-	
-	
-	
-	
-	
 
 	// TODO current work
-	
-	
-	private TextView		messageText;
-	private Button			btnselectpic;
-	private ImageView		imageview;
-	private int				serverResponseCode	= 0;
-	private ProgressDialog	dialog				= null;
 
-	private String			upLoadServerUri		= null;
-	private String			imagepath			= null;
+	private int		serverResponseCode	= 0;
+
+	private String	upLoadServerUri		= null;
+	private String	imagepath			= null;
 
 	public void sendReport(View v)
 	{
+		Toast.makeText(getApplicationContext(), "Select image for upload", Toast.LENGTH_SHORT).show();
 
-		Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+		// changed intent action for kitkat bug
 
-//		Intent intent = new Intent();
-//		intent.setType("image/*");
-//		intent.setAction(Intent.ACTION_GET_CONTENT);
-//		startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
-		
-		Intent intent2 = new Intent();
-        intent2.setType("image/*");
-        intent2.setAction(Intent.ACTION_GET_CONTENT);
-        intent2.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent2, 1);
+		Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(intent, 1);
+
+		// Intent intent = new Intent();
+		// intent.setType("image/*");
+		// intent.setAction(Intent.ACTION_GET_CONTENT);
+		// startActivityForResult(Intent.createChooser(intent, ""), 1);
 
 		return;
 	}
@@ -1324,43 +1316,91 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	{
 		if (requestCode == 1 && resultCode == RESULT_OK)
 		{
-			// Bitmap photo = (Bitmap) data.getData().getPath();
 			Uri selectedImageUri = data.getData();
-			Log.e("uri",selectedImageUri.toString());
-			File myFile = new File(selectedImageUri.toString());
-			Log.e("uri 2",myFile.getAbsolutePath());
-			imagepath = getRealPathFromURI(getApplicationContext(), selectedImageUri);
-			Toast.makeText(getApplicationContext(), imagepath, Toast.LENGTH_SHORT).show();
+			imagepath = getRealPathFromURI(selectedImageUri);
+			
+			String timestamp = "" + System.currentTimeMillis() / 1000;
+			String fileName = timestamp + "_" + phoneNumber + ".jpg";
+
+			try
+			{
+				Bitmap b = BitmapFactory.decodeFile(imagepath);
+
+				String imagePath = getFilesDir().getAbsolutePath() + "/" + fileName;
+				FileOutputStream out = new FileOutputStream(imagePath);
+				b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				out.close();
+				
+				imagepath = imagePath;
+			}
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// live
+			upLoadServerUri = "http://125.5.16.155/coreonwallet/coreonmobile/coreonmobile_uploadimage.php";
+
+			// test dev
+			// upLoadServerUri =
+			// "http://192.168.123.111/android/coreonmobile/coreonmobile_uploadimage.php";
+
+			new runImageUpload().execute();
+
+			
+
+			Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	public String getPath(Uri uri)
+	private String getRealPathFromURI(Uri contentURI)
 	{
-		String[] projection = { MediaStore.Images.Media.DATA };
-		Cursor cursor = managedQuery(uri, projection, null, null, null);
-		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		cursor.moveToFirst();
-		return cursor.getString(column_index);
-	}
-	
-	public String getRealPathFromURI(Context context, Uri contentUri)
-	{
-		Cursor cursor = null;
-		try
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		Cursor cursor = getContentResolver().query(contentURI, filePathColumn, null, null, null);
+
+		if (cursor == null)
 		{
-			Log.e("uri 22","test 1");
-			String[] proj = { MediaStore.Images.Media.DATA };
-			cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			return cursor.getString(column_index);
+			return contentURI.getPath();
 		}
-		finally
+		else
 		{
-			if (cursor != null)
-			{
-				cursor.close();
-			}
+			cursor.moveToFirst();
+			int idx = cursor.getColumnIndex(filePathColumn[0]);
+			String path = cursor.getString(idx);
+			Log.e("Path value", path);
+			cursor.close();
+
+			return path;
+		}
+	}
+
+	private class runImageUpload extends AsyncTask<String, Void, String>
+	{
+
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			uploadFile(imagepath);
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
 		}
 	}
 
@@ -1394,13 +1434,11 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			});
 
 			return 0;
-
 		}
 		else
 		{
 			try
 			{
-
 				// open a URL connection to the Servlet
 				FileInputStream fileInputStream = new FileInputStream(sourceFile);
 				URL url = new URL(upLoadServerUri);
@@ -1449,18 +1487,18 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				// Responses from the server (code and message)
 				serverResponseCode = conn.getResponseCode();
 				String serverResponseMessage = conn.getResponseMessage();
-
 				Log.i("uploadFile", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+
+				Log.i("uploadFile tester", "HTTP " + conn.toString());
 
 				if (serverResponseCode == 200)
 				{
-
 					runOnUiThread(new Runnable() {
 						public void run()
 						{
 							String msg = "File Upload Completed.\n\n See uploaded file here : \n\n" + " F:/wamp/wamp/www/uploads";
-							messageText.setText(msg);
-							Toast.makeText(getApplicationContext(), "File Upload Complete.", Toast.LENGTH_SHORT).show();
+							// messageText.setText(msg);
+							Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -1498,7 +1536,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				runOnUiThread(new Runnable() {
 					public void run()
 					{
-						messageText.setText("Got Exception : see logcat ");
+						// messageText.setText("Got Exception : see logcat ");
 						Toast.makeText(getApplicationContext(), "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -1509,8 +1547,6 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 		} // End else block
 	}
-
-	
 
 	public class FixedSpeedScroller extends Scroller
 	{
