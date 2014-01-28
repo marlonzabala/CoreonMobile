@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:windowSoftInputMode="adjustPan|adjustResize"
+    tools:context=".LogIn" >
+
+    <ImageView
+        android:id="@+id/imageViewSpore1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView01"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@+id/imageViewSpore1"
+        android:layout_alignLeft="@+id/imageViewSpore1"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="90dp"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView02"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_above="@+id/imageViewSpore1"
+        android:layout_alignLeft="@+id/ImageView01"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView03"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/ImageView02"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="11dp"
+        android:layout_toLeftOf="@+id/ImageView02"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView04"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/imageViewSpore1"
+        android:layout_alignTop="@+id/ImageView01"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView05"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/ImageView03"
+        android:layout_below="@+id/ImageView03"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="97dp"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView06"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/ImageView04"
+        android:layout_below="@+id/imageViewSpore1"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView07"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/ImageView04"
+        android:layout_marginBottom="12dp"
+        android:layout_toRightOf="@+id/ImageView05"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView08"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/ImageView04"
+        android:layout_alignLeft="@+id/ImageView05"
+        android:src="@drawable/login_spore" />
+
+    <ImageView
+        android:id="@+id/ImageView09"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/ImageView03"
+        android:layout_toLeftOf="@+id/ImageView06"
+        android:src="@drawable/login_spore" />
+    <!-- android:layout_below="@+id/scrollView1" -->
+
+    <ImageView
+        android:id="@+id/imageViewLogoC"
+        android:layout_width="330dp"
+        android:layout_height="220dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_logo_c" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageViewLogoMain"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/login_logo" />
+    
+    </RelativeLayout>
+
+</RelativeLayout>
