@@ -793,6 +793,7 @@
         android:text="Attach Deposit Slip"
         android:textColor="#666666"
         android:textSize="17sp"
+        android:onClick="sendReport"
         android:textStyle="bold" />
 
     <EditText
@@ -825,7 +826,6 @@
         android:layout_below="@+id/textViewRemarks"
         android:layout_margin="10dp"
         android:background="@drawable/button_yellow_clickable"
-        android:onClick="sendReport"
         android:text="Send Report" />
 
 </RelativeLayout>
