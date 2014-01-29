@@ -1,3 +1,8 @@
+//Developer name: Marlon N. Zabala
+//IT.Corea Programmer
+//Start of Development - Jan 16, 2014
+//Version Control: https://github.com/marlonzabala/CoreonMobile
+
 package com.itcorea.coreonmobile;
 
 import java.io.BufferedReader;
@@ -38,7 +43,10 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -61,10 +69,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +91,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	private ViewPager			pager;
 	public MyViewPagerAdapter	viewPagerAdapter;
 
+	public ListView				listViewDrawer;
 	public ListView				listviewmMyAccounts;
 	public ListView				listviewRewardsOffers;
 	public ListView				listviewBillingPayments;
@@ -86,10 +99,11 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	ListViewArrayAdapter		myAccountListViewAdaptor;
 	ListViewArrayAdapter		billingListViewAdaptor;
 	ListViewArrayAdapter		rewardsListViewAdaptor;
-	ListViewArrayAdapter		tempListViewAdaptor;
+	ListViewArrayAdapter		drawerlistViewAdaptor;
 
 	String						phoneNumber	= "";
-	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
+	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";
+	// "192.168.123.111/android/coreonmobile";
 
 	TextView					mainTitle;
 
@@ -106,15 +120,17 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
+		im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
+		im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
+		im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
+		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
 		pager = (ViewPager) findViewById(R.id.pager);
 
-		// TODO get context
 		viewPagerAdapter = new MyViewPagerAdapter(this);
 		pager.setAdapter(viewPagerAdapter);
 		pager.setOffscreenPageLimit(2);
 		pager.setPageMargin(10);
 
-		UnderlinePageIndicator indicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
 		indicator.setFades(false);
 		indicator.setSelectedColor(0xFFFF6600); // orange color
@@ -122,11 +138,6 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		indicator.setFadeDelay(1000);// dont know if still needed
 		indicator.setFadeLength(1000);
 
-		im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
-		im2 = (ImageView) findViewById(R.id.imageViewTabBillingPayment);
-		im3 = (ImageView) findViewById(R.id.imageViewTabRewardsOffers);
-
-		// TODO
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
@@ -174,29 +185,36 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		actionBar.setCustomView(R.layout.layout_title);
 		mainTitle = (TextView) findViewById(R.id.textViewTitle);
 
-		//getSupportActionBar().setHomeButtonEnabled(true);
-		//actionBar.setDisplayHomeAsUpEnabled(true);
-		//mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		//mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_menu, R.string.hello_world, R.string.hello_world);
-//		{
-//			public void onDrawerClosed(View view)
-//			{
-//				// TODO Auto-generated method stub
-//				// super.onDrawerClosed(view);
-//			}
-//
-//			public void onDrawerOpened(View drawerView)
-//			{
-//				// // TODO Auto-generated method stub
-//				// // Set the title on the action when drawer open
-//				// getSupportActionBar().setTitle("test title");
-//				// super.onDrawerOpened(drawerView);
-//			}
-//		};
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_account, R.string.hello_world, R.string.hello_world) {
+
+			public void onDrawerClosed(View view)
+			{
+				getSupportActionBar().setTitle("dsfvs");
+				supportInvalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View view)
+			{
+				getSupportActionBar().setTitle("dfvsdf");
+				mainTitle.setText("Settings");
+				supportInvalidateOptionsMenu();
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		viewPagerAdapter.initializeBillingPayments();
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
-		tempListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+		// tempListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+
+		//
+		// 502-5025
+		// 09266503660
+		//
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 
@@ -241,6 +259,84 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		phoneNumber = prefs.getString("mobile_number", "null");
 		setSelectedTab();
 
+		listViewDrawer = (ListView) findViewById(R.id.listview_drawer);
+
+		// listViewDrawer.setAdapter(adapter);
+
+		// TODO work
+		drawerlistViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
+		drawerlistViewAdaptor.initiatizeStringsValues();
+		drawerlistViewAdaptor.addValue("listview_drawer_menu", "Edit / Update My Account", "", String.valueOf(R.drawable.icon_drawer_edit), "");
+		drawerlistViewAdaptor.addType("listview_line_gray");
+		drawerlistViewAdaptor.addValue("listview_drawer_menu", "Logout", "", String.valueOf(R.drawable.icon_drawer_logout), "");
+		drawerlistViewAdaptor.addType("listview_line_gray");
+		drawerlistViewAdaptor.addType("listview_drawer_info");
+		drawerlistViewAdaptor.addType("listview_line_gray");
+
+		listViewDrawer.setAdapter(drawerlistViewAdaptor);
+		listViewDrawer.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, final int position, long id)
+			{
+				switch (position)
+				{
+					case 0:
+
+						// go to edit my account
+						Toast.makeText(getApplicationContext(), "Tester", Toast.LENGTH_SHORT).show();
+						break;
+					case 2:
+						Logout();
+						break;
+
+					default:
+						break;
+				}
+			};
+		});
+	}
+
+	public void Logout()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(CoreonMain.this);
+		builder.setMessage("Logout your account?").setTitle("Coreon Mobile");
+
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id)
+			{
+				logoutAccount();
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id)
+			{
+				// User cancelled the dialog do nothing
+			}
+		});
+
+		// build the dialog then show
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	public void logoutAccount()
+	{
+		// User clicked OK button
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = preferences.edit();
+		
+		// set value of Logged In to false to invoke log in on screen on startup
+		editor.putBoolean("LoggedIn", false);
+		editor.commit();
+
+		// finish this activity
+		Intent newIntent = new Intent(CoreonMain.this, LogIn.class);
+		startActivity(newIntent);
+		//((Activity) CoreonMain.this).finish();
+		
+		this.finish();
+		return;
 	}
 
 	ActionBarDrawerToggle	mDrawerToggle;
@@ -438,14 +534,12 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addType("listview_line_gray");
 		// billingListViewAdaptor.addValue("listview_report_payment", "", "", "", "");
 
-		// TODO current work
 		listviewBillingPayments.addFooterView(footerView);
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
 	public void openPaymentOptions(View v)
 	{
-		// TODO payment options
 		selectedBillingPaymentsTab = 5;
 		setDafaultAllSubTabs();
 
@@ -1008,7 +1102,6 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 	private class getBillingRecord extends AsyncTask<String, Void, String>
 	{
-		// TODO billing record
 		List<String[]>	rowList;
 
 		@Override
@@ -1073,66 +1166,80 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		}
 	}
 
-	private class getPaymentOptions extends AsyncTask<String, Void, String>
-	{
-
-		@Override
-		protected void onPreExecute()
-		{
-
-		}
-
-		@Override
-		protected String doInBackground(String... params)
-		{
-			tempListViewAdaptor.initiatizeStringsValues();
-			tempListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
-			tempListViewAdaptor.addType("listview_line_gray");
-			tempListViewAdaptor.addType("listview_bank_deposit_how_to_info");
-			tempListViewAdaptor.addType("listview_line_gray");
-			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
-			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
-			tempListViewAdaptor.addType("listview_line_gray");
-			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
-					"");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001-001-011420-8", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "DOLLAR ACCOUNT", "", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "130010019410", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "", "");
-			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
-			tempListViewAdaptor.addType("listview_line_gray");
-			tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
-					"");
-			tempListViewAdaptor.addValue("listview_space", "5", "", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
-			tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
-			tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
-			tempListViewAdaptor.addType("listview_line_gray");
-
-			return "";
-		}
-
-		@Override
-		protected void onPostExecute(String result)
-		{
-			// billingListViewAdaptor.initiatizeStringsValues();
-			// billingListViewAdaptor = tempListViewAdaptor;
-			// billingListViewAdaptor.notifyDataSetChanged();
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values)
-		{
-
-		}
-	}
+	// private class getPaymentOptions extends AsyncTask<String, Void, String>
+	// {
+	//
+	// @Override
+	// protected void onPreExecute()
+	// {
+	//
+	// }
+	//
+	// @Override
+	// protected String doInBackground(String... params)
+	// {
+	// tempListViewAdaptor.initiatizeStringsValues();
+	// tempListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
+	// tempListViewAdaptor.addType("listview_line_gray");
+	// tempListViewAdaptor.addType("listview_bank_deposit_how_to_info");
+	// tempListViewAdaptor.addType("listview_line_gray");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "",
+	// String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name",
+	// "IT.Corea Inc.", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number",
+	// "001688032543", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "",
+	// "");
+	// tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+	// tempListViewAdaptor.addType("listview_line_gray");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "",
+	// String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
+	// "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name",
+	// "IT.Corea Inc.", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number",
+	// "001-001-011420-8", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_header", "DOLLAR ACCOUNT", "", "",
+	// "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name",
+	// "IT.Corea Inc.", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number",
+	// "130010019410", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "UBHPHM", "",
+	// "");
+	// tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+	// tempListViewAdaptor.addType("listview_line_gray");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "",
+	// String.valueOf(R.drawable.icon_payment_option_bank_citibank),
+	// "");
+	// tempListViewAdaptor.addValue("listview_space", "5", "", "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim",
+	// "", "");
+	// tempListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number",
+	// "441-07516-261-01", "", "");
+	// tempListViewAdaptor.addValue("listview_space", "30", "", "", "");
+	// tempListViewAdaptor.addType("listview_line_gray");
+	//
+	// return "";
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(String result)
+	// {
+	// // billingListViewAdaptor.initiatizeStringsValues();
+	// // billingListViewAdaptor = tempListViewAdaptor;
+	// // billingListViewAdaptor.notifyDataSetChanged();
+	// }
+	//
+	// @Override
+	// protected void onProgressUpdate(Void... values)
+	// {
+	//
+	// }
+	// }
 
 	private class getAccountSummary extends AsyncTask<String, Void, String>
 	{
@@ -1313,10 +1420,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		}
 	}
 
-	// TODO current work
-
+	// Upload file
 	private int		serverResponseCode	= 0;
-
 	private String	upLoadServerUri		= null;
 	private String	imagepath			= null;
 
@@ -1361,7 +1466,6 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
