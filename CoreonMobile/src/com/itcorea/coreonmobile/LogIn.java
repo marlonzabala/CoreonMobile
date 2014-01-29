@@ -591,6 +591,13 @@ public class LogIn extends Activity
 
 			if (logIn)
 			{
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				SharedPreferences.Editor editor = preferences.edit();
+				
+				// set value of Logged In to true
+				editor.putBoolean("LoggedIn", true);
+				editor.commit();
+				
 				// Toast.makeText(mContext, useremail, Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(mContext, CoreonMain.class);
 				// Intent intent = new Intent(mContext, LogIn.class);
