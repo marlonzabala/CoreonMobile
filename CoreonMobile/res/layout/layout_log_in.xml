@@ -5,7 +5,7 @@
     android:background="@drawable/login_bg"
     android:windowSoftInputMode="adjustPan|adjustResize"
     tools:context=".LogIn" >
-    
+
     <ImageView
         android:id="@+id/imageViewSpore1"
         android:layout_width="150dp"
@@ -94,16 +94,16 @@
         android:layout_below="@+id/ImageView03"
         android:layout_toLeftOf="@+id/ImageView06"
         android:src="@drawable/login_spore" />
-    <!-- android:layout_below="@+id/scrollView1" -->
+    <!-- android:layout_below="@+id/scrollView1" -->
 
     <ImageView
-    android:id="@+id/imageViewLogoC"
-    android:layout_width="330dp"
-    android:layout_height="220dp"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:scaleType="fitXY"
-    android:src="@drawable/login_logo_c" />
+        android:id="@+id/imageViewLogoC"
+        android:layout_width="330dp"
+        android:layout_height="220dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_logo_c" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -134,6 +134,7 @@
                 android:layout_alignLeft="@+id/editMobile"
                 android:layout_alignRight="@+id/editMobile"
                 android:layout_below="@+id/imageViewLogoMain"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="80dp"
                 android:background="@drawable/edittext_login"
                 android:ems="10"
@@ -144,8 +145,8 @@
                 android:textColor="#FFFFFF"
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
-                android:textStyle="bold" 
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editMobile"
@@ -154,7 +155,6 @@
                 android:layout_alignLeft="@+id/buttonLogIn"
                 android:layout_alignRight="@+id/buttonLogIn"
                 android:layout_below="@+id/editEmail"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_login"
                 android:ems="10"
                 android:fontFamily="sans-serif"
@@ -164,8 +164,14 @@
                 android:textColor="#FFFFFF"
                 android:textColorHint="#f3e5de"
                 android:textCursorDrawable="@null"
-                android:textStyle="bold" 
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editMobileSpace"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@+id/editMobile" />
 
             <Button
                 android:id="@+id/buttonLogIn"
@@ -173,10 +179,9 @@
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/editMobile"
+                android:layout_below="@+id/editMobileSpace"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/button_login_clickable"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
@@ -186,9 +191,27 @@
                 android:shadowDy="-1"
                 android:shadowRadius="0.01"
                 android:text="LOGIN"
-                android:textSize="20sp"
                 android:textColor="#ffffff"
+                android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonDiffMobile"
+                android:layout_below="@+id/buttonLogIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="differentNumber"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000000"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="0.01"
+                android:text="Login with different mobile?"
+                android:textColor="#ffffff"
+                android:background="#00000000"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -309,15 +332,13 @@
                             android:onClick="openSignUp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:textSize="18sp"
                             android:text="Call us"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:textSize="18sp" />
                     </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
-    
 
 </RelativeLayout>

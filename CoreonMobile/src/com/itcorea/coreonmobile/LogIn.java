@@ -39,7 +39,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -56,6 +58,23 @@ public class LogIn extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.layout_log_in);
 
+		// Button diffMobile = (Button) findViewById(R.id.buttonDiffMobile);
+		// diffMobile.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v)
+		// {
+		// EditText ep = (EditText) findViewById(R.id.editMobile);
+		// ep.getLayoutParams().height = 80;
+		//
+		// EditText space = (EditText) findViewById(R.id.editMobileSpace);
+		// space.getLayoutParams().height = 30;
+		//
+		// Button diffMobile = (Button) findViewById(R.id.buttonDiffMobile);
+		// diffMobile.getLayoutParams().height = 0;
+		// }
+		// });
+
 		ImageView imageLogo = (ImageView) findViewById(R.id.imageViewLogoMain);
 		imageLogo.setOnClickListener(new OnClickListener() {
 
@@ -70,17 +89,15 @@ public class LogIn extends Activity
 			}
 		});
 
-		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-		// check if user is logged in
+		EditText ep = (EditText) findViewById(R.id.editMobile);
+		ep.getLayoutParams().height = 0;
+
+		EditText space = (EditText) findViewById(R.id.editMobileSpace);
+		space.getLayoutParams().height = 0;
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean LoggedIn = prefs.getBoolean("LoggedIn", false);
 
-		// for dev quick login
-		//LoggedIn = true;
-
-		// for dev
-		// EditText ep = (EditText) findViewById(R.id.editMobile);
 		// EditText eu = (EditText) findViewById(R.id.editEmail);
 		// // eu.setText("ghost@corea.ph");
 		// // ep.setText("9178589031");
@@ -99,6 +116,22 @@ public class LogIn extends Activity
 		{
 			// Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	public void differentNumber(View v)
+	{
+		EditText ep = (EditText) findViewById(R.id.editMobile);
+		ep.getLayoutParams().height = 80;
+
+		LayoutParams params = ep.getLayoutParams();
+		params.height = 80;
+		ep.setLayoutParams(params);
+
+		EditText space = (EditText) findViewById(R.id.editMobileSpace);
+		space.getLayoutParams().height = 20;
+
+		Button diffMobile = (Button) findViewById(R.id.buttonDiffMobile);
+		diffMobile.setVisibility(View.INVISIBLE);
 	}
 
 	private String sendPost(String httpAddress)
@@ -278,14 +311,14 @@ public class LogIn extends Activity
 		{
 			// Check login credentials then proceed
 			// execute in asynchronous task
-			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(), editMobile.getText().toString().trim(),
-					"login");
+			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(), editMobile.getText().toString()
+					.trim(), "login");
 		}
 	}
 
 	public void openSignUp(View view)
 	{
-		final CharSequence[] items = { "511-17-15 (Landline)", "09178530966 (Globe)", "09998879711 (Smart)" };
+		final CharSequence[] items = { "(Landline) 511-17-15", "(Globe) 09178530966", "(Smart) 09998879711" };
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Call Us");
 		builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -319,10 +352,6 @@ public class LogIn extends Activity
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
-
-		// (02)511 17 15 (land line)
-		// 09178530966 - globe
-		// 09998879711 - smart
 	}
 
 	String				useremail	= "";
@@ -593,14 +622,12 @@ public class LogIn extends Activity
 			{
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 				SharedPreferences.Editor editor = preferences.edit();
-				
+
 				// set value of Logged In to true
 				editor.putBoolean("LoggedIn", true);
 				editor.commit();
-				
-				// Toast.makeText(mContext, useremail, Toast.LENGTH_SHORT).show();
+
 				Intent intent = new Intent(mContext, CoreonMain.class);
-				// Intent intent = new Intent(mContext, LogIn.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				mContext.startActivity(intent);
 			}

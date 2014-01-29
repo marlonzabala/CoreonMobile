@@ -61,12 +61,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AdapterView;
@@ -179,33 +181,43 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		com.actionbarsherlock.app.ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
+
 		actionBar.setCustomView(R.layout.layout_title);
 		mainTitle = (TextView) findViewById(R.id.textViewTitle);
 
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		// mainTitle = new TextView(this);
 
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_account, R.string.hello_world, R.string.hello_world) {
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
+
+		actionBar.setHomeButtonEnabled(true);
+		// actionBar.setDisplayHomeAsUpEnabled(true);
+
+		actionBar.setIcon(R.drawable.icon_account);
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_menu, R.string.hello_world, R.string.hello_world) {
 
 			public void onDrawerClosed(View view)
 			{
-				getSupportActionBar().setTitle("dsfvs");
+				mainTitle.setText(mainTitleText);
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View view)
 			{
-				getSupportActionBar().setTitle("dfvsdf");
+				mainTitleText = (String) mainTitle.getText();
 				mainTitle.setText("Settings");
+				getSupportActionBar().setTitle("test");
 				supportInvalidateOptionsMenu();
 			}
 		};
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
 		viewPagerAdapter.initializeBillingPayments();
 		listviewBillingPayments = viewPagerAdapter.getBillingPaymentsListView();
@@ -214,7 +226,18 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		//
 		// 502-5025
 		// 09266503660
+		// .196
 		//
+
+		mainTitle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v)
+			{
+				// mDrawerLayout.openDrawer(R.id.drawer_layout);
+				// toggleDrawer(null);
+			}
+		});
 
 		billingListViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 
@@ -294,6 +317,16 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				}
 			};
 		});
+
+	}
+
+	String	mainTitleText	= "My Account";
+
+	public void toggleDrawer(View v)
+	{
+		// TODO
+
+		mDrawerLayout.openDrawer(R.id.drawer_layout);
 	}
 
 	public void Logout()
@@ -322,10 +355,10 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	public void logoutAccount()
 	{
 		// User clicked OK button
-		
+
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		SharedPreferences.Editor editor = preferences.edit();
-		
+
 		// set value of Logged In to false to invoke log in on screen on startup
 		editor.putBoolean("LoggedIn", false);
 		editor.commit();
@@ -333,8 +366,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		// finish this activity
 		Intent newIntent = new Intent(CoreonMain.this, LogIn.class);
 		startActivity(newIntent);
-		//((Activity) CoreonMain.this).finish();
-		
+		// ((Activity) CoreonMain.this).finish();
+
 		this.finish();
 		return;
 	}
@@ -378,6 +411,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		im3.setImageResource(R.drawable.icon_rewards_offers_selected);
 		mainTitle.setText("Rewards and Offers");
 		pager.setCurrentItem(2);
+		// mDrawerLayout.openDrawer(R.id.drawer_layout);
 	}
 
 	@Override
@@ -557,6 +591,23 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
 		billingListViewAdaptor.addType("listview_line_gray");
+
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_itcorea), "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+		
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_coreon_gate), "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		billingListViewAdaptor.addType("listview_line_gray");
+
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
