@@ -11,10 +11,11 @@
         android:layout_height="40dp"
         android:fontFamily="sans-serif"
         android:gravity="left|center_vertical"
-        android:paddingLeft="15dp"
+        android:paddingLeft="17dp"
         android:scaleType="fitCenter"
         android:text="Payment for the month of"
-        android:textColor="#999999" />
+        android:textColor="#999999"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/linearLayoutSubTabsContent1"
@@ -523,10 +524,11 @@
             android:layout_height="40dp"
             android:fontFamily="sans-serif"
             android:gravity="left|center_vertical"
-            android:paddingLeft="15dp"
+            android:paddingLeft="17dp"
             android:scaleType="fitCenter"
             android:text="Date of Payment"
-            android:textColor="#999999" />
+            android:textColor="#999999"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/layoutViewDate"
@@ -535,6 +537,7 @@
             android:layout_below="@+id/textViewPaymentDate"
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
+            android:onClick="openDateOfPayment"
             android:src="@drawable/icon_rewards_offers" >
 
             <RelativeLayout
@@ -668,10 +671,13 @@
     <EditText
         android:id="@+id/textViewAmount"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/layoutViewSubAprRel"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/text_payment_date_style"
         android:fontFamily="sans-serif"
         android:hint="Amount"
@@ -701,10 +707,11 @@
         android:layout_below="@+id/lineMiddle6"
         android:fontFamily="sans-serif"
         android:gravity="left|center_vertical"
-        android:paddingLeft="15dp"
+        android:paddingLeft="17dp"
         android:scaleType="fitCenter"
         android:text="Mode of Payment"
-        android:textColor="#999999" />
+        android:textColor="#999999"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/radio_group"
@@ -713,18 +720,83 @@
         android:layout_below="@+id/textViewPaymentMode"
         android:orientation="vertical" >
 
-        <RadioButton
-            android:id="@+id/radio_pirates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Over the counter" />
-        <!-- android:onClick="onRadioButtonClicked" -->
+        <LinearLayout
+            android:id="@+id/linearLayoutSubTabsContentRadio"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/textViewPaymentMode"
+            android:orientation="horizontal" >
 
-        <RadioButton
-            android:id="@+id/radio_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Online Payment" />
+            <RelativeLayout
+                android:id="@+id/layoutViewSubSepRel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:onClick="clickOverTheCounter" >
+
+                <RadioButton
+                    android:id="@+id/radioOverTheCounter"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="7dp"
+                    android:gravity="top"
+                    android:onClick="clickOverTheCounter"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/textViewSubSep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingTop="30dp"
+                    android:scaleType="fitCenter"
+                    android:text="Over the Counter"
+                    android:textColor="#666666"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutViewSubTabFebRel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:onClick="clickOnlinePayment"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_billing_payments" >
+
+                <RadioButton
+                    android:id="@+id/radioOnlinePayment"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="7dp"
+                    android:gravity="top"
+                    android:onClick="clickOnlinePayment"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/textViewSubOct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingTop="30dp"
+                    android:scaleType="fitCenter"
+                    android:text="Online Payment"
+                    android:textColor="#666666"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+        </LinearLayout>
     </RadioGroup>
 
     <View
@@ -738,10 +810,13 @@
     <EditText
         android:id="@+id/textViewBankName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/lineMiddle7"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/text_payment_date_style"
         android:fontFamily="sans-serif"
         android:hint="Bank Name"
@@ -758,10 +833,10 @@
     <EditText
         android:id="@+id/textViewBranchName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/textViewBankName"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:background="@drawable/text_payment_date_style"
         android:fontFamily="sans-serif"
         android:hint="Branch"
@@ -781,19 +856,20 @@
         android:layout_height="35dp"
         android:layout_below="@+id/textViewBranchName"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:background="@drawable/text_payment_date_style"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_gray_clickable"
         android:fontFamily="sans-serif"
         android:hint="Branch"
         android:inputType="textNoSuggestions"
+        android:onClick="selectImageForUpload"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
+        android:gravity="left"
         android:text="Attach Deposit Slip"
         android:textColor="#666666"
         android:textSize="17sp"
-        android:onClick="sendReport"
         android:textStyle="bold" />
 
     <EditText
@@ -801,7 +877,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/textViewAttachDeposit"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:background="@drawable/text_payment_date_style"
         android:fontFamily="sans-serif"
         android:gravity="top|left"
@@ -821,11 +897,34 @@
     <Button
         android:id="@+id/button_send_report"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
+        android:layout_height="40dp"
         android:layout_below="@+id/textViewRemarks"
-        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
         android:background="@drawable/button_yellow_clickable"
-        android:text="Send Report" />
+        android:text="Send Report"
+        android:onClick="sendReport"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/viewSpace"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/button_send_report" />
+
+    <ImageView
+        android:id="@+id/imageViewAttachImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewAttachDeposit"
+        android:layout_alignRight="@+id/textViewAttachDeposit"
+        android:layout_alignTop="@+id/textViewAttachDeposit"
+        android:adjustViewBounds="true"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
+        android:paddingRight="3dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/icon_attach" />
 
 </RelativeLayout>

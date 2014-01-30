@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,8 +44,8 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,11 +62,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,13 +74,15 @@ import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,7 +91,8 @@ import com.actionbarsherlock.view.Menu;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 @SuppressLint("NewApi")
-public class CoreonMain extends SherlockFragmentActivity // implements ActionBar.TabListener
+public class CoreonMain extends SherlockFragmentActivity implements OnDateSetListener// implements
+// ActionBar.TabListener
 {
 	View						footerView;
 	private ViewPager			pager;
@@ -103,6 +107,9 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 	ListViewArrayAdapter		billingListViewAdaptor;
 	ListViewArrayAdapter		rewardsListViewAdaptor;
 	ListViewArrayAdapter		drawerlistViewAdaptor;
+
+	RadioButton					onlinePayment;
+	RadioButton					overTheCounter;
 
 	String						phoneNumber	= "";
 	String						ipAdd		= "125.5.16.155/coreonwallet/coreonmobile";
@@ -319,6 +326,41 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			};
 		});
 
+		// TODO work
+
+		onlinePayment = (RadioButton) footerView.findViewById(R.id.radioOnlinePayment);
+		overTheCounter = (RadioButton) footerView.findViewById(R.id.radioOverTheCounter);
+
+		textMonth = (TextView) footerView.findViewById(R.id.textViewMonthValue);
+		textDay = (TextView) footerView.findViewById(R.id.textViewDayValue);
+		textYear = (TextView) footerView.findViewById(R.id.textViewYearValue);
+
+		Calendar c = Calendar.getInstance();
+
+		// set current date as default for report payment
+		textMonth.setText(String.valueOf(c.get(Calendar.MONTH) + 1));
+		textDay.setText(String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+		textYear.setText(String.valueOf(c.get(Calendar.YEAR)));
+
+		stringDateOfPayment = String.valueOf(c.get(Calendar.MONTH) + 1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "/"
+				+ String.valueOf(c.get(Calendar.YEAR));
+	}
+
+	public void clickOnlinePayment(View v)
+	{
+		onlinePayment.setChecked(true);
+		overTheCounter.setChecked(false);
+
+		// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+		return;
+	}
+
+	public void clickOverTheCounter(View v)
+	{
+		onlinePayment.setChecked(false);
+		overTheCounter.setChecked(true);
+		// Toast.makeText(getApplicationContext(), "tester 2", Toast.LENGTH_SHORT).show();
+		return;
 	}
 
 	String	mainTitleText	= "My Account";
@@ -593,8 +635,14 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info_branch_payments");
 		billingListViewAdaptor.addType("listview_line_gray");
 
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "14.5613973", "121.028455", String.valueOf(R.drawable.icon_payment_option_itcorea), "https://maps.google.com.ph/maps?q=14.561549,121.028169&ie=UTF-8&hq=&hnear=0x3397c900b1eb26c9:0x3d5a7c4a5ee60bf2,14.561549,121.028169&gl=ph&ei=8r7pUs61BqaWiQe0s4CIAg&ved=0CCQQ8gEwAA");
-		
+		billingListViewAdaptor
+				.addValue(
+						"listview_bank_deposit_image_header",
+						"14.5613973",
+						"121.028455",
+						String.valueOf(R.drawable.icon_payment_option_itcorea),
+						"https://maps.google.com.ph/maps?q=14.561549,121.028169&ie=UTF-8&hq=&hnear=0x3397c900b1eb26c9:0x3d5a7c4a5ee60bf2,14.561549,121.028169&gl=ph&ei=8r7pUs61BqaWiQe0s4CIAg&ved=0CCQQ8gEwAA");
+
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "IT.COREA INC. MAKATI MAIN OFFICE", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "UNIT 506 Executive Building Center", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "369 Sen Gil Puyat Ave. corner Makati Ave.", "", "", "");
@@ -605,8 +653,14 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Email: <font color='#ff9600'>cs@coreonmobile.com</font>", "", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_coreon_gate), "https://maps.google.com.ph/maps?ie=UTF-8&q=Station+168+Adriatico+Internet+Center&fb=1&gl=ph&hq=Station+168+Adriatico+Internet+Center,+1774+2nd+Flr+HRC+Building+M.Adriatico+Street+Malate,+Manila+City+1000,+Philippines");
+
+		billingListViewAdaptor
+				.addValue(
+						"listview_bank_deposit_image_header",
+						"",
+						"",
+						String.valueOf(R.drawable.icon_payment_option_coreon_gate),
+						"https://maps.google.com.ph/maps?ie=UTF-8&q=Station+168+Adriatico+Internet+Center&fb=1&gl=ph&hq=Station+168+Adriatico+Internet+Center,+1774+2nd+Flr+HRC+Building+M.Adriatico+Street+Malate,+Manila+City+1000,+Philippines");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "COREON GATE MALATE BRANCH", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "1774 2nd Flr HRC Building M. Adriatico Street", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Malate, Manila City 1000", "", "", "");
@@ -614,12 +668,13 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Telephone No: +63 2 521 6933", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Email: <font color='#ff9600'>info@coreongate.ph</font>", "", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
-		
+
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
 		billingListViewAdaptor.addType("listview_line_gray");
 
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "https://www.bdo.com.ph/branches-atms-locator");
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo),
+				"https://www.bdo.com.ph/branches-atms-locator");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
@@ -864,7 +919,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 			int resId = 0;
 			switch (position)
-			{
+			{// TODO work get
 				case 0:
 					resId = R.layout.tab_my_account;
 					View view0 = inflater.inflate(resId, null);
@@ -1034,6 +1089,8 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 	private String sendPost(String httpAddress)
 	{
+		Log.e("Log sendpost", httpAddress);
+		
 		timeout = false;
 		String result = "";
 		StringBuilder sb = null;
@@ -1492,25 +1549,21 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 	// Upload file
 	private int		serverResponseCode	= 0;
-	private String	upLoadServerUri		= null;
-	private String	imagepath			= null;
+	private String	upLoadServerUri		= "";
+	private String	imagepath			= "";
 
-	public void sendReport(View v)
+	public void selectImageForUpload(View v)
 	{
 		Toast.makeText(getApplicationContext(), "Select image for upload", Toast.LENGTH_SHORT).show();
 
 		// changed intent action for kitkat bug
-
 		Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(intent, 1);
 
-		// Intent intent = new Intent();
-		// intent.setType("image/*");
-		// intent.setAction(Intent.ACTION_GET_CONTENT);
-		// startActivityForResult(Intent.createChooser(intent, ""), 1);
-
 		return;
 	}
+	
+	String fileName;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -1521,7 +1574,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			imagepath = getRealPathFromURI(selectedImageUri);
 
 			String timestamp = "" + System.currentTimeMillis() / 1000;
-			String fileName = timestamp + "_" + phoneNumber + ".jpg";
+			fileName = timestamp + "_" + phoneNumber + ".jpg";
 
 			try
 			{
@@ -1539,12 +1592,228 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				e.printStackTrace();
 			}
 
-			upLoadServerUri = "http://125.5.16.155/coreonwallet/coreonmobile/coreonmobile_uploadimage.php";
-			new runImageUpload().execute();
-
-			Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Selected Image for upload", Toast.LENGTH_SHORT).show();
 		}
 	}
+
+	TextView	textMonth;
+	TextView	textDay;
+	TextView	textYear;
+
+	public void openDateOfPayment(View v)
+	{
+
+		int year = Integer.parseInt(textYear.getText().toString()); // year
+		int month = Integer.parseInt(textMonth.getText().toString()) - 1; // month
+		int day = Integer.parseInt(textDay.getText().toString()); // day
+
+		Bundle b = new Bundle();
+		b.putInt(DatePickerDialogFragment.YEAR, year);
+		b.putInt(DatePickerDialogFragment.MONTH, month);
+		b.putInt(DatePickerDialogFragment.DATE, day);
+		DialogFragment picker = new DatePickerDialogFragment();
+		picker.setArguments(b);
+		picker.show(getSupportFragmentManager(), "frag_date_picker");
+
+	}
+
+	public void sendReport(View v)
+	{
+		// TODO workkkk
+		// fileName
+		// imagePath
+
+		upLoadServerUri = "http://" + ipAdd + "/coreonmobile_uploadimage.php";
+		new runImageUpload().execute();
+
+		CheckBox chkJan = (CheckBox) footerView.findViewById(R.id.checkBoxJan);
+		CheckBox chkFeb = (CheckBox) footerView.findViewById(R.id.checkBoxFeb);
+		CheckBox chkMar = (CheckBox) footerView.findViewById(R.id.checkBoxMar);
+		CheckBox chkApr = (CheckBox) footerView.findViewById(R.id.checkBoxApr);
+		CheckBox chkMay = (CheckBox) footerView.findViewById(R.id.checkBoxMay);
+		CheckBox chkJun = (CheckBox) footerView.findViewById(R.id.checkBoxJun);
+		CheckBox chkJul = (CheckBox) footerView.findViewById(R.id.checkBoxJul);
+		CheckBox chkAug = (CheckBox) footerView.findViewById(R.id.checkBoxAug);
+		CheckBox chkSep = (CheckBox) footerView.findViewById(R.id.checkBoxSep);
+		CheckBox chkOct = (CheckBox) footerView.findViewById(R.id.checkBoxOct);
+		CheckBox chkNov = (CheckBox) footerView.findViewById(R.id.checkBoxNov);
+		CheckBox chkDec = (CheckBox) footerView.findViewById(R.id.checkBoxDec);
+
+		String month = "";
+
+		if (chkJan.isChecked())
+		{
+			month = month + "January,";
+		}
+		if (chkFeb.isChecked())
+		{
+			month = month + "February,";
+		}
+		if (chkMar.isChecked())
+		{
+			month = month + "March,";
+		}
+		if (chkApr.isChecked())
+		{
+			month = month + "April,";
+		}
+		if (chkMay.isChecked())
+		{
+			month = month + "May,";
+		}
+		if (chkJun.isChecked())
+		{
+			month = month + "June,";
+		}
+		if (chkJul.isChecked())
+		{
+			month = month + "July,";
+		}
+		if (chkAug.isChecked())
+		{
+			month = month + "August,";
+		}
+		if (chkSep.isChecked())
+		{
+			month = month + "September,";
+		}
+		if (chkOct.isChecked())
+		{
+			month = month + "October,";
+		}
+		if (chkNov.isChecked())
+		{
+			month = month + "November,";
+		}
+		if (chkDec.isChecked())
+		{
+			month = month + "December,";
+		}
+
+		month = removeLastChar(month);
+
+		EditText textAmount = (EditText) footerView.findViewById(R.id.textViewAmount);
+		EditText textBankName = (EditText) footerView.findViewById(R.id.textViewBankName);
+		EditText textBranchName = (EditText) footerView.findViewById(R.id.textViewBranchName);
+		EditText textRemarks = (EditText) footerView.findViewById(R.id.textViewRemarks);
+
+		String amount = textAmount.getText().toString();
+		String bankName = textBankName.getText().toString();
+		String branchName = textBranchName.getText().toString();
+		String remarks = textRemarks.getText().toString();
+
+		String modePayment = "";
+
+		if (onlinePayment.isChecked())
+		{
+			modePayment = "Online Payment";
+		}
+		if (overTheCounter.isChecked())
+		{
+			modePayment = "Over the Counter";
+		}
+
+		if (month.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please select month of payment", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		else if (stringDateOfPayment.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please select date of payment", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		else if (amount.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please enter payment amount", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		else if (modePayment.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please select mode of payment", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		else if (bankName.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please enter bank name", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		else if (branchName.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please enter branch name", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		if (modePayment.equals("Over the Counter") && imagepath.equals(""))
+		{
+			Toast.makeText(getApplicationContext(), "Please select an image for upload", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		String sendText = month + " " + amount + " " + modePayment + " " + bankName + " " + branchName + " " + remarks;
+		Toast.makeText(getApplicationContext(), sendText, Toast.LENGTH_SHORT).show();
+
+		// TODO work
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		String fName = prefs.getString("first_name", "null");
+		String lName = prefs.getString("last_name", "null");
+		String email = prefs.getString("primary_email_address", "null");
+
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		String report_year = String.valueOf(year);
+
+		String getSendText = "?fname=" + fName + "&lname=" + lName + "&mobile=" + phoneNumber + "&email_address=" + email + "&report_month=" + month
+				+ "&report_year=" + report_year + "&mode_of_payment=" + modePayment + "&bank_name=" + bankName + "&branch_name=" + branchName
+				+ "&date_of_payment="+stringDateOfPayment+"&amount="+amount+"&deposit_slip="+fileName+"&send_date=&remarks="+remarks+"&agency_code=";
+		new sendReportPayment().execute(getSendText);
+		return;
+	}
+
+	public String removeLastChar(String str)
+	{
+		if (str.length() > 0 && str.charAt(str.length() - 1) == 'x')
+		{
+			str = str.substring(0, str.length() - 1);
+		}
+		return str;
+	}
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+	{
+		// updating of birthdate;m send post
+
+		String monthString = "";
+		if (monthOfYear < 10)
+		{
+			monthString = "0" + String.valueOf(monthOfYear + 1);
+		}
+		else
+		{
+			monthString = String.valueOf(monthOfYear + 1);
+		}
+
+		String dayString = "";
+		if (dayOfMonth < 10)
+		{
+			dayString = "0" + String.valueOf(dayOfMonth);
+		}
+		else
+		{
+			dayString = String.valueOf(dayOfMonth);
+		}
+
+		stringDateOfPayment = monthString + "/" + dayString + "/" + String.valueOf(year);
+
+		textMonth.setText(monthString);
+		textDay.setText(dayString);
+		textYear.setText(String.valueOf(year));
+
+		// Toast.makeText(getApplicationContext(), stringDateOfPayment, Toast.LENGTH_SHORT).show();
+	}
+
+	String	stringDateOfPayment	= "";
 
 	private String getRealPathFromURI(Uri contentURI)
 	{
@@ -1564,6 +1833,35 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			cursor.close();
 
 			return path;
+		}
+	}
+
+	private class sendReportPayment extends AsyncTask<String, Void, String>
+	{
+
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected String doInBackground(String... params)
+		{
+			sendPost("http://" + ipAdd + "/coreonmobile_reportpayment.php" + params[0]);
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+
 		}
 	}
 
@@ -1598,6 +1896,10 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 
 	public int uploadFile(String sourceFileUri)
 	{
+		if (sourceFileUri == null)
+		{
+			return 0;
+		}
 
 		String fileName = sourceFileUri;
 
@@ -1688,7 +1990,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 					runOnUiThread(new Runnable() {
 						public void run()
 						{
-							String msg = "File Upload Completed.\n\n See uploaded file here : \n\n" + " F:/wamp/wamp/www/uploads";
+							String msg = "Image upload completed";
 							// messageText.setText(msg);
 							Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 						}

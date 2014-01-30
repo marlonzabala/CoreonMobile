@@ -26,6 +26,5 @@
         android:text="Subscription Details"
         android:textColor="#666666"
         android:textStyle="bold" />
-    <!-- android:textSize="20sp" -->
 
 </RelativeLayout>
