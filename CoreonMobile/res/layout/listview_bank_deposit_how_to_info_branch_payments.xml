@@ -13,7 +13,7 @@
         android:gravity="left|center_vertical"
         android:padding="15dp"
         android:scaleType="fitCenter"
-        android:text="Bank Deposit"
+        android:text="Branch Payments"
         android:textStyle="bold"
         android:textColor="#666666" />
 
@@ -30,23 +30,8 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:scaleType="fitCenter"
-        android:text="You can deposit your payment on the following bank accounts listed below. Fill-up the deposit slip with IT Corea&apos;s Account Number, Account Name and Payment Amount. Please put your Full Name on the depositor field so we can track your payment."
+        android:text="You can make your payment on the following IT.Corea Inc. owned branches listed below. Just proceed to the counter and inquire for Coreon Mobile Payment."
         android:textColor="#737373" />
-
-    <TextView
-        android:id="@+id/TextViewInfo2"
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TextViewInfo1"
-        android:fontFamily="sans-serif"
-        android:gravity="left|center_vertical"
-        android:paddingBottom="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:scaleType="fitCenter"
-        android:text="After payment, send us a scan copy of the validated payment slip at: "
-        android:textColor="#737373" />
+    <!-- android:textSize="15sp" -->
 
 </RelativeLayout>

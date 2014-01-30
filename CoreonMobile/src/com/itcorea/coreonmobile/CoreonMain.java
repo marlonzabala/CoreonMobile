@@ -65,6 +65,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -589,26 +590,36 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.initiatizeStringsValues();
 		billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Options", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
-		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
+		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info_branch_payments");
 		billingListViewAdaptor.addType("listview_line_gray");
 
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_itcorea), "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "14.5613973", "121.028455", String.valueOf(R.drawable.icon_payment_option_itcorea), "https://maps.google.com.ph/maps?q=14.561549,121.028169&ie=UTF-8&hq=&hnear=0x3397c900b1eb26c9:0x3d5a7c4a5ee60bf2,14.561549,121.028169&gl=ph&ei=8r7pUs61BqaWiQe0s4CIAg&ved=0CCQQ8gEwAA");
+		
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "IT.COREA INC. MAKATI MAIN OFFICE", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "UNIT 506 Executive Building Center", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "369 Sen Gil Puyat Ave. corner Makati Ave.", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Makati City 1209", "", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Telephone No: +63 2 511 1715", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Mobile No (Globe) 0917 8530966 • (Smart) 0999 8879711", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Email: <font color='#ff9600'>cs@coreonmobile.com</font>", "", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_coreon_gate), "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Swift Code", "BNORPHMM", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_coreon_gate), "https://maps.google.com.ph/maps?ie=UTF-8&q=Station+168+Adriatico+Internet+Center&fb=1&gl=ph&hq=Station+168+Adriatico+Internet+Center,+1774+2nd+Flr+HRC+Building+M.Adriatico+Street+Malate,+Manila+City+1000,+Philippines");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "COREON GATE MALATE BRANCH", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "1774 2nd Flr HRC Building M. Adriatico Street", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Malate, Manila City 1000", "", "", "");
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Telephone No: +63 2 521 6933", "", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info_text", "Email: <font color='#ff9600'>info@coreongate.ph</font>", "", "", "");
+		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
+		
+		billingListViewAdaptor.addType("listview_line_gray");
+		billingListViewAdaptor.addType("listview_bank_deposit_how_to_info");
 		billingListViewAdaptor.addType("listview_line_gray");
 
-		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_bdo), "https://www.bdo.com.ph/branches-atms-locator");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001688032543", "", "");
@@ -616,10 +627,10 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_unionbank),
-				"");
+				"http://www.unionbankph.com/index.php?option=com_content&id=1043&Itemid=505");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "PESO ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
-		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "001-001-011420-8", "", "");
+		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "00-001-011420-8", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_header", "DOLLAR ACCOUNT", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "IT.Corea Inc.", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "130010019410", "", "");
@@ -627,7 +638,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		billingListViewAdaptor.addValue("listview_space", "30", "", "", "");
 		billingListViewAdaptor.addType("listview_line_gray");
 		billingListViewAdaptor.addValue("listview_bank_deposit_image_header", "", "", String.valueOf(R.drawable.icon_payment_option_bank_citibank),
-				"");
+				"http://www.findmyciti.com/ph/");
 		billingListViewAdaptor.addValue("listview_space", "5", "", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Name", "Jin Su Kim", "", "");
 		billingListViewAdaptor.addValue("listview_bank_deposit_sub_info", "Account Number", "441-07516-261-01", "", "");
@@ -1161,6 +1172,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addType("listview_loading");
 		}
 
 		@Override
@@ -1186,6 +1198,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		@Override
 		protected void onPostExecute(String result)
 		{
+			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 
 			double total = (double) 0.0;
@@ -1303,6 +1316,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addType("listview_loading");
 		}
 
 		@Override
@@ -1324,6 +1338,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		@Override
 		protected void onPostExecute(String result)
 		{
+			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 			for (int i = 0; i < rowList.size(); i++)
 			{
@@ -1366,6 +1381,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addType("listview_loading");
 		}
 
 		@Override
@@ -1385,6 +1401,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		@Override
 		protected void onPostExecute(String result)
 		{
+			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 			for (int i = 0; i < rowList.size(); i++)
 			{
@@ -1420,6 +1437,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
+			billingListViewAdaptor.addType("listview_loading");
 		}
 
 		@Override
@@ -1438,6 +1456,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 		@Override
 		protected void onPostExecute(String result)
 		{
+			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 			double total = (double) 0.0;
 
@@ -1520,13 +1539,7 @@ public class CoreonMain extends SherlockFragmentActivity // implements ActionBar
 				e.printStackTrace();
 			}
 
-			// live
 			upLoadServerUri = "http://125.5.16.155/coreonwallet/coreonmobile/coreonmobile_uploadimage.php";
-
-			// test dev
-			// upLoadServerUri =
-			// "http://192.168.123.111/android/coreonmobile/coreonmobile_uploadimage.php";
-
 			new runImageUpload().execute();
 
 			Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_SHORT).show();

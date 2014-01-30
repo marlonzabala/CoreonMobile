@@ -1,6 +1,7 @@
 package com.itcorea.coreonmobile;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -49,7 +50,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// lineGray = inflater.inflate(R.layout.listview_line_gray, null);
 	}
-	
+
 	public int getViewTypeCount()
 	{
 		return 30;
@@ -151,6 +152,11 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 
 		this.add("");
 	}
+	
+	public void removeLast()
+	{
+		this.removeValue(this.getCount()-1);
+	}
 
 	@Override
 	public int getCount()
@@ -182,9 +188,9 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textName.setText(_extra1.get(position).toString());
 			textNumber.setText(_extra2.get(position).toString());
 			textNetwork.setText(_extra3.get(position).toString());
-			UrlImageViewHelper.setUrlDrawable(imageProfile, _image.get(position).toString(),R.drawable.my_account_picture);
-			
-			//Log.e("Image URL", _image.get(position).toString());
+			UrlImageViewHelper.setUrlDrawable(imageProfile, _image.get(position).toString(), R.drawable.my_account_picture);
+
+			// Log.e("Image URL", _image.get(position).toString());
 			rowView.setTag(tag);
 		}
 		else if (type.equals(tag = "my_account_status"))
@@ -428,7 +434,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 		}
 		else if (type.equals(tag = "listview_billing_statements"))
 		{
-			
+
 			if ((convertView != null && convertView.getTag().equals(tag)))
 			{
 				rowView = convertView;
@@ -529,7 +535,34 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 
 			ImageView imageBank = (ImageView) rowView.findViewById(R.id.imageViewBankImage);
 			imageBank.setImageResource(Integer.parseInt(_image.get(position).toString()));
+			
+			
+			ImageView imageLocation = (ImageView) rowView.findViewById(R.id.imageViewLocation);
+			imageLocation.setOnClickListener(new View.OnClickListener() {
 
+				@Override
+				public void onClick(View arg0)
+				{
+					if(_date.get(position).toString().equals(""))
+					{
+						float latitude = 14.5613973f;
+						float longitude = 121.028455f;
+						String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+						context.startActivity(intent);
+					}
+					else
+					{
+						String url = _date.get(position).toString();
+						if (!url.startsWith("http://") && !url.startsWith("https://"))
+							url = "http://" + url;
+
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						context.startActivity(browserIntent);
+					}					
+				}
+			});
 		}
 		else if (type.equals(tag = "listview_bank_deposit_how_to_info"))
 		{
@@ -546,6 +579,33 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			TextView textInfo = (TextView) rowView.findViewById(R.id.TextViewInfo2);
 			textInfo.setText(Html
 					.fromHtml("After payment, send us a scan copy of the validated payment slip at: <font color='#ff9600'>cs@coreonmobile.com</font>"));
+		}
+		else if (type.equals(tag = "listview_bank_deposit_how_to_info_branch_payments"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_how_to_info_branch_payments, parent, false);
+			}
+			rowView.setTag(tag);
+		}
+		else if (type.equals(tag = "listview_bank_deposit_sub_info_text"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_bank_deposit_sub_info_text, parent, false);
+			}
+			rowView.setTag(tag);
+
+			TextView textTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
+			textTitle.setText(Html.fromHtml(_title.get(position).toString()));
 		}
 		else if (type.equals(tag = "listview_rewards_warning"))
 		{
@@ -578,7 +638,7 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			textTitle.setText(_title.get(position).toString());
 			textInfo.setText(_content.get(position).toString());
 			textDate.setText(_date.get(position).toString());
-			//change picture
+			// change picture
 			image.setImageResource(R.drawable.offer_0);
 		}
 		else if (type.equals(tag = "listview_drawer_menu"))
@@ -619,6 +679,18 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 			else
 			{
 				rowView = inflater.inflate(R.layout.listview_report_payment, parent, false);
+			}
+			rowView.setTag(tag);
+		}
+		else if (type.equals(tag = "listview_loading"))
+		{
+			if ((convertView != null && convertView.getTag().equals(tag)))
+			{
+				rowView = convertView;
+			}
+			else
+			{
+				rowView = inflater.inflate(R.layout.listview_loading, parent, false);
 			}
 			rowView.setTag(tag);
 		}
