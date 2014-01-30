@@ -48,8 +48,7 @@ import android.widget.Toast;
 
 public class LogIn extends Activity
 {
-
-	int	dev	= 1;
+	int	dev	= 50;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

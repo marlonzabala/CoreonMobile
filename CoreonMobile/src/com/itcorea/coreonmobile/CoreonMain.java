@@ -46,6 +46,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,6 +69,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -297,7 +299,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		// TODO work
 		drawerlistViewAdaptor = new ListViewArrayAdapter(this, new ArrayList<String>());
 		drawerlistViewAdaptor.initiatizeStringsValues();
-		drawerlistViewAdaptor.addValue("listview_drawer_menu", "Edit / Update My Account", "", String.valueOf(R.drawable.icon_drawer_edit), "");
+		// drawerlistViewAdaptor.addValue("listview_drawer_menu", "Edit / Update My Account", "",
+		// String.valueOf(R.drawable.icon_drawer_edit), "");
 		drawerlistViewAdaptor.addType("listview_line_gray");
 		drawerlistViewAdaptor.addValue("listview_drawer_menu", "Logout", "", String.valueOf(R.drawable.icon_drawer_logout), "");
 		drawerlistViewAdaptor.addType("listview_line_gray");
@@ -311,13 +314,15 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 			{
 				switch (position)
 				{
-					case 0:
+					case 1:
 
 						// go to edit my account
-						Toast.makeText(getApplicationContext(), "Tester", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(getApplicationContext(), "Tester", Toast.LENGTH_SHORT).show();
+						
+						Logout();
 						break;
 					case 2:
-						Logout();
+						
 						break;
 
 					default:
@@ -1090,7 +1095,7 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	private String sendPost(String httpAddress)
 	{
 		Log.e("Log sendpost", httpAddress);
-		
+
 		timeout = false;
 		String result = "";
 		StringBuilder sb = null;
@@ -1562,8 +1567,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 		return;
 	}
-	
-	String fileName;
+
+	String	fileName;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -1622,9 +1627,6 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		// TODO workkkk
 		// fileName
 		// imagePath
-
-		upLoadServerUri = "http://" + ipAdd + "/coreonmobile_uploadimage.php";
-		new runImageUpload().execute();
 
 		CheckBox chkJan = (CheckBox) footerView.findViewById(R.id.checkBoxJan);
 		CheckBox chkFeb = (CheckBox) footerView.findViewById(R.id.checkBoxFeb);
@@ -1765,14 +1767,18 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 		String getSendText = "?fname=" + fName + "&lname=" + lName + "&mobile=" + phoneNumber + "&email_address=" + email + "&report_month=" + month
 				+ "&report_year=" + report_year + "&mode_of_payment=" + modePayment + "&bank_name=" + bankName + "&branch_name=" + branchName
-				+ "&date_of_payment="+stringDateOfPayment+"&amount="+amount+"&deposit_slip="+fileName+"&send_date=&remarks="+remarks+"&agency_code=";
+				+ "&date_of_payment=" + stringDateOfPayment + "&amount=" + amount + "&deposit_slip=" + fileName + "&send_date=&remarks=" + remarks
+				+ "&agency_code=itcorea";
+
+		getSendText = getSendText.replace(" ", "%20");
+
 		new sendReportPayment().execute(getSendText);
 		return;
 	}
 
 	public String removeLastChar(String str)
 	{
-		if (str.length() > 0 && str.charAt(str.length() - 1) == 'x')
+		if (str.length() > 0)
 		{
 			str = str.substring(0, str.length() - 1);
 		}
@@ -1838,16 +1844,28 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	private class sendReportPayment extends AsyncTask<String, Void, String>
 	{
+		ProgressDialog	pd	= new ProgressDialog(CoreonMain.this);
 
 		@Override
 		protected void onPreExecute()
 		{
-
+			pd.setMessage("Sending Report");
+			pd.show();
+			pd.setCanceledOnTouchOutside(false);
+			pd.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2)
+				{
+					return arg2.getKeyCode() == KeyEvent.KEYCODE_BACK;
+				}
+			});
 		}
 
 		@Override
 		protected String doInBackground(String... params)
 		{
+			upLoadServerUri = "http://" + ipAdd + "/coreonmobile_uploadimage.php";
+			uploadFile(imagepath);
 			sendPost("http://" + ipAdd + "/coreonmobile_reportpayment.php" + params[0]);
 			return "";
 		}
@@ -1855,36 +1873,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		@Override
 		protected void onPostExecute(String result)
 		{
-
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values)
-		{
-
-		}
-	}
-
-	private class runImageUpload extends AsyncTask<String, Void, String>
-	{
-
-		@Override
-		protected void onPreExecute()
-		{
-
-		}
-
-		@Override
-		protected String doInBackground(String... params)
-		{
-			uploadFile(imagepath);
-			return "";
-		}
-
-		@Override
-		protected void onPostExecute(String result)
-		{
-
+			pd.hide();
+			pd.dismiss();
 		}
 
 		@Override
