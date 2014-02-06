@@ -46,13 +46,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class LogIn extends Activity
-{
-	int	dev	= 50;
+public class LogIn extends Activity {
+	int dev = 1;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.layout_log_in);
@@ -78,11 +76,9 @@ public class LogIn extends Activity
 		imageLogo.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				dev--;
-				if (dev < 0)
-				{
+				if (dev < 0) {
 					new getRandomAccount().execute();
 				}
 			}
@@ -104,21 +100,17 @@ public class LogIn extends Activity
 		// ep.setText("9178143372");
 
 		// detection of logged in value
-		if (LoggedIn == true)
-		{
+		if (LoggedIn == true) {
 			Intent intent = new Intent(getApplicationContext(), CoreonMain.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getApplicationContext().startActivity(intent);
 			finish();
-		}
-		else
-		{
+		} else {
 			// Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	public void differentNumber(View v)
-	{
+	public void differentNumber(View v) {
 		EditText ep = (EditText) findViewById(R.id.editMobile);
 		ep.getLayoutParams().height = 80;
 
@@ -133,8 +125,7 @@ public class LogIn extends Activity
 		diffMobile.setVisibility(View.INVISIBLE);
 	}
 
-	private String sendPost(String httpAddress)
-	{
+	private String sendPost(String httpAddress) {
 		timeout = false;
 		String result = "";
 		StringBuilder sb = null;
@@ -143,19 +134,16 @@ public class LogIn extends Activity
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
 		// check for network connection
-		ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected()))
-		{
+		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
 			network = false;
 			return "";
-		}
-		else
-		{
+		} else {
 			network = true;
 			timeout = false;
-			try
-			{
+			try {
 				HttpParams httpParameters = new BasicHttpParams();
 				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutsec);
 				HttpConnectionParams.setSoTimeout(httpParameters, timeoutsec);
@@ -165,43 +153,34 @@ public class LogIn extends Activity
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				is = entity.getContent();
-			}
-			catch (ConnectTimeoutException e)
-			{
+			} catch (ConnectTimeoutException e) {
 				// timeout connection
 				timeout = true;
 				Log.e("logs1", "Timeout");
 				return "";
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				Log.e("log_tag 1", "Error in http connection " + e.toString());
 			}
 
-			try
-			{
+			try {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 				sb = new StringBuilder();
 				sb.append(reader.readLine() + "\n");
 
 				String line = "0";
-				while ((line = reader.readLine()) != null)
-				{
+				while ((line = reader.readLine()) != null) {
 					sb.append(line + "\n");
 				}
 				is.close();
 				result = sb.toString();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				Log.e("log_tag 2", "Error converting result " + e.toString());
 			}
 		}
 		return result;
 	}
 
-	private List<String[]> getDataArrayFromJsonString(String... jsonString)
-	{
+	private List<String[]> getDataArrayFromJsonString(String... jsonString) {
 		// Gets the json string and converts it to a list of strings
 
 		List<String[]> rowList;
@@ -210,53 +189,42 @@ public class LogIn extends Activity
 		if (jsonString[0].equals(""))
 			return rowList;
 
-		try
-		{
+		try {
 			JSONArray jArray = null;
 			jArray = new JSONArray(jsonString[0]);
 
 			JSONObject json_data = null;
-			for (int i = 0; i < jArray.length(); i++)
-			{
+			for (int i = 0; i < jArray.length(); i++) {
 				// count
 				json_data = jArray.getJSONObject(i);
 
 				String[] stringContents = new String[jsonString.length];
-				for (int j = 1; j < jsonString.length; j++)
-				{
-					if (jsonString[j].equals("count"))
-					{
+				for (int j = 1; j < jsonString.length; j++) {
+					if (jsonString[j].equals("count")) {
 						stringContents[j - 1] = String.valueOf(jArray.length() - i);
-					}
-					else
-					{
+					} else {
 						stringContents[j - 1] = json_data.getString(jsonString[j]);
 					}
 				}
 				rowList.add(stringContents);
 			}
-		}
-		catch (JSONException e)
-		{
+		} catch (JSONException e) {
 			Log.e("getDataArrayFromJsonString error", e.toString());
 		}
 
 		return rowList;
 	}
 
-	private class getRandomAccount extends AsyncTask<String, Void, String>
-	{
-		List<String[]>	rowList;
+	private class getRandomAccount extends AsyncTask<String, Void, String> {
+		List<String[]> rowList;
 
 		@Override
-		protected void onPreExecute()
-		{
+		protected void onPreExecute() {
 
 		}
 
 		@Override
-		protected String doInBackground(String... params)
-		{
+		protected String doInBackground(String... params) {
 			String httpAddress = "http://" + ipAdd + "/coreonmobile_getrandomuser.php";
 			Log.e("urlPost 5", httpAddress.toString());
 
@@ -267,10 +235,8 @@ public class LogIn extends Activity
 		}
 
 		@Override
-		protected void onPostExecute(String result)
-		{
-			for (int i = 0; i < rowList.size(); i++)
-			{
+		protected void onPostExecute(String result) {
+			for (int i = 0; i < rowList.size(); i++) {
 				EditText eu = (EditText) findViewById(R.id.editEmail);
 				EditText ep = (EditText) findViewById(R.id.editMobile);
 				// eu.setText("ghost@corea.ph");
@@ -282,50 +248,41 @@ public class LogIn extends Activity
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values)
-		{
+		protected void onProgressUpdate(Void... values) {
 
 		}
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// getMenuInflater().inflate(R.menu.log_in, menu);
 		return true;
 	}
 
-	public void CheckLogIn(View view)
-	{
+	public void CheckLogIn(View view) {
 		// get text values
 		EditText editEmail = (EditText) findViewById(R.id.editEmail);
 		EditText editMobile = (EditText) findViewById(R.id.editMobile);
 
 		// check if incomplete
-		if (editEmail.getText().toString().equals("") || editMobile.getText().toString().equals(""))
-		{
+		if (editEmail.getText().toString().equals("") || editMobile.getText().toString().equals("")) {
 			Toast.makeText(getBaseContext(), "Please complete the fields", Toast.LENGTH_SHORT).show();
-		}
-		else
-		{
+		} else {
 			// Check login credentials then proceed
 			// execute in asynchronous task
-			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(), editMobile.getText().toString()
-					.trim(), "login");
+			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(),
+					editMobile.getText().toString().trim(), "login");
 		}
 	}
 
-	public void openSignUp(View view)
-	{
+	public void openSignUp(View view) {
 		final CharSequence[] items = { "(Landline) 511-17-15", "(Globe) 09178530966", "(Smart) 09998879711" };
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Call Us");
 		builder.setItems(items, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item)
-			{
+			public void onClick(DialogInterface dialog, int item) {
 				Intent callIntent = new Intent(Intent.ACTION_CALL);
-				switch (item)
-				{
+				switch (item) {
 					case 0:
 						callIntent.setData(Uri.parse("tel:5111715"));
 						startActivity(callIntent);
@@ -344,8 +301,7 @@ public class LogIn extends Activity
 			}
 		});
 		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton)
-			{
+			public void onClick(DialogInterface dialog, int whichButton) {
 				// Do nothing.
 			}
 		});
@@ -353,45 +309,41 @@ public class LogIn extends Activity
 		alert.show();
 	}
 
-	String				useremail	= "";
-	boolean				logIn		= false;
-	boolean				network		= true;
-	boolean				timeout		= false;
-	int					timeoutsec	= 20000;									// 20 second timeout
-	private Context		mContext;
-	private Activity	mActivity;
-	ProgressDialog		mDialog;
-	String				ipAdd		= "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
+	String useremail = "";
+	boolean logIn = false;
+	boolean network = true;
+	boolean timeout = false;
+	int timeoutsec = 20000; // 20 second timeout
+	private Context mContext;
+	private Activity mActivity;
+	ProgressDialog mDialog;
+	String ipAdd = "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
 
-	class CheckCredentials extends AsyncTask<String, Integer, Long>
-	{
+	class CheckCredentials extends AsyncTask<String, Integer, Long> {
 		// desktop set to static ip 192.168.123.111
 		// String ipAdd = "125.5.16.155/coreonwallet";
 		// "125.5.16.155/coreonwallet/coreonmobile";
 
-		public CheckCredentials(Context context, Activity activity)
-		{
+		public CheckCredentials(Context context, Activity activity) {
 			mContext = context;
 			mActivity = activity;
 		}
 
-		private boolean isNetworkAvailable()
-		{
-			ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+		private boolean isNetworkAvailable() {
+			ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 			return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 		}
 
-		private String sendPost(String httpAddress)
-		{
+		private String sendPost(String httpAddress) {
 			String result = "";
 			StringBuilder sb = null;
 			InputStream is = null;
 
 			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
-			try
-			{
+			try {
 
 				HttpParams httpParameters = new BasicHttpParams();
 				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutsec);
@@ -402,57 +354,46 @@ public class LogIn extends Activity
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				is = entity.getContent();
-			}
-			catch (ConnectTimeoutException e)
-			{
+			} catch (ConnectTimeoutException e) {
 				// timeout connection
 				timeout = true;
 				return "";
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				// Log.e("log_tag", "Error in http connection " + e.toString());
 			}
 
-			try
-			{
+			try {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 				sb = new StringBuilder();
 				sb.append(reader.readLine() + "\n");
 
 				String line = "0";
-				while ((line = reader.readLine()) != null)
-				{
+				while ((line = reader.readLine()) != null) {
 					sb.append(line + "\n");
 				}
 				is.close();
 				result = sb.toString();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				// Log.e("log_tag", "Error converting result " + e.toString());
 			}
 			return result;
 		}
 
 		@Override
-		protected Long doInBackground(String... params)
-		{
+		protected Long doInBackground(String... params) {
 			timeout = false;
 
-			if (!isNetworkAvailable())
-			{
+			if (!isNetworkAvailable()) {
 				network = false;
 				logIn = true;
 				return null;
-			}
-			else
-			{
+			} else {
 				network = true;
 			}
 
-			String httpAddress = "http://" + ipAdd + "/coreonmobile_accountinfo.php?email=" + params[0] + "&mobile=" + params[1] + "";// &request="
-																																		// params[2]
+			String httpAddress = "http://" + ipAdd + "/coreonmobile_accountinfo.php?email=" + params[0] + "&mobile="
+					+ params[1] + "";// &request="
+										// params[2]
 			// + "";
 			Log.e("address", httpAddress);
 			Log.i("urlPost", httpAddress.toString());
@@ -495,9 +436,9 @@ public class LogIn extends Activity
 			String mobile_3digit = null;
 			String mobile_4digit = null;
 			String billing_address = null;
+			String agency_code = null;
 
-			try
-			{
+			try {
 				jArray = new JSONArray(result);
 				JSONObject json_data = null;
 
@@ -507,8 +448,7 @@ public class LogIn extends Activity
 				rowList.add(new String[] { "title", "content", "image", "date", "url" });
 				rowList.add(new String[] { "title", "content", "image", "date", "url" });
 
-				for (int i = 0; i < jArray.length(); i++)
-				{
+				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					id = json_data.getString("main_id");
 					first_name = json_data.getString("first_name");
@@ -546,16 +486,13 @@ public class LogIn extends Activity
 					mobile_3digit = json_data.getString("mobile_3digit");
 					mobile_4digit = json_data.getString("mobile_4digit");
 					billing_address = json_data.getString("billing_address");
+					agency_code = json_data.getString("agency_code");
 				}
 				logIn = true;
-			}
-			catch (JSONException e1)
-			{
+			} catch (JSONException e1) {
 				logIn = false;
 				Log.e("Exception", e1.toString());
-			}
-			catch (ParseException e1)
-			{
+			} catch (ParseException e1) {
 				logIn = false;
 				Log.e("Exception", e1.toString());
 				e1.printStackTrace();
@@ -591,20 +528,19 @@ public class LogIn extends Activity
 			editor.putString("kr_tel", kr_tel_areaCode + kr_tel_3digit + kr_tel_4digit);
 			editor.putString("other_mobile", mobile_code + mobile_3digit + mobile_4digit);
 			editor.putString("billing_address", billing_address);
+			editor.putString("agency_code", agency_code);
 
 			editor.commit();
 
 			return null;
 		}
 
-		protected void onProgressUpdate(Integer... progress)
-		{
+		protected void onProgressUpdate(Integer... progress) {
 			// setProgressPercent(progress[0]);
 		}
 
 		@Override
-		protected void onPreExecute()
-		{
+		protected void onPreExecute() {
 			super.onPreExecute();
 
 			mDialog = new ProgressDialog(mActivity);
@@ -612,13 +548,11 @@ public class LogIn extends Activity
 			mDialog.show();
 		}
 
-		protected void onPostExecute(Long result)
-		{
+		protected void onPostExecute(Long result) {
 			// remove progress dialog
 			mDialog.dismiss();
 
-			if (logIn)
-			{
+			if (logIn) {
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 				SharedPreferences.Editor editor = preferences.edit();
 
@@ -629,22 +563,14 @@ public class LogIn extends Activity
 				Intent intent = new Intent(mContext, CoreonMain.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				mContext.startActivity(intent);
-			}
-			else
-			{
-				if (network)
-				{
-					if (timeout)
-					{
+			} else {
+				if (network) {
+					if (timeout) {
 						Toast.makeText(mContext, "Network time out, server maybe down", Toast.LENGTH_SHORT).show();
-					}
-					else
-					{
+					} else {
 						Toast.makeText(mContext, "Wrong password or username", Toast.LENGTH_SHORT).show();
 					}
-				}
-				else
-				{
+				} else {
 					Toast.makeText(mContext, "No internet connection", Toast.LENGTH_SHORT).show();
 				}
 			}
