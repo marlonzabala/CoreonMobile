@@ -99,6 +99,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	View footerView;
 	private ViewPager pager;
 	public MyViewPagerAdapter viewPagerAdapter;
+	
+	//test
 
 	public ListView listViewDrawer;
 	public ListView listviewmMyAccounts;
