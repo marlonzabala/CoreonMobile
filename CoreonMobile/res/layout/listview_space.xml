@@ -3,14 +3,17 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="false"
     android:minHeight="30dp"
     android:orientation="horizontal" >
+
     <!-- android:background="#ffff00" -->
 
     <TextView
         android:id="@+id/textViewblank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="false"
         android:text="" />
 
 </LinearLayout>

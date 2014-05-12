@@ -99,13 +99,13 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	View footerView;
 	private ViewPager pager;
 	public MyViewPagerAdapter viewPagerAdapter;
-	
-	//test
 
 	public ListView listViewDrawer;
 	public ListView listviewmMyAccounts;
 	public ListView listviewRewardsOffers;
 	public ListView listviewBillingPayments;
+	
+	//
 
 	ListViewArrayAdapter myAccountListViewAdaptor;
 	ListViewArrayAdapter billingListViewAdaptor;
@@ -116,7 +116,10 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	RadioButton overTheCounter;
 
 	String phoneNumber = "";
-	String ipAdd = "125.5.16.155/coreonwallet/coreonmobile";
+	
+	GlobalVariables globals = new GlobalVariables();
+
+	String ipAdd = globals._ipAdd +  "/coreonwallet/coreonmobile";
 	String agency_code = "";
 	// "192.168.123.111/android/coreonmobile";
 
@@ -1397,6 +1400,7 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 						+ rowList.get(i)[4].toString();
 				String billingDueDate = rowList.get(i)[6].toString();
 				billingDueDate = getStringDate(billingDueDate);
+				// my.coreonmobile.com ? equivalent ip address?
 				String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
 						+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
 
@@ -1455,6 +1459,12 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				billingListViewAdaptor.addValueExtra("listview_payment_record", rowList.get(i)[8].toString(),
 						paymentDate, postedDate, rowList.get(i)[3].toString(), rowList.get(i)[4].toString(),
 						rowList.get(i)[5].toString(), rowList.get(i)[6].toString(), stringAmount, "");
+				billingListViewAdaptor.addType("listview_line_gray");
+			}
+			
+			if(rowList.size()==0)
+			{
+				billingListViewAdaptor.addValue("listview_main_header", " No Records Found", "", "", "");
 				billingListViewAdaptor.addType("listview_line_gray");
 			}
 

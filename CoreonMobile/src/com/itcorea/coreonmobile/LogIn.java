@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -71,6 +72,10 @@ public class LogIn extends Activity {
 		// diffMobile.getLayoutParams().height = 0;
 		// }
 		// });
+		
+		
+		
+		
 
 		ImageView imageLogo = (ImageView) findViewById(R.id.imageViewLogoMain);
 		imageLogo.setOnClickListener(new OnClickListener() {
@@ -106,6 +111,23 @@ public class LogIn extends Activity {
 			getApplicationContext().startActivity(intent);
 			finish();
 		} else {
+			
+			
+			
+			TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+			String mPhoneNumber = tMgr.getLine1Number();
+			
+			
+			if(mPhoneNumber==null || mPhoneNumber=="")
+			{
+				differentNumber(null);
+			}
+			else
+			{
+				ep.setText(mPhoneNumber);
+			}
+			
+			
 			// Toast.makeText(getApplicationContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -271,7 +293,7 @@ public class LogIn extends Activity {
 			// Check login credentials then proceed
 			// execute in asynchronous task
 			new CheckCredentials(getApplicationContext(), LogIn.this).execute(editEmail.getText().toString().trim(),
-					editMobile.getText().toString().trim(), "login");
+					editMobile.getText().toString().trim().replaceFirst("^0+(?!$)", "").replaceFirst("^63+(?!$)", ""), "login");
 		}
 	}
 
@@ -317,7 +339,10 @@ public class LogIn extends Activity {
 	private Context mContext;
 	private Activity mActivity;
 	ProgressDialog mDialog;
-	String ipAdd = "125.5.16.155/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
+	
+	GlobalVariables globals =  new GlobalVariables();
+	
+	String ipAdd = globals._ipAdd + "/coreonwallet/coreonmobile"; // "192.168.123.111/android/coreonmobile";
 
 	class CheckCredentials extends AsyncTask<String, Integer, Long> {
 		// desktop set to static ip 192.168.123.111
@@ -385,7 +410,7 @@ public class LogIn extends Activity {
 
 			if (!isNetworkAvailable()) {
 				network = false;
-				logIn = true;
+				logIn = false;
 				return null;
 			} else {
 				network = true;
