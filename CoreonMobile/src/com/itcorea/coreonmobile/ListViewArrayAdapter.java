@@ -3,7 +3,6 @@ package com.itcorea.coreonmobile;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -438,8 +437,10 @@ public class ListViewArrayAdapter extends ArrayAdapter<String>
 					if (!url.startsWith("http://") && !url.startsWith("https://"))
 						url = "http://" + url;
 
-					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-					//browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					url = url.trim();
+					Log.e("Download Location",url);
+
+					final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					context.startActivity(browserIntent);
 
 					// Intent i = new Intent(Intent.ACTION_VIEW);

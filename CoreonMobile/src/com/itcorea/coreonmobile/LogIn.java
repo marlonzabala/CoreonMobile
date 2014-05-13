@@ -48,7 +48,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LogIn extends Activity {
-	int dev = 1;
+	int dev = 50;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,8 @@ public class LogIn extends Activity {
 			
 			TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
 			String mPhoneNumber = tMgr.getLine1Number();
+			
+			//mPhoneNumber = "";
 			
 			
 			if(mPhoneNumber==null || mPhoneNumber=="")

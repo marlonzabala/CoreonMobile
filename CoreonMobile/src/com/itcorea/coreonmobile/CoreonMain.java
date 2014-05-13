@@ -121,7 +121,6 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	String ipAdd = globals._ipAdd +  "/coreonwallet/coreonmobile";
 	String agency_code = "";
-	// "192.168.123.111/android/coreonmobile";
 
 	TextView mainTitle;
 
@@ -1401,8 +1400,14 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				String billingDueDate = rowList.get(i)[6].toString();
 				billingDueDate = getStringDate(billingDueDate);
 				// my.coreonmobile.com ? equivalent ip address?
-				String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
+				// TODO
+				// http://125.5.16.250/coreonmobile/www/registrations/account/layout/billing_download.php
+				
+				String billingDownloadUrl = "http://"+globals._ipAdd+"/coreonmobile/www/registrations/account/layout/billing_download.php?filename="
 						+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
+				
+				//String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
+				//		+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
 
 				billingListViewAdaptor.addValue("listview_billing_statements", rowList.get(i)[7].toString(),
 						billingMonth, billingDueDate, billingDownloadUrl);
