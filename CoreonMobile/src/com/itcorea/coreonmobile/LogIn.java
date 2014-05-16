@@ -45,6 +45,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LogIn extends Activity {
@@ -92,7 +93,7 @@ public class LogIn extends Activity {
 		EditText ep = (EditText) findViewById(R.id.editMobile);
 		ep.getLayoutParams().height = 0;
 
-		EditText space = (EditText) findViewById(R.id.editMobileSpace);
+		TextView space = (TextView) findViewById(R.id.editMobileSpace);
 		space.getLayoutParams().height = 0;
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -135,16 +136,22 @@ public class LogIn extends Activity {
 	}
 
 	public void differentNumber(View v) {
+		EditText em = (EditText) findViewById(R.id.editEmail);
+		
 		EditText ep = (EditText) findViewById(R.id.editMobile);
-		ep.getLayoutParams().height = 80;
+		//ep.getLayoutParams().height = 80;
 
 		LayoutParams params = ep.getLayoutParams();
-		params.height = 80;
+		params.height = em.getLayoutParams().height;
 		ep.setLayoutParams(params);
 
-		EditText space = (EditText) findViewById(R.id.editMobileSpace);
-		space.getLayoutParams().height = 20;
-
+		TextView space1 = (TextView) findViewById(R.id.editMobileSpace1);		
+		TextView space = (TextView) findViewById(R.id.editMobileSpace);
+		
+		LayoutParams params2 = space.getLayoutParams();
+		params2.height = space1.getLayoutParams().height;
+		space.setLayoutParams(params2);
+		
 		Button diffMobile = (Button) findViewById(R.id.buttonDiffMobile);
 		diffMobile.setVisibility(View.INVISIBLE);
 	}

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#ffffff"
-    android:layout_height="60dp" >
+    android:layout_height="60dp"
+    android:background="#ffffff" >
 
-<!--     <ImageView -->
-<!--         android:id="@+id/imageView1" -->
-<!--         android:layout_width="wrap_content" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_alignParentLeft="true" -->
-<!--         android:layout_alignParentTop="true" -->
-<!--         android:scaleType="fitXY" -->
-<!--         android:src="@drawable/account_status_bg" /> -->
+    <!-- <ImageView -->
+    <!-- android:id="@+id/imageView1" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_alignParentTop="true" -->
+    <!-- android:scaleType="fitXY" -->
+    <!-- android:src="@drawable/account_status_bg" /> -->
 
     <LinearLayout
         android:id="@+id/linearLayoutTabsContent"
@@ -34,6 +34,7 @@
 
             <TextView
                 android:id="@+id/textViewTabMyAccount"
+                style="@style/mainfont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -44,7 +45,6 @@
                 android:scaleType="fitCenter"
                 android:text="ACCOUNT STATUS"
                 android:textColor="#666666"
-                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:scaleType="fitCenter"
                 android:text="ACTIVE"
                 android:textColor="#6da531"
-                android:textSize="26sp"
+                style="@style/accountfont"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -84,6 +84,7 @@
 
             <TextView
                 android:id="@+id/textViewTabBillingPayment"
+                style="@style/mainfont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -94,7 +95,6 @@
                 android:scaleType="fitCenter"
                 android:text="CREDIT STATUS"
                 android:textColor="#666666"
-                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -109,7 +109,7 @@
                 android:scaleType="fitCenter"
                 android:text="BAD"
                 android:textColor="#f95b24"
-                android:textSize="26sp"
+                style="@style/accountfont"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -135,6 +135,7 @@
 
             <TextView
                 android:id="@+id/textViewTabRewardsOffers"
+                style="@style/mainfont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -145,8 +146,8 @@
                 android:scaleType="fitCenter"
                 android:text="CONTRACT STATUS"
                 android:textColor="#666666"
-                android:textSize="12sp"
                 android:textStyle="bold" />
+            <!-- android:textSize="10sp" -->
 
             <TextView
                 android:id="@+id/textViewTabContractStatus"
@@ -158,9 +159,9 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
-                android:text="DAYS"
+                android:text="123 DAYS"
                 android:textColor="#6da531"
-                android:textSize="26sp"
+                style="@style/accountfont"
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>

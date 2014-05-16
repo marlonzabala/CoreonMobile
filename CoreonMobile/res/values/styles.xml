@@ -21,6 +21,14 @@
         <item name="android:background">@drawable/title_bg</item>
         <item name="android:paddingLeft">20dp</item>
     </style>
+    
+    <style name="mainfont">
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="accountfont">
+        <item name="android:textSize">26sp</item>
+    </style>
 <!--     @android:color/transparent -->
 <!--         <item name="android:background">@drawable/title_bg</item> -->
 </resources>

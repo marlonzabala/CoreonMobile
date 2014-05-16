@@ -1,0 +1,11 @@
+<resources>
+    
+    <style name="mainfont">
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="accountfont">
+        <item name="android:textSize">26sp</item>
+    </style>
+    
+</resources>
