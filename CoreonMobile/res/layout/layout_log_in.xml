@@ -299,7 +299,7 @@
                         android:layout_alignBaseline="@+id/TextViewCoreonWallet"
                         android:layout_alignBottom="@+id/TextViewCoreonWallet"
                         android:layout_toRightOf="@+id/TextViewCoreonWallet"
-                        android:text="Dev 1.0"
+                        android:text="7 (Dev 1.0)"
                         android:textColor="#ff9e77"
                         android:textSize="10sp" />
 

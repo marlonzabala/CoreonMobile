@@ -9,10 +9,12 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -73,6 +75,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AdapterView;
@@ -104,7 +107,7 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	public ListView listviewmMyAccounts;
 	public ListView listviewRewardsOffers;
 	public ListView listviewBillingPayments;
-	
+
 	//
 
 	ListViewArrayAdapter myAccountListViewAdaptor;
@@ -116,10 +119,10 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	RadioButton overTheCounter;
 
 	String phoneNumber = "";
-	
+
 	GlobalVariables globals = new GlobalVariables();
 
-	String ipAdd = globals._ipAdd +  "/coreonwallet/coreonmobile";
+	String ipAdd = globals._ipAdd + "/coreonwallet/coreonmobile";
 	String agency_code = "";
 
 	TextView mainTitle;
@@ -133,7 +136,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 		im1 = (ImageView) findViewById(R.id.imageViewTabMyAccount);
@@ -153,16 +157,21 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		indicator.setBackgroundColor(0x00000000);
 		indicator.setFadeDelay(1000);// dont know if still needed
 		indicator.setFadeLength(1000);
+		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
+		{
 
 			@Override
-			public void onPageSelected(int position) {
+			public void onPageSelected(int position)
+			{
 				// on changing the page
 				// make respected tab selected
 				// actionBar.setSelectedNavigationItem(position);
 
-				switch (position) {
+				switch (position)
+				{
 					case 0:
 						openMyAccount(null);
 						break;
@@ -178,12 +187,14 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 			}
 
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			public void onPageScrolled(int arg0, float arg1, int arg2)
+			{
 
 			}
 
 			@Override
-			public void onPageScrollStateChanged(int arg0) {
+			public void onPageScrollStateChanged(int arg0)
+			{
 
 			}
 		});
@@ -209,14 +220,17 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.icon_menu, R.string.hello_world,
-				R.string.hello_world) {
+				R.string.hello_world)
+		{
 
-			public void onDrawerClosed(View view) {
+			public void onDrawerClosed(View view)
+			{
 				mainTitle.setText(mainTitleText);
 				supportInvalidateOptionsMenu();
 			}
 
-			public void onDrawerOpened(View view) {
+			public void onDrawerOpened(View view)
+			{
 				mainTitleText = (String) mainTitle.getText();
 				mainTitle.setText("Settings");
 				getSupportActionBar().setTitle("test");
@@ -238,10 +252,12 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		// .196
 		//
 
-		mainTitle.setOnClickListener(new OnClickListener() {
+		mainTitle.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				// mDrawerLayout.openDrawer(R.id.drawer_layout);
 				// toggleDrawer(null);
 			}
@@ -266,17 +282,20 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		listviewRewardsOffers.setDividerHeight(-1);
 		listviewBillingPayments.setAdapter(billingListViewAdaptor);
 
-		try {
+		try
+		{
 			Field mScroller;
 			mScroller = ViewPager.class.getDeclaredField("mScroller");
 			mScroller.setAccessible(true);
 			Interpolator sInterpolator = new DecelerateInterpolator();
 			FixedSpeedScroller scroller = new FixedSpeedScroller(pager.getContext(), sInterpolator);
 			mScroller.set(pager, scroller);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 		}
 
-		if (savedInstanceState != null) {
+		if (savedInstanceState != null)
+		{
 			selectedTab = Integer.valueOf(savedInstanceState.getString("maintab"));
 			selectedBillingPaymentsTab = Integer.valueOf(savedInstanceState.getString("billingpaymentab"));
 			selectedRewardsOffersTab = Integer.valueOf(savedInstanceState.getString("rewardsoffersTab"));
@@ -302,10 +321,13 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		drawerlistViewAdaptor.addType("listview_line_gray");
 
 		listViewDrawer.setAdapter(drawerlistViewAdaptor);
-		listViewDrawer.setOnItemClickListener(new OnItemClickListener() {
+		listViewDrawer.setOnItemClickListener(new OnItemClickListener()
+		{
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-				switch (position) {
+			public void onItemClick(AdapterView<?> parent, View view, final int position, long id)
+			{
+				switch (position)
+				{
 					case 1:
 
 						// go to edit my account
@@ -341,7 +363,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(c.get(Calendar.YEAR));
 	}
 
-	public void clickOnlinePayment(View v) {
+	public void clickOnlinePayment(View v)
+	{
 		onlinePayment.setChecked(true);
 		overTheCounter.setChecked(false);
 
@@ -349,7 +372,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		return;
 	}
 
-	public void clickOverTheCounter(View v) {
+	public void clickOverTheCounter(View v)
+	{
 		onlinePayment.setChecked(false);
 		overTheCounter.setChecked(true);
 		// Toast.makeText(getApplicationContext(), "tester 2", Toast.LENGTH_SHORT).show();
@@ -358,23 +382,29 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	String mainTitleText = "My Account";
 
-	public void toggleDrawer(View v) {
+	public void toggleDrawer(View v)
+	{
 		// TODO
 
 		mDrawerLayout.openDrawer(R.id.drawer_layout);
 	}
 
-	public void Logout() {
+	public void Logout()
+	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(CoreonMain.this);
 		builder.setMessage("Logout your account?").setTitle("Coreon Mobile");
 
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int id)
+			{
 				logoutAccount();
 			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int id)
+			{
 				// User cancelled the dialog do nothing
 			}
 		});
@@ -384,7 +414,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		dialog.show();
 	}
 
-	public void logoutAccount() {
+	public void logoutAccount()
+	{
 		// User clicked OK button
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -407,13 +438,15 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	DrawerLayout mDrawerLayout;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	// maintabs
-	public void openMyAccount(View v) {
+	public void openMyAccount(View v)
+	{
 		selectedTab = 0;
 		im1.setImageResource(R.drawable.icon_account_selected);
 		im2.setImageResource(R.drawable.icon_billing_payments);
@@ -422,7 +455,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		pager.setCurrentItem(0);
 	}
 
-	public void openBillingPayment(View v) {
+	public void openBillingPayment(View v)
+	{
 		selectedTab = 1;
 		im1.setImageResource(R.drawable.icon_account);
 		im2.setImageResource(R.drawable.icon_billing_payments_selected);
@@ -431,7 +465,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		pager.setCurrentItem(1);
 	}
 
-	public void openRewardsOffers(View v) {
+	public void openRewardsOffers(View v)
+	{
 		selectedTab = 2;
 		im1.setImageResource(R.drawable.icon_account);
 		im2.setImageResource(R.drawable.icon_billing_payments);
@@ -442,7 +477,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle bundle) {
+	public void onSaveInstanceState(Bundle bundle)
+	{
 		bundle.putString("maintab", String.valueOf(selectedTab));
 		bundle.putString("billingpaymentab", String.valueOf(selectedBillingPaymentsTab));
 		bundle.putString("rewardsoffersTab", String.valueOf(selectedRewardsOffersTab));
@@ -452,8 +488,10 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	int selectedBillingPaymentsTab = 0;
 	int selectedRewardsOffersTab = 0;
 
-	public void setSelectedTab() {
-		switch (selectedTab) {
+	public void setSelectedTab()
+	{
+		switch (selectedTab)
+		{
 			case 0:
 				openMyAccount(null);
 				break;
@@ -469,8 +507,10 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 	}
 
-	public void setSelectedBillingPaymentsTab() {
-		switch (selectedBillingPaymentsTab) {
+	public void setSelectedBillingPaymentsTab()
+	{
+		switch (selectedBillingPaymentsTab)
+		{
 			case 0:
 				openAccountSummary(null);
 				break;
@@ -495,8 +535,10 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 	}
 
-	public void setSelectedRewardsOffersTab() {
-		switch (selectedRewardsOffersTab) {
+	public void setSelectedRewardsOffersTab()
+	{
+		switch (selectedRewardsOffersTab)
+		{
 			case 0:
 				openRewards(null);
 				break;
@@ -509,7 +551,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 	}
 
-	public void openAccountSummary(View v) {
+	public void openAccountSummary(View v)
+	{
 		selectedBillingPaymentsTab = 0;
 		setDafaultAllSubTabs();
 
@@ -523,7 +566,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		new getAccountSummary().execute("");
 	}
 
-	public void openBillingRecord(View v) {
+	public void openBillingRecord(View v)
+	{
 		selectedBillingPaymentsTab = 1;
 		setDafaultAllSubTabs();
 
@@ -537,7 +581,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		new getBillingRecord().execute("");
 	}
 
-	public void openBillingStatements(View v) {
+	public void openBillingStatements(View v)
+	{
 		// android.os.Debug.startMethodTracing("coreon");
 		selectedBillingPaymentsTab = 2;
 		setDafaultAllSubTabs();
@@ -552,7 +597,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		new getBillingStatements().execute();
 	}
 
-	public void openPaymentRecord(View v) {
+	public void openPaymentRecord(View v)
+	{
 		selectedBillingPaymentsTab = 3;
 		setDafaultAllSubTabs();
 
@@ -566,7 +612,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		new getPaymentRecord().execute("");
 	}
 
-	public void openReportPayment(View v) {
+	public void openReportPayment(View v)
+	{
 		selectedBillingPaymentsTab = 4;
 		setDafaultAllSubTabs();
 
@@ -587,7 +634,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
-	public void openPaymentOptions(View v) {
+	public void openPaymentOptions(View v)
+	{
 		selectedBillingPaymentsTab = 5;
 		setDafaultAllSubTabs();
 
@@ -685,7 +733,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		billingListViewAdaptor.notifyDataSetChanged();
 	}
 
-	public void setDafaultAllSubTabs() {
+	public void setDafaultAllSubTabs()
+	{
 		// apply plain design on all tabs in billing
 		RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.layoutViewSubTabAccountSummaryRel);
 		rl1.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -729,7 +778,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		listviewBillingPayments.removeFooterView(footerView);
 	}
 
-	public void openRewards(View v) {
+	public void openRewards(View v)
+	{
 		selectedRewardsOffersTab = 0;
 		RelativeLayout rl6 = (RelativeLayout) findViewById(R.id.layoutViewSubTabRewardsRel);
 		rl6.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -752,7 +802,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		rewardsListViewAdaptor.notifyDataSetChanged();
 	}
 
-	public void openOffers(View v) {
+	public void openOffers(View v)
+	{
 		selectedRewardsOffersTab = 1;
 		RelativeLayout rl7 = (RelativeLayout) findViewById(R.id.layoutViewSubTabOffersRel);
 		rl7.setBackgroundColor(Color.parseColor("#ffae00"));
@@ -804,28 +855,33 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	//
 	// }
 
-	public String getStringDate(String date) {
+	public String getStringDate(String date)
+	{
 		if (date.equals("0000-00-00 00:00:00"))
 			return "";
 		date = date.replaceAll(" 00:00:00", "");
 		Date dateFormat = null;
 		String fullDate = "";
-		try {
+		try
+		{
 			dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
 			SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy");
 			fullDate = df.format(dateFormat);
-		} catch (ParseException e) {
+		} catch (ParseException e)
+		{
 			e.printStackTrace();
 		}
 		return fullDate;
 	}
 
-	public String capitalizeFirst(String text) {
+	public String capitalizeFirst(String text)
+	{
 		text = text.toLowerCase();
 		return text.substring(0, 1).toUpperCase() + text.substring(1);
 	}
 
-	public class MyViewPagerAdapter extends PagerAdapter {
+	public class MyViewPagerAdapter extends PagerAdapter
+	{
 		Context context;
 		View view;
 
@@ -836,23 +892,28 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		ListView listViewBillinPayments;
 		ListView listViewRewardsOffers;
 
-		public MyViewPagerAdapter(Context contextConstructor) {
+		public MyViewPagerAdapter(Context contextConstructor)
+		{
 			context = contextConstructor;
 		}
 
-		public ListView getMyAccountListView() {
+		public ListView getMyAccountListView()
+		{
 			return listViewMyAccount;
 		}
 
-		public ListView getBillingPaymentsListView() {
+		public ListView getBillingPaymentsListView()
+		{
 			return listViewBillinPayments;
 		}
 
-		public ListView getRewardsOffersListView() {
+		public ListView getRewardsOffersListView()
+		{
 			return listViewRewardsOffers;
 		}
 
-		public void initializeBillingPayments() {
+		public void initializeBillingPayments()
+		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 			int resId0 = R.layout.tab_rewards_offers;
@@ -874,18 +935,21 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 			viewRewardsOffers = view2;
 		}
 
-		public int getCount() {
+		public int getCount()
+		{
 			return 3;
 		}
 
-		public Object instantiateItem(View collection, int position) {
+		public Object instantiateItem(View collection, int position)
+		{
 			LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
 			context = collection.getContext();
 			view = collection;
 
 			int resId = 0;
-			switch (position) {
+			switch (position)
+			{
 				case 0:
 					resId = R.layout.tab_my_account;
 					View view0 = inflater.inflate(resId, null);
@@ -1030,12 +1094,14 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
+		public void destroyItem(View arg0, int arg1, Object arg2)
+		{
 			((ViewPager) arg0).removeView((View) arg2);
 		}
 
 		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
+		public boolean isViewFromObject(View arg0, Object arg1)
+		{
 			return arg0 == ((View) arg1);
 		}
 	}
@@ -1044,17 +1110,21 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	boolean network;
 	int timeoutsec = 5000;
 
-	private void showConenctionStatus() {
-		if (!network) {
+	private void showConenctionStatus()
+	{
+		if (!network)
+		{
 			Toast.makeText(getApplicationContext(), "No network connection", Toast.LENGTH_SHORT).show();
-		} else if (timeout) {
+		} else if (timeout)
+		{
 			Toast.makeText(getApplicationContext(), "Connection timeout, server might be down", Toast.LENGTH_SHORT)
 					.show();
 		}
 		return;
 	}
 
-	private String sendPost(String httpAddress) {
+	private String sendPost(String httpAddress)
+	{
 		Log.e("Log sendpost", httpAddress);
 
 		timeout = false;
@@ -1068,13 +1138,16 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(
 				Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
+		if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected()))
+		{
 			network = false;
 			return "";
-		} else {
+		} else
+		{
 			network = true;
 			timeout = false;
-			try {
+			try
+			{
 				HttpParams httpParameters = new BasicHttpParams();
 				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutsec);
 				HttpConnectionParams.setSoTimeout(httpParameters, timeoutsec);
@@ -1084,34 +1157,40 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				is = entity.getContent();
-			} catch (ConnectTimeoutException e) {
+			} catch (ConnectTimeoutException e)
+			{
 				// timeout connection
 				timeout = true;
 				Log.e("logs1", "Timeout");
 				return "";
-			} catch (Exception e) {
+			} catch (Exception e)
+			{
 				Log.e("log_tag 1", "Error in http connection " + e.toString());
 			}
 
-			try {
+			try
+			{
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 				sb = new StringBuilder();
 				sb.append(reader.readLine() + "\n");
 
 				String line = "0";
-				while ((line = reader.readLine()) != null) {
+				while ((line = reader.readLine()) != null)
+				{
 					sb.append(line + "\n");
 				}
 				is.close();
 				result = sb.toString();
-			} catch (Exception e) {
+			} catch (Exception e)
+			{
 				Log.e("log_tag 2", "Error converting result " + e.toString());
 			}
 		}
 		return result;
 	}
 
-	private String getStringAmount(String stringValue) {
+	private String getStringAmount(String stringValue)
+	{
 		if (stringValue.equals(""))
 			return "P 0.00";
 		Double value = Double.valueOf(stringValue);
@@ -1129,7 +1208,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		return stringAmount;
 	}
 
-	private List<String[]> getDataArrayFromJsonString(String... jsonString) {
+	private List<String[]> getDataArrayFromJsonString(String... jsonString)
+	{
 		// Gets the json string and converts it to a list of strings
 
 		List<String[]> rowList;
@@ -1138,37 +1218,45 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		if (jsonString[0].equals(""))
 			return rowList;
 
-		try {
+		try
+		{
 			JSONArray jArray = null;
 			jArray = new JSONArray(jsonString[0]);
 
 			JSONObject json_data = null;
-			for (int i = 0; i < jArray.length(); i++) {
+			for (int i = 0; i < jArray.length(); i++)
+			{
 				// count
 				json_data = jArray.getJSONObject(i);
 
 				String[] stringContents = new String[jsonString.length];
-				for (int j = 1; j < jsonString.length; j++) {
-					if (jsonString[j].equals("count")) {
+				for (int j = 1; j < jsonString.length; j++)
+				{
+					if (jsonString[j].equals("count"))
+					{
 						stringContents[j - 1] = String.valueOf(jArray.length() - i);
-					} else {
+					} else
+					{
 						stringContents[j - 1] = json_data.getString(jsonString[j]);
 					}
 				}
 				rowList.add(stringContents);
 			}
-		} catch (JSONException e) {
+		} catch (JSONException e)
+		{
 			Log.e("getDataArrayFromJsonString error", e.toString());
 		}
 
 		return rowList;
 	}
 
-	private class getBillingRecord extends AsyncTask<String, Void, String> {
+	private class getBillingRecord extends AsyncTask<String, Void, String>
+	{
 		List<String[]> rowList;
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Record", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
@@ -1176,15 +1264,18 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
-			try {
+		protected String doInBackground(String... params)
+		{
+			try
+			{
 				String httpAddress = "http://" + ipAdd + "/coreonmobile_billingrecord.php?mobile=" + phoneNumber;
 				Log.i("urlPost", httpAddress.toString());
 
 				String jsonString = sendPost(httpAddress);
 				rowList = getDataArrayFromJsonString(jsonString, "billing_month", "billing_day", "billing_year",
 						"billing_due_month", "billing_due_day", "billing_due_year", "billing_amount", "count");
-			} catch (Exception e1) {
+			} catch (Exception e1)
+			{
 				Log.e("Exception 1", "Thread  exception " + e1);
 			}
 
@@ -1192,13 +1283,15 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(String result)
+		{
 			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 
 			double total = (double) 0.0;
 
-			for (int i = 0; i < rowList.size(); i++) {
+			for (int i = 0; i < rowList.size(); i++)
+			{
 
 				double amount = Double.parseDouble(rowList.get(i)[6].toString());
 				total += amount;
@@ -1220,7 +1313,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
+		protected void onProgressUpdate(Void... values)
+		{
 
 		}
 	}
@@ -1300,11 +1394,13 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	// }
 	// }
 
-	private class getAccountSummary extends AsyncTask<String, Void, String> {
+	private class getAccountSummary extends AsyncTask<String, Void, String>
+	{
 		List<String[]> rowList;
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			billingListViewAdaptor.clear();
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Account Summary", "", "", "");
@@ -1313,7 +1409,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... params)
+		{
 
 			String httpAddress = "http://" + ipAdd + "/coreonmobile_accountsummary.php?mobile=" + phoneNumber;
 			Log.e("urlPost billingDownloadUrl 1", httpAddress.toString());
@@ -1328,10 +1425,12 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(String result)
+		{
 			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
-			for (int i = 0; i < rowList.size(); i++) {
+			for (int i = 0; i < rowList.size(); i++)
+			{
 				String totalbillingAmount = getStringAmount(rowList.get(i)[2].toString());
 				String totalPaymentAmount = getStringAmount(rowList.get(i)[3].toString());
 				String outstandingBalance = getStringAmount(rowList.get(i)[4].toString());
@@ -1361,16 +1460,19 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
+		protected void onProgressUpdate(Void... values)
+		{
 
 		}
 	}
 
-	private class getBillingStatements extends AsyncTask<String, Void, String> {
+	private class getBillingStatements extends AsyncTask<String, Void, String>
+	{
 		List<String[]> rowList;
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Billing Statements", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
@@ -1378,7 +1480,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... params)
+		{
 
 			String httpAddress = "http://" + ipAdd + "/coreonmobile_billingstatements.php?mobile=" + phoneNumber;
 			Log.e("urlPost billingDownloadUrl", httpAddress.toString());
@@ -1391,10 +1494,12 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(String result)
+		{
 			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
-			for (int i = 0; i < rowList.size(); i++) {
+			for (int i = 0; i < rowList.size(); i++)
+			{
 				String billingMonth = capitalizeFirst(rowList.get(i)[3].toString()) + " "
 						+ rowList.get(i)[4].toString();
 				String billingDueDate = rowList.get(i)[6].toString();
@@ -1402,12 +1507,14 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				// my.coreonmobile.com ? equivalent ip address?
 				// TODO
 				// http://125.5.16.250/coreonmobile/www/registrations/account/layout/billing_download.php
-				
-				String billingDownloadUrl = "http://"+globals._ipAdd+"/coreonmobile/www/registrations/account/layout/billing_download.php?filename="
+
+				String billingDownloadUrl = "http://" + globals._ipAdd
+						+ "/coreonmobile/www/registrations/account/layout/billing_download.php?filename="
 						+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
-				
-				//String billingDownloadUrl = "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
-				//		+ rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
+
+				// String billingDownloadUrl =
+				// "http://my.coreonmobile.com/account/layout/billing_download.php?filename="
+				// + rowList.get(i)[2].toString() + "&mobile_no=" + rowList.get(i)[1].toString();
 
 				billingListViewAdaptor.addValue("listview_billing_statements", rowList.get(i)[7].toString(),
 						billingMonth, billingDueDate, billingDownloadUrl);
@@ -1419,16 +1526,19 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
+		protected void onProgressUpdate(Void... values)
+		{
 
 		}
 	}
 
-	private class getPaymentRecord extends AsyncTask<String, Void, String> {
+	private class getPaymentRecord extends AsyncTask<String, Void, String>
+	{
 		List<String[]> rowList;
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			billingListViewAdaptor.initiatizeStringsValues();
 			billingListViewAdaptor.addValue("listview_main_header_wshadow", "Payment Record", "", "", "");
 			billingListViewAdaptor.addType("listview_line_gray");
@@ -1436,7 +1546,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... params)
+		{
 			String httpAddress = "http://" + ipAdd + "/coreonmobile_paymentrecord.php?mobile=" + phoneNumber;
 			Log.e("urlPost billingDownloadUrl", httpAddress.toString());
 
@@ -1448,12 +1559,14 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(String result)
+		{
 			billingListViewAdaptor.removeLast();
 			showConenctionStatus();
 			double total = (double) 0.0;
 
-			for (int i = 0; i < rowList.size(); i++) {
+			for (int i = 0; i < rowList.size(); i++)
+			{
 				double amount = Double.parseDouble(rowList.get(i)[7].toString());
 				total += amount;
 
@@ -1466,8 +1579,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 						rowList.get(i)[5].toString(), rowList.get(i)[6].toString(), stringAmount, "");
 				billingListViewAdaptor.addType("listview_line_gray");
 			}
-			
-			if(rowList.size()==0)
+
+			if (rowList.size() == 0)
 			{
 				billingListViewAdaptor.addValue("listview_main_header", " No Records Found", "", "", "");
 				billingListViewAdaptor.addType("listview_line_gray");
@@ -1483,7 +1596,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
+		protected void onProgressUpdate(Void... values)
+		{
 
 		}
 	}
@@ -1493,7 +1607,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	private String upLoadServerUri = "";
 	private String imagepath = "";
 
-	public void selectImageForUpload(View v) {
+	public void selectImageForUpload(View v)
+	{
 		Toast.makeText(getApplicationContext(), "Select image for upload", Toast.LENGTH_SHORT).show();
 
 		// changed intent action for kitkat bug
@@ -1506,24 +1621,67 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	String fileName;
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1 && resultCode == RESULT_OK) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == 1 && resultCode == RESULT_OK)
+		{
 			Uri selectedImageUri = data.getData();
 			imagepath = getRealPathFromURI(selectedImageUri);
 
 			String timestamp = "" + System.currentTimeMillis() / 1000;
 			fileName = timestamp + "_" + phoneNumber + ".jpg";
 
-			try {
-				Bitmap b = BitmapFactory.decodeFile(imagepath);
-
+			try
+			{
 				String imagePath = getFilesDir().getAbsolutePath() + "/" + fileName;
-				FileOutputStream out = new FileOutputStream(imagePath);
-				b.compress(Bitmap.CompressFormat.JPEG, 90, out);
-				out.close();
+
+				// cannot handle large images so not used
+				// Bitmap b = BitmapFactory.decodeFile(imagepath);
+				// FileOutputStream out = new FileOutputStream(imagePath);
+				// b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				// out.close();
+
+				InputStream inFile = null;
+				OutputStream outFile = null;
+				try
+				{
+
+					// create output directory if it doesn't exist
+					File dir = new File(getFilesDir().getAbsolutePath() + "/");
+					if (!dir.exists())
+					{
+						dir.mkdirs();
+					}
+
+					inFile = new FileInputStream(imagepath);
+					outFile = new FileOutputStream(imagePath);
+
+					byte[] buffer = new byte[1024];
+					int read;
+					while ((read = inFile.read(buffer)) != -1)
+					{
+						outFile.write(buffer, 0, read);
+					}
+					inFile.close();
+					inFile = null;
+
+					// write the output file (You have now copied the file)
+					outFile.flush();
+					outFile.close();
+					outFile = null;
+
+				} catch (FileNotFoundException fnfe1)
+				{
+					Log.e("tag", fnfe1.getMessage());
+				} catch (Exception e)
+				{
+					Log.e("tag", e.getMessage());
+				}
 
 				imagepath = imagePath;
-			} catch (IOException e) {
+
+			} catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 
@@ -1535,7 +1693,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 	TextView textDay;
 	TextView textYear;
 
-	public void openDateOfPayment(View v) {
+	public void openDateOfPayment(View v)
+	{
 
 		int year = Integer.parseInt(textYear.getText().toString()); // year
 		int month = Integer.parseInt(textMonth.getText().toString()) - 1; // month
@@ -1551,7 +1710,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	}
 
-	public void sendReport(View v) {
+	public void sendReport(View v)
+	{
 		// TODO workkkk
 		// fileName
 		// imagePath
@@ -1571,40 +1731,52 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 		String month = "";
 
-		if (chkJan.isChecked()) {
+		if (chkJan.isChecked())
+		{
 			month = month + "January,";
 		}
-		if (chkFeb.isChecked()) {
+		if (chkFeb.isChecked())
+		{
 			month = month + "February,";
 		}
-		if (chkMar.isChecked()) {
+		if (chkMar.isChecked())
+		{
 			month = month + "March,";
 		}
-		if (chkApr.isChecked()) {
+		if (chkApr.isChecked())
+		{
 			month = month + "April,";
 		}
-		if (chkMay.isChecked()) {
+		if (chkMay.isChecked())
+		{
 			month = month + "May,";
 		}
-		if (chkJun.isChecked()) {
+		if (chkJun.isChecked())
+		{
 			month = month + "June,";
 		}
-		if (chkJul.isChecked()) {
+		if (chkJul.isChecked())
+		{
 			month = month + "July,";
 		}
-		if (chkAug.isChecked()) {
+		if (chkAug.isChecked())
+		{
 			month = month + "August,";
 		}
-		if (chkSep.isChecked()) {
+		if (chkSep.isChecked())
+		{
 			month = month + "September,";
 		}
-		if (chkOct.isChecked()) {
+		if (chkOct.isChecked())
+		{
 			month = month + "October,";
 		}
-		if (chkNov.isChecked()) {
+		if (chkNov.isChecked())
+		{
 			month = month + "November,";
 		}
-		if (chkDec.isChecked()) {
+		if (chkDec.isChecked())
+		{
 			month = month + "December,";
 		}
 
@@ -1622,40 +1794,50 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 		String modePayment = "";
 
-		if (onlinePayment.isChecked()) {
+		if (onlinePayment.isChecked())
+		{
 			modePayment = "Online Payment";
 		}
-		if (overTheCounter.isChecked()) {
+		if (overTheCounter.isChecked())
+		{
 			modePayment = "Over the Counter";
 		}
 
-		if (month.equals("")) {
+		if (month.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please select month of payment", Toast.LENGTH_SHORT).show();
 			return;
-		} else if (stringDateOfPayment.equals("")) {
+		} else if (stringDateOfPayment.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please select date of payment", Toast.LENGTH_SHORT).show();
 			return;
-		} else if (amount.equals("")) {
+		} else if (amount.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please enter payment amount", Toast.LENGTH_SHORT).show();
 			return;
-		} else if (modePayment.equals("")) {
+		} else if (modePayment.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please select mode of payment", Toast.LENGTH_SHORT).show();
 			return;
-		} else if (bankName.equals("")) {
+		} else if (bankName.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please enter bank name", Toast.LENGTH_SHORT).show();
 			return;
-		} else if (branchName.equals("")) {
+		} else if (branchName.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please enter branch name", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
-		if (modePayment.equals("Over the Counter") && imagepath.equals("")) {
+		if (modePayment.equals("Over the Counter") && imagepath.equals(""))
+		{
 			Toast.makeText(getApplicationContext(), "Please select an image for upload", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
-		String sendText = month + " " + amount + " " + modePayment + " " + bankName + " " + branchName + " " + remarks;
-		Toast.makeText(getApplicationContext(), sendText, Toast.LENGTH_SHORT).show();
+		// String sendText = month + " " + amount + " " + modePayment + " " + bankName + " " + branchName + " " +
+		// remarks;
+		// Toast.makeText(getApplicationContext(), sendText, Toast.LENGTH_SHORT).show();
 
 		// TODO work
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -1666,16 +1848,12 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
 		String report_year = String.valueOf(year);
-		
-		//2014-02-05 11:33:07
-		
-		String sendDate = report_year 
-		+ "-" + String.valueOf(c.get(Calendar.MONTH))
-		+ "-" + String.valueOf(c.get(Calendar.DAY_OF_MONTH))
-		+ " " + String.valueOf(c.get(Calendar.HOUR_OF_DAY))
-		+ ":" + String.valueOf(c.get(Calendar.MINUTE))
-		+ ":" + String.valueOf(c.get(Calendar.SECOND));
-		
+
+		// 2014-02-05 11:33:07
+
+		String sendDate = report_year + "-" + String.valueOf(c.get(Calendar.MONTH)) + "-"
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(c.get(Calendar.HOUR_OF_DAY))
+				+ ":" + String.valueOf(c.get(Calendar.MINUTE)) + ":" + String.valueOf(c.get(Calendar.SECOND));
 
 		String getSendText = "?fname=" + fName + "&lname=" + lName + "&mobile=" + phoneNumber + "&email_address="
 				+ email + "&report_month=" + month + "&report_year=" + report_year + "&mode_of_payment=" + modePayment
@@ -1689,28 +1867,35 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		return;
 	}
 
-	public String removeLastChar(String str) {
-		if (str.length() > 0) {
+	public String removeLastChar(String str)
+	{
+		if (str.length() > 0)
+		{
 			str = str.substring(0, str.length() - 1);
 		}
 		return str;
 	}
 
 	@Override
-	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+	{
 		// updating of birthdate;m send post
 
 		String monthString = "";
-		if (monthOfYear < 10) {
+		if (monthOfYear < 10)
+		{
 			monthString = "0" + String.valueOf(monthOfYear + 1);
-		} else {
+		} else
+		{
 			monthString = String.valueOf(monthOfYear + 1);
 		}
 
 		String dayString = "";
-		if (dayOfMonth < 10) {
+		if (dayOfMonth < 10)
+		{
 			dayString = "0" + String.valueOf(dayOfMonth);
-		} else {
+		} else
+		{
 			dayString = String.valueOf(dayOfMonth);
 		}
 
@@ -1725,13 +1910,16 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 	String stringDateOfPayment = "";
 
-	private String getRealPathFromURI(Uri contentURI) {
+	private String getRealPathFromURI(Uri contentURI)
+	{
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getContentResolver().query(contentURI, filePathColumn, null, null, null);
 
-		if (cursor == null) {
+		if (cursor == null)
+		{
 			return contentURI.getPath();
-		} else {
+		} else
+		{
 			cursor.moveToFirst();
 			int idx = cursor.getColumnIndex(filePathColumn[0]);
 			String path = cursor.getString(idx);
@@ -1742,24 +1930,29 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 	}
 
-	private class sendReportPayment extends AsyncTask<String, Void, String> {
+	private class sendReportPayment extends AsyncTask<String, Void, String>
+	{
 		ProgressDialog pd = new ProgressDialog(CoreonMain.this);
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			pd.setMessage("Sending Report");
 			pd.show();
 			pd.setCanceledOnTouchOutside(false);
-			pd.setOnKeyListener(new DialogInterface.OnKeyListener() {
+			pd.setOnKeyListener(new DialogInterface.OnKeyListener()
+			{
 				@Override
-				public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
+				public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2)
+				{
 					return arg2.getKeyCode() == KeyEvent.KEYCODE_BACK;
 				}
 			});
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... params)
+		{
 			upLoadServerUri = "http://" + ipAdd + "/coreonmobile_uploadimage.php";
 			uploadFile(imagepath);
 			sendPost("http://" + ipAdd + "/coreonmobile_reportpayment.php" + params[0]);
@@ -1767,19 +1960,23 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(String result)
+		{
 			pd.hide();
 			pd.dismiss();
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
+		protected void onProgressUpdate(Void... values)
+		{
 
 		}
 	}
 
-	public int uploadFile(String sourceFileUri) {
-		if (sourceFileUri == null) {
+	public int uploadFile(String sourceFileUri)
+	{
+		if (sourceFileUri == null)
+		{
 			return 0;
 		}
 
@@ -1795,21 +1992,26 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		int maxBufferSize = 1 * 1024 * 1024;
 		File sourceFile = new File(sourceFileUri);
 
-		if (!sourceFile.isFile()) {
+		if (!sourceFile.isFile())
+		{
 
 			// dialog.dismiss();
 
 			Log.e("uploadFile", "Source File not exist :" + imagepath);
 
-			runOnUiThread(new Runnable() {
-				public void run() {
+			runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
 					// messageText.setText("Source File not exist :" + imagepath);
 				}
 			});
 
 			return 0;
-		} else {
-			try {
+		} else
+		{
+			try
+			{
 				// open a URL connection to the Servlet
 				FileInputStream fileInputStream = new FileInputStream(sourceFile);
 				URL url = new URL(upLoadServerUri);
@@ -1842,7 +2044,8 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				// read file and write it into form...
 				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
-				while (bytesRead > 0) {
+				while (bytesRead > 0)
+				{
 
 					dos.write(buffer, 0, bufferSize);
 					bytesAvailable = fileInputStream.available();
@@ -1862,11 +2065,13 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 
 				Log.i("uploadFile tester", "HTTP " + conn.toString());
 
-				if (serverResponseCode == 200) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							String msg = "Image upload completed";
-							// messageText.setText(msg);
+				if (serverResponseCode == 200)
+				{
+					runOnUiThread(new Runnable()
+					{
+						public void run()
+						{
+							String msg = "Your payment report has been sent. Thank you";
 							Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 						}
 					});
@@ -1877,31 +2082,35 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 				dos.flush();
 				dos.close();
 
-			} catch (MalformedURLException ex) {
-
+			} catch (MalformedURLException ex)
+			{
 				// dialog.dismiss();
 				ex.printStackTrace();
 
-				runOnUiThread(new Runnable() {
-					public void run() {
+				runOnUiThread(new Runnable()
+				{
+					public void run()
+					{
 						Log.e("error", "error");
-						// messageText.setText("MalformedURLException Exception : check script url.");
-						// Toast.makeText(MainActivity.this, "MalformedURLException",
-						// Toast.LENGTH_SHORT).show();
+						String msg = "Error sending payment. Please try again";
+						Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 					}
 				});
 
 				Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-			} catch (Exception e) {
+			} catch (Exception e)
+			{
 
 				// dialog.dismiss();
 				e.printStackTrace();
 
-				runOnUiThread(new Runnable() {
-					public void run() {
+				runOnUiThread(new Runnable()
+				{
+					public void run()
+					{
 						// messageText.setText("Got Exception : see logcat ");
-						Toast.makeText(getApplicationContext(), "Got Exception : see logcat ", Toast.LENGTH_SHORT)
-								.show();
+						String msg = "Error sending payment. Please try again";
+						Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 					}
 				});
 				Log.e("Upload file to server Exception", "Exception : " + e.getMessage(), e);
@@ -1912,29 +2121,35 @@ public class CoreonMain extends SherlockFragmentActivity implements OnDateSetLis
 		} // End else block
 	}
 
-	public class FixedSpeedScroller extends Scroller {
+	public class FixedSpeedScroller extends Scroller
+	{
 		private int mDuration = 500; // speed of file
 
-		public FixedSpeedScroller(Context context) {
+		public FixedSpeedScroller(Context context)
+		{
 			super(context);
 		}
 
-		public FixedSpeedScroller(Context context, Interpolator interpolator) {
+		public FixedSpeedScroller(Context context, Interpolator interpolator)
+		{
 			super(context, interpolator);
 		}
 
-		public FixedSpeedScroller(Context context, Interpolator interpolator, boolean flywheel) {
+		public FixedSpeedScroller(Context context, Interpolator interpolator, boolean flywheel)
+		{
 			super(context, interpolator, flywheel);
 		}
 
 		@Override
-		public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+		public void startScroll(int startX, int startY, int dx, int dy, int duration)
+		{
 			// Ignore received duration, use fixed one instead
 			super.startScroll(startX, startY, dx, dy, mDuration);
 		}
 
 		@Override
-		public void startScroll(int startX, int startY, int dx, int dy) {
+		public void startScroll(int startX, int startY, int dx, int dy)
+		{
 			// Ignore received duration, use fixed one instead
 			super.startScroll(startX, startY, dx, dy, mDuration);
 		}
